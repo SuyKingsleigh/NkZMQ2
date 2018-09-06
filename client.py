@@ -102,12 +102,13 @@ class Command:
         self.socketCMD = self.context.socket(zmq.DEALER)
         self.socketCMD.connect("tcp://%s:%d" % (ip, port))
         self._started = False
+        self.nome = 'Nomezin '
 
     # nome do filename.conf
     # envia o arquivo pelo socket de controle
     # se tudo ocorrer bem, coloca status started=True
     def start(self, filename):
-        request = 'start ' + filename
+        request = self.nome + 'start ' + filename
         self.socketCMD.send_string(request)
         resp = self.socketCMD.recv()
         resp = resp.decode('ascii')
@@ -163,7 +164,7 @@ class Command:
             self._getTerms()
 
     def _getTerms(self):
-        self.socketCMD.send_string('get_terms')
+        self.socketCMD.send_string(self.nome + 'get_terms')
         resp = self.socketCMD.recv_multipart()
         for term in resp[0].decode('ascii').split(';-;'):
             print(term)
@@ -174,7 +175,7 @@ class Command:
         print(resposta(resp))
 
     def _listNetworks(self):
-        self.socketCMD.send_string('list_networks')
+        self.socketCMD.send_string(self.nome + 'list_networks')
         resp = self.socketCMD.recv_multipart()
         for name in resp[0].decode('ascii').split(';-;'):
             print(name)
@@ -185,7 +186,7 @@ class Command:
         new_network.close()
         if parsed_network:
             parsed_network = ';-;'.join(parsed_network)
-            request = 'new_network;-;' + parsed_network
+            request = self.nome + 'new_network;-;' + parsed_network
             self.socketCMD.send_string(request)
             resp = self.socketCMD.recv_multipart()
             print(resposta(resp))

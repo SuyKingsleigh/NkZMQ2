@@ -173,6 +173,7 @@ class Instancia:
             self.pool = TermPool()
             self.rede.start(self.pool)
             self.pool.start()
+            self.fd = self.pool.active.getPty()
         except:
             return False
 
@@ -291,6 +292,7 @@ class Dispatcher:
         instanciaID = req[0]  # pega a id da rede
         msg = req[1:]  # cria outra lista
         cmd = msg[0]  # obtem o cmd
+        print('Nome:' + instanciaID)
 
         # se a instancia nao existir no dicionario interno, eh adicionada
         if not instanciaID in self.instancias.keys():
