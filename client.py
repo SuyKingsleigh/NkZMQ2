@@ -220,7 +220,7 @@ class Command:
             self._started = False
 
 
-########################################################
+#########################################################
 def resposta(resp):
     resp = resp[0].decode('ascii')
     if resp != 'OK':
