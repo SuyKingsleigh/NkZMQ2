@@ -121,13 +121,15 @@ class Command:
     def started(self):
         return self._started
 
-    # abre um socket dealer e cria um objeto terminal
-    def run(self):
-        if not self._started: raise Exception('not started')
+    def buildTerm(self):
         sockDEALER = self.context.socket(zmq.DEALER)
         sockDEALER.connect("tcp://%s:%d" % (self.ip, self.port + 1))
         self.term = Terminal(sockDEALER)
         self.term.run()
+
+    # abre um socket dealer e cria um objeto terminal
+    def run(self):
+        if not self._started: raise Exception('not started')
         while self._started:
             action = self.term.relay()
             self._processCmd(action)
