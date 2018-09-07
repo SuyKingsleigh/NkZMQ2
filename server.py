@@ -138,6 +138,7 @@ class NetworkRepository:
 ######################################################################
 
 # representa uma rede em execucao
+# noinspection PyTypeChecker
 class Instancia:
     expr = re.compile('(?P<action>[a-zA-Z]+) +(?P<arg>.*)')
     IDLE = 1
@@ -271,6 +272,7 @@ class Instancia:
         self.instanciaDaemon = Thread(target=self._runTerm)
         self.instanciaDaemon.daemon = True
         self.instanciaDaemon.start()
+        # self.instanciaDaemon.run()
 
 
 ######################################################################################
@@ -286,6 +288,24 @@ class Dispatcher:
         # dicionario para as instancias
         self.instancias = {}
 
+    def _Start(self, name, instanciaID, address):
+        # se conseguir inicia a rede envia um ok
+        if self.instancias[instanciaID].start(name):
+            self.instancias[instanciaID].run()
+            self.socketCMD.send_multipart([address, 'OK'.encode('ascii')])
+        else:
+            self.socketCMD.send_multipart([address, 'falhou ao iniciar a rede'.encode('ascii')])
+
+    def _getTerm(self, msg, address, instanciaID):
+        if self.instancias[instanciaID].getPC(msg[1]):
+            self.socketCMD.send_multipart([address, 'OK'.encode('ascii')])
+        else:
+            self.socketCMD.send_multipart([address, 'Falhou ao trocar'.encode('ascii')])
+
+    def _getTerms(self, address, instanciaID):
+        ans = self.instancias[instanciaID].getTerms().encode('ascii')
+        self.socketCMD.send_multipart([address, ans])
+
     def _processCmd(self):
         address, req = self.socketCMD.recv_multipart()
         req = req.decode('ascii').split()  # decodifica e quebra em lista
@@ -299,25 +319,15 @@ class Dispatcher:
             instancia = Instancia(self.port, instanciaID)
             self.instancias[instanciaID] = instancia
             self.instancias[instanciaID].run()
-            print(instanciaID)
 
         if cmd == 'start':
-            name = msg[1]
-            # se conseguir inicia a rede envia um ok
-            if self.instancias[instanciaID].start(name):
-                self.socketCMD.send_multipart([address, 'OK'.encode('ascii')])
-            else:
-                self.socketCMD.send_multipart([address, 'falhou ao iniciar a rede'.encode('ascii')])
+            self._Start(msg[1], instanciaID, address)
 
         elif cmd == 'get':
-            if self.instancias[instanciaID].getPC(msg[1]):
-                self.socketCMD.send_multipart([address, 'OK'.encode('ascii')])
-            else:
-                self.socketCMD.send_multipart([address, 'Falhou ao trocar'.encode('ascii')])
+            self._getTerm(msg, address, instanciaID)
 
         elif cmd == 'getTerms':
-            ans = self.instancias[instanciaID].getTerms().encode('ascii')
-            self.socketCMD.send_multipart([address, ans])
+            self._getTerms(address, instanciaID)
 
     def run(self):
         while True:
