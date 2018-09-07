@@ -287,6 +287,32 @@ class Dispatcher:
         self.socketCMD.bind("tcp://*:%d" % port)
         # dicionario para as instancias
         self.instancias = {}
+        self.path = os.path.abspath(os.curdir)
+        self.repositorio = NetworkRepository('%s/catalogo_de_redes' % self.path)
+
+    def _getNetwork(self, msg, address):
+        flag, name = msg.split()[1], msg.split()[2]
+        if name == 'atual': name = self.instancias[instanciaID].name
+        if (flag == 'all'):
+            nwInfo = self.repositorio.getNetworkInfo(name, flag)
+            nwInfostr = ';-;'.join(nwInfo)
+            self.socketCMD.send_multipart([address, nwInfostr.encode('ascii')])
+        else:
+            nwInfo = self.repositorio.getNetworkInfo(name, flag)
+            self.socketCMD.send_multipart([address, nwInfo.encode('ascii')])
+
+    def _newNetwork(self, address, msg):
+        arglist = msg.split(';-;')
+        if self.repositorio.addNetwork(arglist[1:]):
+            self.socketCMD.send_multipart([address, 'OK'.encode('ascii')])
+        else:
+            self.socketCMD.send_multipart([address, 'Name already in use'.encode('ascii')])
+
+
+    def _stop(self, address):
+        self.instancias[instanciaID].stop()
+        self.socketCMD.send_multipart([address, 'OK'.encode('ascii')])
+
 
     def _Start(self, name, instanciaID, address):
         # se conseguir inicia a rede envia um ok
@@ -326,8 +352,31 @@ class Dispatcher:
         elif cmd == 'get':
             self._getTerm(msg, address, instanciaID)
 
-        elif cmd == 'getTerms':
+        elif cmd == 'get_terms':
             self._getTerms(address, instanciaID)
+
+        elif cmd == 'stop':
+            self._stop(address)
+
+        elif cmd == 'new_network':
+            self._newNetwork(address, msg)
+
+        elif cmd == 'rm_network':
+            self._removeNetwork(msg, address)
+
+        elif cmd == 'list_networks':
+            self._listNetworks(address)
+
+
+    def _listNetworks(self, address):
+        names = self.repositorio.listNetworks()
+        self.socketCMD.send_multipart([address, names.encode('ascii')])
+
+    def _removeNetwork(self, msg, address):
+        if self.repositorio.removeNetwork(msg.split()[1]):
+            self.socketCMD.send_multipart([address, 'OK'.encode('ascii')])
+        else:
+            self.socketCMD.send_multipart([address, 'Falha ao remover'.encode('ascii')])
 
     def run(self):
         while True:

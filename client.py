@@ -1,6 +1,8 @@
 import datetime
 import fcntl
+import hashlib
 import sys
+import time
 
 import zmq
 
@@ -25,12 +27,6 @@ class Terminal:
             os.execlp('xterm', 'xterm', '-Sptmx/%d' % self.fdm)
             raise RuntimeError('nao conseguiu executar xterm')
 
-        # self.pid, self.fd = pty.fork()
-        # if not self.pid:
-        #  fcntl.fcntl(sys.stdout, fcntl.F_SETFL, os.O_NDELAY)
-        #  fcntl.fcntl(sys.stdin, fcntl.F_SETFL, os.O_NDELAY)
-        #  os.execlp('nc','nc')
-        #  raise RuntimeError('nao conseguiu executar xterm')
         self.fdr = os.fdopen(self.fde, 'rb')  # cria um objeto pra ler o fd do escravo
         self.fdd = os.fdopen(0, 'r')
         self.fdw = os.fdopen(self.fde, 'wb')  # pra escrever
@@ -102,7 +98,7 @@ class Command:
         self.socketCMD = self.context.socket(zmq.DEALER)
         self.socketCMD.connect("tcp://%s:%d" % (ip, port))
         self._started = False
-        self.nome = 'Nomezin '
+        self._setName()
 
     # nome do filename.conf
     # envia o arquivo pelo socket de controle
@@ -116,6 +112,11 @@ class Command:
             print('Erro: %s' % resp)
             sys.exit(0)
         self._started = True
+
+    def _setName(self):
+        hashName = hashlib.md5()
+        hashName.update(str(time.time()).encode())
+        self.nome = str(hashName.hexdigest()) + ' '
 
     # verifica se o objeto foi iniciado
     @property
@@ -170,7 +171,8 @@ class Command:
             print(term)
 
     def _rmNetwork(self, cmd):
-        self.socketCMD.send_string(cmd)
+        req = self.nome + cmd
+        self.socketCMD.send_string(req)
         resp = self.socketCMD.recv_multipart()
         print(resposta(resp))
 
@@ -192,7 +194,8 @@ class Command:
             print(resposta(resp))
 
     def _getNetwork(self, action):
-        self.socketCMD.send_string(action)
+        req = self.nome + action
+        self.socketCMD.send_string(req)
         if action.split()[1] == 'all':
             try:
                 resp = self.socketCMD.recv_multipart()
@@ -206,7 +209,8 @@ class Command:
             print('informacao da rede:  ', resp[0].decode('ascii'))
 
     def _get(self, action):
-        self.socketCMD.send_string(action)
+        req = self.nome + action
+        self.socketCMD.send_string(req)
         resp = self.socketCMD.recv_multipart()
         print(resposta(resp))
 
