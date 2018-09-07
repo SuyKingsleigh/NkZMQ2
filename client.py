@@ -188,7 +188,7 @@ class Command:
         new_network.close()
         if parsed_network:
             parsed_network = ';-;'.join(parsed_network)
-            request = self.nome + 'new_network;-;' + parsed_network
+            request = self.nome + 'new_network ' + parsed_network
             self.socketCMD.send_string(request)
             resp = self.socketCMD.recv_multipart()
             print(resposta(resp))

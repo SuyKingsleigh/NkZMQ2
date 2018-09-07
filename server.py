@@ -227,7 +227,7 @@ class Instancia:
 
         if self._startNet(name):
             self.state = self.STARTED
-            self.atual = name
+            self.networkName = name
             return True
         else:
             return False
@@ -290,9 +290,9 @@ class Dispatcher:
         self.path = os.path.abspath(os.curdir)
         self.repositorio = NetworkRepository('%s/catalogo_de_redes' % self.path)
 
-    def _getNetwork(self, msg, address):
-        flag, name = msg.split()[1], msg.split()[2]
-        if name == 'atual': name = self.instancias[instanciaID].name
+    def _getNetwork(self, msg, address, instanciaID):
+        flag, name = msg[1], msg[2]
+        if name == 'atual': name = self.instancias[instanciaID].networkName
         if (flag == 'all'):
             nwInfo = self.repositorio.getNetworkInfo(name, flag)
             nwInfostr = ';-;'.join(nwInfo)
@@ -302,8 +302,9 @@ class Dispatcher:
             self.socketCMD.send_multipart([address, nwInfo.encode('ascii')])
 
     def _newNetwork(self, address, msg):
-        arglist = msg.split(';-;')
-        if self.repositorio.addNetwork(arglist[1:]):
+        arglist = ''.join(msg[1:]).split(';-;')
+        print('arglist', arglist)
+        if self.repositorio.addNetwork(arglist):
             self.socketCMD.send_multipart([address, 'OK'.encode('ascii')])
         else:
             self.socketCMD.send_multipart([address, 'Name already in use'.encode('ascii')])
@@ -339,6 +340,7 @@ class Dispatcher:
         msg = req[1:]  # cria outra lista
         cmd = msg[0]  # obtem o cmd
         print('Nome:' + instanciaID)
+        print('Mensagem: ', msg)
 
         # se a instancia nao existir no dicionario interno, eh adicionada
         if not instanciaID in self.instancias.keys():
@@ -367,6 +369,8 @@ class Dispatcher:
         elif cmd == 'list_networks':
             self._listNetworks(address)
 
+        elif cmd == 'get_network':
+            self._getNetwork(msg, address, instanciaID)
 
     def _listNetworks(self, address):
         names = self.repositorio.listNetworks()
