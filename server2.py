@@ -10,51 +10,66 @@ from threading import Thread
 
 
 ###################################################################
+# 
+#
 
 class TermPool:
+    'Concentrador de terminais'
 
     def __init__(self):
+        # dicionário com as VMs: chave=nome da vm, valor=instância de VM
         self.terms = {}
+        # dicionário com os descritores das consoles: chave=descritor, valor=nome da vm
         self._fds = {}
+        # vm ativa: não usado pelo servidor de instancias
         self._active = None
 
     def addVM(self, vm):
+        'Adiciona uma vm ao pool'
         self.terms[vm.get_name()] = vm
         if not self._active: self._active = vm
 
     def start(self):
+        '''Inicia as vms do pool: para cada vm, configura sua console em modo não bloqueante.'''
         self._fds = {}
         for vm in self.terms:
             fd = self.terms[vm].start()
             rfd_flags = fcntl.fcntl(fd, fcntl.F_GETFL) | os.O_NONBLOCK
             fcntl.fcntl(fd, fcntl.F_SETFL, rfd_flags)
-            self._fds[vm] = fd
+            self._fds[fd] = vm.name
         return self._fds.keys()
 
     def stop(self):
+        '''para as vms do pool'''
         for vm in self.terms:
             self.terms[vm].stop()
         self._fds = {}
 
     def get_term(self, name):
+        'Obtém a vm com nome dado por name'
         return self.terms[name]
 
     def get_terms(self):
+        'Obtém o dicionário de vms'
         return self.terms
 
     def set_active(self, name):
+        'muda a vm ativa'
         if name in self.terms.keys():
             self._active = self.terms[name]
 
     def get_term_name(self, fd):
+      'obtém o nome da vm associado ao descritor de pseudo-tty dado por fd'
       return self._fds[fd]
 
     @property
     def active(self):
+        'obtém a vm ativa'
         return self._active
 
     @property
     def fds(self):
+        'obtém a lista de fds das consoles das vms'
         return self._fds.keys()
 
     def set_output(self, conn):
@@ -69,11 +84,16 @@ class TermPool:
 import nkdb
 
 class NetworkRepository:
+
+    'Respositório de configurações de rede'
+
     def __init__(self, db_name):
-	self.db = nkdb.NetkitDB("%s.db" % db_name)
+        'construtor: acessa o repositório em disco dado por "db_name".db'
+        self.db = nkdb.NetkitDB("%s.db" % db_name)
 
     # adiciona uma nova rede
     def addNetwork(self, **args):
+        'Adiciona uma rede ao repositório. Se a rede já existir, não a adiciona e retorna false'
         r = list(self.db.search(nkdb.Network, name=args['name']))
         if not r:
             data = nkdb.Network(**args)
@@ -85,9 +105,10 @@ class NetworkRepository:
 
     # remove uma rede pelo nome
     def removeNetwork(self, name):
+        'remove uma rede do repositório. Se não existir, retorna falso'
         r = list(self.db.search(nkdb.Network, name=name))
         if r:
-	    self.db.delete(r[0].id)
+            self.db.delete(r[0].id)
             return True
         else:
             return False
@@ -95,14 +116,16 @@ class NetworkRepository:
 
     # obtem uma rede pelo nome
     def getNetwork(self, name):
+        'Obtém a descrição de uma rede do repositório. Se não existir, retorna false'
         r = list(self.db.search(nkdb.Network, name=name))
         if r:
-	    return r[0]
-	else:
-	    return None
+            return r[0]
+        else:
+            return None
 
     # atualiza ou adiciona uma rede
     def updateNetwork(self, **args):
+        'Atualiza os dados de uma rede. "args" contém os valores de atributos da rede a serem modificados'
         data = nkdb.Network(**args)
         self.db.update(data)
 
@@ -119,7 +142,8 @@ class NetworkRepository:
             return False
 
     def listNetworks(self):
-        r = (map lambda x: x.name, self.db.search(nkdb.Network))
+        'retorna uma lista com os nomes das redes do catálogo'
+        r = map(lambda x: x.name, self.db.search(nkdb.Network))
         return list(r)
 
 
@@ -127,20 +151,25 @@ class NetworkRepository:
 
 # representa uma rede em execucao
 class Instancia:
-    expr = re.compile('(?P<action>[a-zA-Z]+) +(?P<arg>.*)')
-    IDLE = 1
-    STARTED = 2
-    STOPPED = 3
+    'Representa uma rede em execução'
+
     Num = 1 # variável de classe ... 
 
     def __init__(self, address, netinfo):
+        '''address: identificador do cliente
+netinfo: descrição da rede a ser executada (objeto nkdb.Network)'''
         self.netinfo = netinfo
         self.address = address
         self.id = Instancia.Num
         Instancia.Num += 1
 
-    def _startNet(self, name):
-        os.chdir(self.path)
+    def start(self):
+        'Inicia a rede'
+
+        conf = open('%s.conf' % self.netinfo.name, 'w')
+        conf.write(self.netinfo.value)
+        conf.close()
+
         try:
             os.system('rm -rf lab')
         except:
@@ -163,28 +192,20 @@ class Instancia:
 
     # para essa rede *falar com o Sobral*
     def stop(self):
+        'Para a rede'
         self.rede.stop()
         time.sleep(1)
         return True
 
-    # inicia uma rede dada pelo nome
-    def start(self):
-        conf = open('%s.conf' % self.netinfo.name, 'w')
-	conf.write(self.netinfo.value)
-        conf.close()
-
-        if self._startNet():
-            return True
-        else:
-            return False
-
     def handle_fd(self, fd):
+      'Obtém o nome da vm associada ao descritor de pseudo-tty fd'
       try:
         return self.pool.get_term_name(fd)
       except:
         return None
 
     def getTerms(self):
+        'obtém a lista de nomes de vms'
         terms = list(self.pool.get_terms())
         return terms
 
@@ -199,10 +220,15 @@ import json
 
 class Message:
 
-    def __init__(self, address, *raw_data, **args):
+    'Representa uma mensagem recebida do cliente. Serve para mensagens de comando ou de dados de terminal'
+
+    def __init__(self, address, raw_data=b'', **args):
+      '''address: identificador do cliente.
+raw_data: bytes de uma mensagem recebida do cliente (serializada em JSON)
+args: parâmetros para compor uma nova mensagem'''
       self.address = address
       if raw_data:
-        r = pickle.loads(raw_data[0])
+        r = json.loads(raw_data)
         self.id = r[0]
         self.cmd = r[1]
         self.data = r[2]
@@ -218,22 +244,30 @@ class Message:
         return defval
 
     def serialize(self):
+      'serializa a mensagem em JSON'
       return json.dumps((self.id, self.cmd, self.data))
 
 class Response:
+
+    '''Mensagem de resposta a enviar ao cliente. Pode ser resposta a um comando, ou mensagem de dados de terminal'''
 
     def __init__(self, status, **info):
       self.status = status
       self.info = info
 
     def serialize(self):
+      'serializa a mensagem em JSON'
       return json.dumps((self.status, self.info))
       
 # gerencia as redes em execucao
 class Dispatcher:
+    '''Dispatcher: trata mensagens recebidas do socket, e dados recebidos das consoles das vms
+Encamina os dados para as instãncias correspondentes'''
+
     Dsn = 'catalogo_de_redes.db'
 
     def __init__(self, port, dsn=Dsn):
+        '''port: port do socket, dsn: nome do arquivo de dados do catálogo de redes'''
         # cria o socket de controle
         self.port = port
         self.context = zmq.Context()
@@ -246,6 +280,8 @@ class Dispatcher:
         self.repositorio = NetworkRepository(dsn)
 
     def _processCmd(self, msg):
+        'processa comandos recebidos do cliente'
+
         if msg.cmd == 'start':
             name = msg.data
             r = self.repositorio.getNetwork(name)
@@ -293,6 +329,9 @@ class Dispatcher:
             self.socket.send_multipart([address, resp.serialize])
 
     def dispatch(self):
+        '''Aguarda um evento (mensagem vinda do cliente ou dados em alguma console de vm.
+Encaminha o tratamento do evento'''
+
         ev = dict(self.poller.poll())        
         for fd in ev:
           if self.socket == fd:
@@ -308,7 +347,9 @@ class Dispatcher:
                 self.socket.send_multipart([inst.address, resp.serialize])
 
     def run(self):
-        while True:
+       'Trata eventos indefinidamente'
+
+       while True:
             self.dispatch()
 
 
