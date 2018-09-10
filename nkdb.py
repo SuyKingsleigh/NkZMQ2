@@ -4,28 +4,18 @@ if sys.version_info.major < 3:
 else:
   from mydb3 import Record,MyDB
 
-class Dados(Record):
+class Network(Record):
 
   Attrs = Record.init_attrs()
-  Attrs['speed']=0
-  Attrs['dir']=0
-  Attrs['src']=0
-  Attrs['timestamp']=0
-  Index = ('speed','timestamp')
+  Attrs['name']=''
+  Attrs['author']=''
+  Attrs['description']=''
+  Attrs['preferences']=''
+  Attrs['published']=0
+  Attrs['value']=''
+  Key = 'name'
+  Index = ('name','author')
 
-class Fonte(Record):
+class NetkitDB(MyDB):
 
-  Attrs = Record.init_attrs()
-  Attrs['nome']=''
-  Attrs['url']=''
-  Index = ('nome',)
-
-class Contatos(Record):
-
-  Attrs = Record.init_attrs()
-  Attrs['nome']=''
-  Attrs['email']=''
-  
-class WindDB(MyDB):
-
-  Tabelas = (Dados,Fonte, Contatos)
+  Tabelas = (Network,)
