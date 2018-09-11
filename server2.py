@@ -190,7 +190,7 @@ Encaminha os dados para as instãncias correspondentes.
             
 '''
 
-    Dsn = 'catalogo_de_redes.db'
+    Dsn = 'catalogo_de_redes'
 
     def __init__(self, port, dsn=Dsn):
         '''port: port do socket, dsn: nome do arquivo de dados do catálogo de redes'''
