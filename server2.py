@@ -289,10 +289,13 @@ Encaminha o tratamento do evento'''
 
 ####################################################################
 
-try:
-    dispatcher = Dispatcher(5555)
-    dispatcher.run()
-except Exception as e:
-    print('erro', e)
-    print(traceback.format_exc())
-    sys.exit(0)
+if __name__ == '__main__':
+
+    try:
+        dispatcher = Dispatcher(5555)
+        dispatcher.run()
+    except Exception as e:
+        print('erro', e)
+        print(traceback.format_exc())
+        sys.exit(0)
+
