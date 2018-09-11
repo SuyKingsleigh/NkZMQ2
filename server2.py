@@ -167,26 +167,26 @@ Encaminha os dados para as instãncias correspondentes.
              
              comando list: dados=string vazia
              
-      Formato das mensagens enviadas para o cliente: (status, dados)
+      Formato das mensagens enviadas para o cliente: {status:, data:}
         status: código numérico para o status de resposta (int)
         dados: atributos da resposta (dict)
         
         comando start:
-            (200, {id:}): id=identificador da instância criada (int)
-            (400, {info:}): info=informação sobre o erro (str)
+            {status=200, {id:}}: id=identificador da instância criada (int)
+            {status=400, {info:}}: info=informação sobre o erro (str)
             
         comando stop:
-            (200, {id:}): id=identificador da instância terminada (int)
-            (400, {info:}): info=informação sobre o erro (str)
+            {status=200, {id:}}: id=identificador da instância terminada (int)
+            {status=400, {info:}}: info=informação sobre o erro (str)
             
         comando data: sem resposta
         
         comando getTerms:
-            (200, {terms:}): terms=lista de nomes de terminais da instância (list)
-            (400, {info:}): info=informação sobre o erro (str)
+            {status=200, {terms:}}: terms=lista de nomes de terminais da instância (list)
+            {status=400, {info:}}: info=informação sobre o erro (str)
             
         comando list:
-            (200, {networks:}): networks=lista de nomes de redes do catálogo (list)
+            {status=200, {networks:}}: networks=lista de nomes de redes do catálogo (list)
             
 '''
 
