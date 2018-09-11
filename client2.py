@@ -6,6 +6,7 @@ Created on Tue Sep 11 16:51:11 2018
 @author: msobral
 """
 
+import sys
 import zmq
 from nkmessage import Message,Response
 
@@ -38,9 +39,15 @@ class Client:
 
     def list_networks(self):
         request = Message(id=0, cmd='list')
-        self.socketCMD.send_string(request.serialize())
+        self.socketCMD.send(request.serialize())
         resp = self.socketCMD.recv_string()
         resp = Response(resp)
         if resp.status != 200:
             raise Exception('Erro: %s' % resp.get('info'))
         return resp.get('networks')
+
+if __name__ == '__main__':
+    c = Client('127.0.0.1', 5555)
+    print('Redes do catálogo:', c.list_networks())
+    sys.exit(0)
+
