@@ -1,13 +1,14 @@
 import os
-import re
-import sqlite3
 import sys
 import time
 
 sys.path.append('%s/bin' % os.environ['NETKIT2_HOME'])
-import nkparser, fcntl, traceback, zmq
-from threading import Thread
-
+import nkparser
+import fcntl
+import traceback
+import zmq
+from nkmessage import Message,Response
+from nkrepo import NetworkRepository
 
 ###################################################################
 # 
@@ -79,74 +80,6 @@ class TermPool:
     def transfer(self, rl, wl):
         self._active.transfer(rl, wl)
 
-
-#####################################################################
-import nkdb
-
-class NetworkRepository:
-
-    'Respositório de configurações de rede'
-
-    def __init__(self, db_name):
-        'construtor: acessa o repositório em disco dado por "db_name".db'
-        self.db = nkdb.NetkitDB("%s.db" % db_name)
-
-    # adiciona uma nova rede
-    def addNetwork(self, **args):
-        'Adiciona uma rede ao repositório. Se a rede já existir, não a adiciona e retorna false'
-        r = list(self.db.search(nkdb.Network, name=args['name']))
-        if not r:
-            data = nkdb.Network(**args)
-            self.db.insert(data)
-            return True
-        else:
-            return False
-            # Rede ja existe
-
-    # remove uma rede pelo nome
-    def removeNetwork(self, name):
-        'remove uma rede do repositório. Se não existir, retorna falso'
-        r = list(self.db.search(nkdb.Network, name=name))
-        if r:
-            self.db.delete(r[0].id)
-            return True
-        else:
-            return False
-            # rede nao existe
-
-    # obtem uma rede pelo nome
-    def getNetwork(self, name):
-        'Obtém a descrição de uma rede do repositório. Se não existir, retorna false'
-        r = list(self.db.search(nkdb.Network, name=name))
-        if r:
-            return r[0]
-        else:
-            return None
-
-    # atualiza ou adiciona uma rede
-    def updateNetwork(self, **args):
-        'Atualiza os dados de uma rede. "args" contém os valores de atributos da rede a serem modificados'
-        data = nkdb.Network(**args)
-        self.db.update(data)
-
-    def getNetworkInfo(self, name, flag):
-        if flag == 'all':
-            return self.getNetwork(name)
-        elif flag == 'author':
-            return self.getNetwork(name)[1]
-        elif flag == 'desc':
-            return self.getNetwork(name)[2]
-        elif flag == 'preferences':
-            return self.getNetwork(name)[3]
-        else:
-            return False
-
-    def listNetworks(self):
-        'retorna uma lista com os nomes das redes do catálogo'
-        r = map(lambda x: x.name, self.db.search(nkdb.Network))
-        return list(r)
-
-
 ######################################################################
 
 # representa uma rede em execucao
@@ -209,60 +142,53 @@ netinfo: descrição da rede a ser executada (objeto nkdb.Network)'''
         terms = list(self.pool.get_terms())
         return terms
 
-#######################################################################################
 
-# Mensagens: (id_instancia,cmd,data) serializados com json
-## id_instancia: int
-## cmd: string
-## data: bytes
-
-import json
-
-class Message:
-
-    'Representa uma mensagem recebida do cliente. Serve para mensagens de comando ou de dados de terminal'
-
-    def __init__(self, address, raw_data=b'', **args):
-      '''address: identificador do cliente.
-raw_data: bytes de uma mensagem recebida do cliente (serializada em JSON)
-args: parâmetros para compor uma nova mensagem'''
-      self.address = address
-      if raw_data:
-        r = json.loads(raw_data)
-        self.id = r[0]
-        self.cmd = r[1]
-        self.data = r[2]
-      else:
-        self.id = self._get(args, 'id', 0)    
-        self.cmd = self._get(args, 'cmd', '')
-        self.data = self._get(args, 'data', [])
-
-    def _get(self, args, k, defval):
-      try:
-        return args[k]
-      except:
-        return defval
-
-    def serialize(self):
-      'serializa a mensagem em JSON'
-      return json.dumps((self.id, self.cmd, self.data))
-
-class Response:
-
-    '''Mensagem de resposta a enviar ao cliente. Pode ser resposta a um comando, ou mensagem de dados de terminal'''
-
-    def __init__(self, status, **info):
-      self.status = status
-      self.info = info
-
-    def serialize(self):
-      'serializa a mensagem em JSON'
-      return json.dumps((self.status, self.info))
-      
+#############################################################################################
 # gerencia as redes em execucao
+      
 class Dispatcher:
     '''Dispatcher: trata mensagens recebidas do socket, e dados recebidos das consoles das vms
-Encamina os dados para as instãncias correspondentes'''
+Encaminha os dados para as instãncias correspondentes.
+
+       Formatos das mensagens recebidas do cliente: (id, comando, dados)
+             id: identificador de instância (int)
+             comando: nome do comando (str)
+             dados: depende do comando
+             
+             comando start: dados=nome da rede a ser iniciada (str)
+             
+             comando stop: dados=string vazia
+             
+             comando data: dados=(term, data)
+               term: nome do terminal a que se destinam os dados (str)
+               data: dados para enviar ao terminal (bytes)
+               
+             comando getTerms: dados=string vazia
+             
+             comando list: dados=string vazia
+             
+      Formato das mensagens enviadas para o cliente: (status, dados)
+        status: código numérico para o status de resposta (int)
+        dados: atributos da resposta (dict)
+        
+        comando start:
+            (200, {id:}): id=identificador da instância criada (int)
+            (400, {info:}): info=informação sobre o erro (str)
+            
+        comando stop:
+            (200, {id:}): id=identificador da instância terminada (int)
+            (400, {info:}): info=informação sobre o erro (str)
+            
+        comando data: sem resposta
+        
+        comando getTerms:
+            (200, {terms:}): terms=lista de nomes de terminais da instância (list)
+            (400, {info:}): info=informação sobre o erro (str)
+            
+        comando list:
+            (200, {networks:}): networks=lista de nomes de redes do catálogo (list)
+            
+'''
 
     Dsn = 'catalogo_de_redes.db'
 
@@ -294,11 +220,11 @@ Encamina os dados para as instãncias correspondentes'''
                 # registra os pseudo-tty das vm da rede
                 for fd in inst.pool.fds:
                   self.poller.register(fd, zmq.POLLIN)
-                resp = Response(200, id=inst.id)
+                resp = Response(status=200, id=inst.id)
                 self.socket.send_multipart([msg.address, resp.serialize()])
             else:
                 del self.instancias[inst.id]
-                err = Response(400, info='falhou ao iniciar a rede')
+                err = Response(status=400, info='falhou ao iniciar a rede')
                 self.socket.send_multipart([msg.address, err.serialize()])
 
         elif msg.cmd == 'stop':
@@ -308,8 +234,11 @@ Encamina os dados para as instãncias correspondentes'''
                 self.poller.unregister(fd)
               inst.stop()
               del self.instancias[msg.id]
-              resp = Response(200, id=inst.id)
-              self.socket.send_multipart([msg.address, resp.serialize()])
+              resp = Response(status=200, id=inst.id)
+            else:
+              resp = Response(status=400, info='instância inexistente')
+            self.socket.send_multipart([msg.address, resp.serialize()])
+                
 
         elif msg.cmd == 'data': # dados para um terminal ... não precisa de resposta
             if msg.id in self.instancias:
@@ -319,14 +248,19 @@ Encamina os dados para as instãncias correspondentes'''
               os.write(fd, msg.data.data)
 
         elif msg.cmd == 'getTerms':
-            ans = self.instancias[msg.id].getTerms()
-            resp = Response(200, terms=ans)
-            self.socket.send_multipart([address, resp.serialize])
+            if msg.id in self.instancia:
+                ans = self.instancias[msg.id].getTerms()
+                resp = Response(status=200, terms=ans)
+            else:
+              resp = Response(status=400, info='instância inexistente')
+                
+            self.socket.send_multipart([msg.address, resp.serialize()])
 
         elif msg.cmd == 'list': # lista redes do catálogo
-            ans = self.repositorio.listNeworks()
-            resp = Response(200, terms=ans)
-            self.socket.send_multipart([address, resp.serialize])
+            ans = self.repositorio.listNetworks()
+            resp = Response(status=200, networks=ans)
+            self.socket.send_multipart([msg.address, resp.serialize()])
+
 
     def dispatch(self):
         '''Aguarda um evento (mensagem vinda do cliente ou dados em alguma console de vm.
