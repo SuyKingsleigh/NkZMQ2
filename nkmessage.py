@@ -42,6 +42,9 @@ args: parâmetros para compor uma nova mensagem'''
       except:
         return defval
 
+    def __bytes__(self):
+        return self.serialize()
+
     def serialize(self):
       'serializa a mensagem em JSON'
       return json.dumps((self.id, self.cmd, self.data)).encode('ascii')
@@ -63,6 +66,9 @@ class Response:
     def status(self):
         return self._data['status']
     
+    def __bytes__(self):
+        return self.serialize()
+
     def get(self, k):
         return self._data[k]
     
