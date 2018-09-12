@@ -37,7 +37,8 @@ class Client:
     def started(self):
         return self._started
 
-    def list_networks(self):
+    @property
+    def networks(self):
         request = Message(id=0, cmd='list')
         self.socketCMD.send(request.serialize())
         resp = self.socketCMD.recv_string()
