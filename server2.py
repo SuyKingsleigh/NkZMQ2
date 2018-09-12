@@ -164,6 +164,8 @@ Encaminha os dados para as instãncias correspondentes.
                
              comando getTerms: dados=string vazia
              
+             comando get: dados=nome da rede
+
              comando list: dados=string vazia
              
       Formato das mensagens enviadas para o cliente: {status:, data:}
@@ -253,6 +255,15 @@ Encaminha os dados para as instãncias correspondentes.
             else:
               resp = Response(status=400, info='instância inexistente')
                 
+            self.socket.send_multipart([msg.address, resp.serialize()])
+
+        elif msg.cmd == 'get': # obtém descrição de uma rede
+            ans = self.repositorio.getNetwork(msg.data)
+            if ans:
+              info={'name':ans.name, 'author':ans.author, 'description':ans.description, 'preferences':ans.preferences, 'published':ans.published, 'conf':ans.value}
+              resp = Response(status=200, network=info)
+            else:
+              resp = Response(status=400, info='rede não existe')
             self.socket.send_multipart([msg.address, resp.serialize()])
 
         elif msg.cmd == 'list': # lista redes do catálogo

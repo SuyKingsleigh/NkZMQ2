@@ -28,8 +28,8 @@ args: parâmetros para compor uma nova mensagem'''
         raw_data = raw_data.decode('ascii')
         print(raw_data)
         r = json.loads(raw_data)
-        self.cmd = r[1]
-        self.data = r[2]
+        self.cmd = r[0]
+        self.data = r[1]
       else:
         self.cmd = self._get(args, 'cmd', '')
         self.data = self._get(args, 'data', [])

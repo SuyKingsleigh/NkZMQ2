@@ -44,7 +44,7 @@ class NetworkRepository:
     def getNetwork(self, name):
         'Obtém a descrição de uma rede do repositório. Se não existir, retorna false'
         r = list(self.db.search(nkdb.Network, name=name))
-        if r:
+        if r:	    
             return r[0]
         else:
             return None
