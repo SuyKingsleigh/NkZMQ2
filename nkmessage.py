@@ -28,11 +28,9 @@ args: parâmetros para compor uma nova mensagem'''
         raw_data = raw_data.decode('ascii')
         print(raw_data)
         r = json.loads(raw_data)
-        self.id = r[0]
         self.cmd = r[1]
         self.data = r[2]
       else:
-        self.id = self._get(args, 'id', 0)    
         self.cmd = self._get(args, 'cmd', '')
         self.data = self._get(args, 'data', [])
 
@@ -47,7 +45,7 @@ args: parâmetros para compor uma nova mensagem'''
 
     def serialize(self):
       'serializa a mensagem em JSON'
-      return json.dumps((self.id, self.cmd, self.data)).encode('ascii')
+      return json.dumps((self.cmd, self.data)).encode('ascii')
 
 class Response:
 

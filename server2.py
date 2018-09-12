@@ -213,7 +213,7 @@ Encaminha os dados para as instãncias correspondentes.
             r = self.repositorio.getNetwork(name)
             if not r: return
             inst = Instancia(msg.address, r)
-            self.instancias[inst.id] = inst
+            self.instancias[msg.address] = inst
 
             # se conseguir inicia a rede envia um ok
             if inst.start():
@@ -223,17 +223,17 @@ Encaminha os dados para as instãncias correspondentes.
                 resp = Response(status=200, id=inst.id)
                 self.socket.send_multipart([msg.address, resp.serialize()])
             else:
-                del self.instancias[inst.id]
+                del self.instancias[msg.address]
                 err = Response(status=400, info='falhou ao iniciar a rede')
                 self.socket.send_multipart([msg.address, err.serialize()])
 
         elif msg.cmd == 'stop':
-            if msg.id in self.instancias:
-              inst = self.instancias[msg.id]
+            if msg.address in self.instancias:
+              inst = self.instancias[msg.address]
               for fd in inst.pool.fds:
                 self.poller.unregister(fd)
               inst.stop()
-              del self.instancias[msg.id]
+              del self.instancias[msg.address]
               resp = Response(status=200, id=inst.id)
             else:
               resp = Response(status=400, info='instância inexistente')
@@ -241,15 +241,15 @@ Encaminha os dados para as instãncias correspondentes.
                 
 
         elif msg.cmd == 'data': # dados para um terminal ... não precisa de resposta
-            if msg.id in self.instancias:
-              inst = self.instancias[msg.id]
+            if msg.address in self.instancias:
+              inst = self.instancias[msg.address]
               term = inst.pool.get_term(msg.data.term)
               fd = term.getPty()
               os.write(fd, msg.data.data)
 
         elif msg.cmd == 'getTerms':
-            if msg.id in self.instancia:
-                ans = self.instancias[msg.id].getTerms()
+            if msg.address in self.instancias:
+                ans = self.instancias[msg.address].getTerms()
                 resp = Response(status=200, terms=ans)
             else:
               resp = Response(status=400, info='instância inexistente')
