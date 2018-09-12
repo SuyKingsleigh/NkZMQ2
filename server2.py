@@ -150,8 +150,7 @@ class Dispatcher:
     '''Dispatcher: trata mensagens recebidas do socket, e dados recebidos das consoles das vms
 Encaminha os dados para as instãncias correspondentes.
 
-       Formatos das mensagens recebidas do cliente: (id, comando, dados)
-             id: identificador de instância (int)
+       Formatos das mensagens recebidas do cliente: (comando, dados)
              comando: nome do comando (str)
              dados: depende do comando
              
