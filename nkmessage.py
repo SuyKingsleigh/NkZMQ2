@@ -50,30 +50,3 @@ args: parâmetros para compor uma nova mensagem'''
       'serializa a mensagem em JSON'
       return json.dumps((self.cmd, self.data)).encode('ascii')
 
-class Response:
-
-    '''Mensagem de resposta a enviar ao cliente. Pode ser resposta a um comando, ou mensagem de dados de terminal'''
-
-    def __init__(self, raw_data='', **args):
-        if raw_data:
-            raw_data = str(raw_data)
-            self._data = json.loads(raw_data)
-        else:
-            if not 'status' in args: raise ValueError('missing status')
-            self._data = {}
-            self._data.update(args)
-
-    @property
-    def status(self):
-        return self._data['status']
-    
-    def __bytes__(self):
-        return self.serialize()
-
-    def get(self, k):
-        return self._data[k]
-    
-    def serialize(self):
-      'serializa a mensagem em JSON'
-      return json.dumps(self._data).encode('ascii')
-      
