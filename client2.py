@@ -24,7 +24,7 @@ class Client:
     # nome da rede
     # se tudo ocorrer bem, coloca status started=True
     def start(self, netname):
-        request = Message(id=0, cmd='start', data=netname)
+        request = Message(cmd='start', data=netname)
         self.socketCMD.send_string(request.serialize())
         resp = self.socketCMD.recv()
         resp = Response(resp)
@@ -39,7 +39,7 @@ class Client:
 
     @property
     def networks(self):
-        request = Message(id=0, cmd='list')
+        request = Message(cmd='list')
         self.socketCMD.send(request.serialize())
         resp = self.socketCMD.recv_string()
         resp = Response(resp)
@@ -48,7 +48,7 @@ class Client:
         return resp.get('networks')
 
     def get_network(self, name):
-        request = Message(id=0, cmd='get', data=name)
+        request = Message(cmd='get', data=name)
         self.socketCMD.send(request.serialize())
         resp = self.socketCMD.recv_string()
         resp = Response(resp)
