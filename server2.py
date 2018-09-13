@@ -130,6 +130,14 @@ netinfo: descrição da rede a ser executada (objeto nkdb.Network)'''
         time.sleep(1)
         return True
 
+    def register(self, poller):
+        for fd in self.pool.fds:
+            poller.register(fd, zmq.POLLIN)
+    
+    def unregister(self, poller):
+        for fd in self.pool.fds:
+            poller.unregister(fd, zmq.POLLIN)
+
     def handle_fd(self, fd):
       'Obtém o nome da vm associada ao descritor de pseudo-tty fd'
       try:
@@ -219,25 +227,24 @@ Encaminha os dados para as instãncias correspondentes.
             # se conseguir inicia a rede envia um ok
             if inst.start():
                 # registra os pseudo-tty das vm da rede
-                for fd in inst.pool.fds:
-                  self.poller.register(fd, zmq.POLLIN)
-                resp = Response(status=200, id=inst.id)
-                self.socket.send_multipart([msg.address, resp.serialize()])
+                inst.register(self.poller)
+                info={'status':200, 'terms': inst.getTerms()}
             else:
                 del self.instancias[msg.address]
-                err = Response(status=400, info='falhou ao iniciar a rede')
-                self.socket.send_multipart([msg.address, err.serialize()])
+                info={'status':400, 'info':'falhou ao iniciar a rede'}
+            resp = Message(cmd='status', data=info)
+            self.socket.send_multipart([msg.address, resp.serialize()])
 
         elif msg.cmd == 'stop':
             if msg.address in self.instancias:
               inst = self.instancias[msg.address]
-              for fd in inst.pool.fds:
-                self.poller.unregister(fd)
+              inst.unregister(self.poller)
               inst.stop()
               del self.instancias[msg.address]
-              resp = Response(status=200, id=inst.id)
+              info={'status':200}
             else:
-              resp = Response(status=400, info='instância inexistente')
+              info={'status':400, 'info':'instância inexistente'}
+            resp = Message(cmd='status', data=info)
             self.socket.send_multipart([msg.address, resp.serialize()])
                 
 
@@ -251,24 +258,27 @@ Encaminha os dados para as instãncias correspondentes.
         elif msg.cmd == 'getTerms':
             if msg.address in self.instancias:
                 ans = self.instancias[msg.address].getTerms()
-                resp = Response(status=200, terms=ans)
+                info={'status':200, 'terms':ans}
             else:
-              resp = Response(status=400, info='instância inexistente')
+              info={'status':400, 'info':'instância inexistente'}
                 
+            resp = Message(cmd='status', data=info)
             self.socket.send_multipart([msg.address, resp.serialize()])
 
         elif msg.cmd == 'get': # obtém descrição de uma rede
             ans = self.repositorio.getNetwork(msg.data)
             if ans:
-              info={'name':ans.name, 'author':ans.author, 'description':ans.description, 'preferences':ans.preferences, 'published':ans.published, 'conf':ans.value}
-              resp = Response(status=200, network=info)
+              info={'status':200}
+              info['network']={'name':ans.name, 'author':ans.author, 'description':ans.description, 'preferences':ans.preferences, 'published':ans.published, 'conf':ans.value}
             else:
-              resp = Response(status=400, info='rede não existe')
+              info = {'status':400, 'info':'rede não existe'}
+            resp = Message(cmd='status', data=info)
             self.socket.send_multipart([msg.address, resp.serialize()])
 
         elif msg.cmd == 'list': # lista redes do catálogo
             ans = self.repositorio.listNetworks()
-            resp = Response(status=200, networks=ans)
+            info = {'status':200, 'networks':ans}
+            resp = Message(cmd='status', data=info)
             self.socket.send_multipart([msg.address, resp.serialize()])
 
 
@@ -283,12 +293,13 @@ Encaminha o tratamento do evento'''
             msg = Message(address, req)
             self._processCmd(msg)
           else: # lê dados dos consoles das vms e envia para os clientes correspondentes
-            for id, inst in self.instancias:
+            for address, inst in self.instancias:
               term = inst.handle_fd(fd)
               if term:
                 data = os.read(fd, 256)
-                resp = Response(200, id=id, term=term, data=data)
-                self.socket.send_multipart([inst.address, resp.serialize])
+                info = {'term': term, 'data': data}
+                resp = Message(cmd='data', data=info)
+                self.socket.send_multipart([address, resp.serialize])
 
     def run(self):
        'Trata eventos indefinidamente'

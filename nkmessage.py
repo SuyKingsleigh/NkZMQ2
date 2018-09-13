@@ -26,7 +26,7 @@ args: parâmetros para compor uma nova mensagem'''
       self.address = address      
       if raw_data:
         raw_data = raw_data.decode('ascii')
-        print(raw_data)
+        #print(raw_data)
         r = json.loads(raw_data)
         self.cmd = r[0]
         self.data = r[1]
@@ -43,6 +43,9 @@ args: parâmetros para compor uma nova mensagem'''
     def __bytes__(self):
         return self.serialize()
 
+    def get(self, k):
+        return self.data[k]
+    
     def serialize(self):
       'serializa a mensagem em JSON'
       return json.dumps((self.cmd, self.data)).encode('ascii')

@@ -50,9 +50,10 @@ class NetworkRepository:
             return None
 
     # atualiza ou adiciona uma rede
-    def updateNetwork(self, **args):
+    def updateNetwork(self, data='', **args):        
         'Atualiza os dados de uma rede. "args" contém os valores de atributos da rede a serem modificados'
-        data = nkdb.Network(**args)
+        if not isinstance(data, nkdb.Network):
+            data = nkdb.Network(**args)
         self.db.update(data)
 
     def getNetworkInfo(self, name, flag):
