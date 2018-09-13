@@ -7,7 +7,7 @@ import nkparser
 import fcntl
 import traceback
 import zmq
-from nkmessage import Message,Response
+from nkmessage import Message
 from nkrepo import NetworkRepository
 
 ###################################################################

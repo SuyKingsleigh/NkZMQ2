@@ -8,7 +8,7 @@ Created on Tue Sep 11 16:51:11 2018
 
 import sys
 import zmq
-from nkmessage import Message,Response
+from nkmessage import Message
 
 class Client:
     
