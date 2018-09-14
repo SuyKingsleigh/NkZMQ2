@@ -127,6 +127,7 @@ class Command:
         self.term = Terminal(sockDEALER)
         self.term.run()
 
+
     # abre um socket dealer e cria um objeto terminal
     def run(self):
         if not self._started: raise Exception('not started')
@@ -220,7 +221,7 @@ class Command:
             self._started = False
 
 
-#########################################################
+########################################################
 def resposta(resp):
     resp = resp[0].decode('ascii')
     if resp != 'OK':
@@ -264,47 +265,22 @@ def pseudo_parser(arglist):
 
 
 ########################################################
+
 if __name__ == '__main__':
     import gi
 
     gi.require_version('Gtk', '3.0')
     gi.require_version('Vte', '2.91')
-    from gi.repository import Gtk, Vte
     import os
     import pty
 
     comando = Command('localhost', 5555)
     comando.start('teste')
     comando.buildTerm()
-
-
-    # comando.run()
-    # comando.stop_it('teste')
-    # print('fim')
-
-    def app():
-        pid = os.fork()
-        if pid:
-            ptm = Vte.Pty.new_foreign_sync(comando.term.fdm)
-            return ptm
-        comando.run()
-
-
-    # cria um vte
-    terminal = Vte.Terminal()
-
-    # obtém o pseudo-tty mestre
-    pts = app()
-
-    # vincula o pseudo-tty ao terminal
-    terminal.set_pty(pts)
-
-    # cria uma janela e associa o Vte a ela
-    win = Gtk.Window()
-    win.connect('delete-event', Gtk.main_quit)
-    win.add(terminal)
-    win.show_all()
-
-    Gtk.main()
+    comando.run()
     comando.stop_it('teste')
-    print('cabossi')
+    print('fim')
+    comando.stop_it('teste')
+
+    # todo arrumar server2.py (dispatcher/instancias)
+    # todo dar um jeito nesse trem
