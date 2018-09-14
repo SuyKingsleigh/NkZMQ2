@@ -1,6 +1,6 @@
 import sys
 if sys.version_info.major < 3:
-  from mydb import Record,MyDB
+  from mydb3 import Record,MyDB
 else:
   from mydb3 import Record,MyDB
 
