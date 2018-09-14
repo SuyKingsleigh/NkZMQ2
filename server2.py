@@ -296,6 +296,7 @@ Encaminha o tratamento do evento'''
           if self.socket == fd:
             address, req = self.socket.recv_multipart()
             msg = Message(address, req)
+            print(req)
             self._processCmd(msg)
           else: # lê dados dos consoles das vms e envia para os clientes correspondentes
             for address, inst in self.instancias:

@@ -77,9 +77,12 @@ class Client:
             raise Exception('Erro: %s' % msg.decode('ascii'))
         return resp.data
 
+    # todo enviar a mensagem recebida pelo socket
+    # ta enviando uma mensagem vazia
     def _exchangeData(self, chan, cond, fdout):
         data = chan.read(128)
-        print(data.decode('ascii'))
+        request = Message(data)
+        self.socketCMD.send(request.serialize())
         return True
 
     def _buildTerm(self):
@@ -95,13 +98,13 @@ class Client:
 
         condition = GLib.IOCondition(GLib.IOCondition.IN)
 
-        # todo: dar um jeito nesse self.input, criar um metodo sl
         # a ideia eh pegar os dados escritos e escreve-los em algum lugar
         # para posteriormente envia-los pelo socket
         self.input = ''  # tentar com uma string, se der ruim falar com Sobral
         self.chanDoServidor.add_watch(condition, self._exchangeData, self.input)
         self.chanDoCliente.add_watch(condition, self._exchangeData, pts)
 
+    # todo criar um metodo ou dar um jeito de fazer isso pra todos os pcs na instancia
     def buildWindow(self):
         self._buildTerm()
         self.win = Gtk.Window()
