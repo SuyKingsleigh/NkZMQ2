@@ -6,7 +6,6 @@ Created on Tue Sep 11 16:51:11 2018
 @author: msobral
 """
 
-import os
 import pty
 import sys
 
@@ -17,7 +16,7 @@ from nkmessage import Message
 
 gi.require_version('Gtk', '3.0')
 gi.require_version('Vte', '2.91')
-from gi.repository import Vte, GLib
+from gi.repository import Vte, GLib, Gtk
 
 
 class Client:
@@ -78,27 +77,44 @@ class Client:
             raise Exception('Erro: %s' % msg.decode('ascii'))
         return resp.data
 
-    # todo: metodo para executar uma rede
-    # todo: criar os vtes e alimenta-los
-
     def _exchangeData(self, chan, cond, fdout):
         data = chan.read(128)
-        os.write(fdout, data)
+        print(data.decode('ascii'))
+        return True
 
     def _buildTerm(self):
         # cria o terminal
         self.terminal = Vte.Terminal()
         ptm, pts = pty.openpty()
         self.terminal.set_pty(Vte.Pty.new_foreign_sync(ptm))
-        # cria os canais de comunicacao
-        self.chanFromClient = GLib.IOChannel(pts)
-        self.chanFromServer = GLib.IOChannel(self.socketCMD)
-        # coisa pra leitura nao bloqueante
-        self.chanFromClient.set_flags(GLib.IO_FLAG_NONBLOCK)
-        self.chanFromServer.set_flags(GLib.IO_FLAG_NONBLOCK)
+        self.chanDoCliente = GLib.IOChannel(pts)  # canal para obter mensagens escritas no vte e envia-las pro socket
+        self.chanDoServidor = GLib.IOChannel(self.socketCMD.fileno())  # coisadas do socket
+
+        self.chanDoCliente.set_flags(GLib.IO_FLAG_NONBLOCK)
+        self.chanDoServidor.set_flags(GLib.IO_FLAG_NONBLOCK)
+
+        condition = GLib.IOCondition(GLib.IOCondition.IN)
+
+        # todo: dar um jeito nesse self.input, criar um metodo sl
+        # a ideia eh pegar os dados escritos e escreve-los em algum lugar
+        # para posteriormente envia-los pelo socket
+        self.input = ''  # tentar com uma string, se der ruim falar com Sobral
+        self.chanDoServidor.add_watch(condition, self._exchangeData, self.input)
+        self.chanDoCliente.add_watch(condition, self._exchangeData, pts)
+
+    def buildWindow(self):
+        self._buildTerm()
+        self.win = Gtk.Window()
+        self.win.connect('delete-event', Gtk.main_quit)
+        self.win.add(self.terminal)
+        self.win.show_all()
+        Gtk.main()
+
+    def run(self):
+        pass
+
 
 #####################################################################################
-
 
 
 if __name__ == '__main__':
@@ -107,4 +123,5 @@ if __name__ == '__main__':
     net = c.get_network('rede2')
     print('dados da rede rede2:', net)
     print(net['conf'])
+    c.buildWindow()
     sys.exit(0)
