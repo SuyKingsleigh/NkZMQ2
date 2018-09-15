@@ -5,7 +5,7 @@ Created on Tue Sep 11 16:51:11 2018
 
 @author: msobral
 """
-
+import os
 import pty
 import sys
 
@@ -84,12 +84,9 @@ class Client:
         payload = {'term': termName, 'data': chan.read(128).decode('ascii')}
         request = Message(cmd='data', data=payload)
         self.socketCMD.send(request.serialize())
+        os.write(fdout, self.readTerm())
         return True
 
-    def recvTermMessage(self):
-        resp = self.socketCMD.recv()
-        resp = Message(0, resp)
-        return resp.get()
 
     def _buildTerm(self):
         # cria o terminal
@@ -133,7 +130,7 @@ class Client:
 
     def readTerm(self):
         resp = self.socketCMD.recv()
-        print('recebeu', resp)
+        return resp
 
 
 #####################################################################################
