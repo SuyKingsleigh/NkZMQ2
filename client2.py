@@ -80,8 +80,9 @@ class Client:
     # todo enviar a mensagem recebida pelo socket
     # ta enviando uma mensagem vazia
     def _exchangeData(self, chan, cond, fdout):
-        data = chan.read(128)
-        request = Message(data)
+        termName = 'pc1'
+        payload = {'term': termName, 'data': chan.read(128).decode('ascii')}
+        request = Message(cmd='data', data=payload)
         self.socketCMD.send(request.serialize())
         return True
 
@@ -91,7 +92,7 @@ class Client:
         ptm, pts = pty.openpty()
         self.terminal.set_pty(Vte.Pty.new_foreign_sync(ptm))
         self.chanDoCliente = GLib.IOChannel(pts)  # canal para obter mensagens escritas no vte e envia-las pro socket
-        self.chanDoServidor = GLib.IOChannel(self.socketCMD.fileno())  # coisadas do socket
+        self.chanDoServidor = GLib.IOChannel(self.socketCMD.fileno())  # recebidas do servidor
 
         self.chanDoCliente.set_flags(GLib.IO_FLAG_NONBLOCK)
         self.chanDoServidor.set_flags(GLib.IO_FLAG_NONBLOCK)
@@ -100,13 +101,11 @@ class Client:
 
         # a ideia eh pegar os dados escritos e escreve-los em algum lugar
         # para posteriormente envia-los pelo socket
-        self.input = ''  # tentar com uma string, se der ruim falar com Sobral
-        self.chanDoServidor.add_watch(condition, self._exchangeData, self.input)
-        self.chanDoCliente.add_watch(condition, self._exchangeData, pts)
+        self.chanDoServidor.add_watch(condition, self._exchangeData, 1) # escreve e manda pro servidor
+        self.chanDoCliente.add_watch(condition, self._exchangeData, pts) # deve escrever no vte
 
     # todo criar um metodo ou dar um jeito de fazer isso pra todos os pcs na instancia
     def buildWindow(self):
-        self._buildTerm()
         self.win = Gtk.Window()
         self.win.connect('delete-event', Gtk.main_quit)
         self.win.add(self.terminal)
@@ -114,7 +113,9 @@ class Client:
         Gtk.main()
 
     def run(self):
-        pass
+        # criar uma janela pra cada vte e depois dar um jeito de agrupar
+        self._buildTerm()
+        self.buildWindow()
 
 
 #####################################################################################
@@ -126,5 +127,5 @@ if __name__ == '__main__':
     net = c.get_network('rede2')
     print('dados da rede rede2:', net)
     print(net['conf'])
-    c.buildWindow()
+    c.run()
     sys.exit(0)
