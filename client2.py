@@ -124,9 +124,16 @@ class Client:
         # criar uma janela pra cada vte e depois dar um jeito de agrupar
         term = self._buildTerm()
         self._buildWindow(term, "pc1")
+        while True:
+            self.readTerm()
+
 
     def _buildTermVM(self):
         pass
+
+    def readTerm(self):
+        resp = self.socketCMD.recv()
+        print('recebeu', resp)
 
 
 #####################################################################################
