@@ -39,7 +39,7 @@ class TermPool:
             fd = self.terms[vm].start()
             rfd_flags = fcntl.fcntl(fd, fcntl.F_GETFL) | os.O_NONBLOCK
             fcntl.fcntl(fd, fcntl.F_SETFL, rfd_flags)
-            self._fds[fd] = vm.name
+            self._fds[fd] = vm
         return self._fds.keys()
 
     def stop(self):
@@ -121,7 +121,9 @@ netinfo: descrição da rede a ser executada (objeto nkdb.Network)'''
             self.pool = TermPool()
             self.rede.start(self.pool)
             self.pool.start()
-        except:
+        except Exception as e:
+            print(e)
+            print(traceback.format_exc())
             return False
 
         return True
@@ -302,13 +304,16 @@ Encaminha o tratamento do evento'''
                 print(req)
                 self._processCmd(msg)
             else:  # lê dados dos consoles das vms e envia para os clientes correspondentes
-                for address, inst in self.instancias:
+                # for address, inst in self.instancias.keys(), self.instancias:
+                for address in self.instancias.keys():
+                    inst = self.instancias[address]
                     term = inst.handle_fd(fd)
                     if term:
                         data = os.read(fd, 256)
+                        print("executado", data)
                         info = {'term': term, 'data': data}
                         resp = Message(cmd='data', data=info)
-                        self.socket.send_multipart([address, resp.serialize])
+                        self.socket.send_multipart([address, resp.serialize()])
 
     def run(self):
         'Trata eventos indefinidamente'

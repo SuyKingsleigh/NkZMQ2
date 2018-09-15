@@ -34,7 +34,7 @@ class Client:
     # se tudo ocorrer bem, coloca status started=True
     def start(self, netname):
         request = Message(cmd='start', data=netname)
-        self.socketCMD.send_string(request.serialize())
+        self.socketCMD.send(request.serialize())
         resp = self.socketCMD.recv()
         resp = Message(0, resp)
         if resp.get('status') != 200:
@@ -77,8 +77,8 @@ class Client:
             raise Exception('Erro: %s' % msg.decode('ascii'))
         return resp.data
 
-    # todo enviar a mensagem recebida pelo socket
-    # ta enviando uma mensagem vazia
+    # envia uma mensagem pro servidor
+    # todo receber a mensagem do servidor
     def _exchangeData(self, chan, cond, fdout):
         termName = 'pc1'
         payload = {'term': termName, 'data': chan.read(128).decode('ascii')}
@@ -86,36 +86,47 @@ class Client:
         self.socketCMD.send(request.serialize())
         return True
 
+    def recvTermMessage(self):
+        resp = self.socketCMD.recv()
+        resp = Message(0, resp)
+        return resp.get()
+
     def _buildTerm(self):
         # cria o terminal
-        self.terminal = Vte.Terminal()
+        terminal = Vte.Terminal()
         ptm, pts = pty.openpty()
-        self.terminal.set_pty(Vte.Pty.new_foreign_sync(ptm))
-        self.chanDoCliente = GLib.IOChannel(pts)  # canal para obter mensagens escritas no vte e envia-las pro socket
-        self.chanDoServidor = GLib.IOChannel(self.socketCMD.fileno())  # recebidas do servidor
+        terminal.set_pty(Vte.Pty.new_foreign_sync(ptm))
+        chanDoCliente = GLib.IOChannel(pts)  # canal para obter mensagens escritas no vte e envia-las pro socket
+        chanDoServidor = GLib.IOChannel(self.socketCMD.fileno())  # recebidas do servidor
 
-        self.chanDoCliente.set_flags(GLib.IO_FLAG_NONBLOCK)
-        self.chanDoServidor.set_flags(GLib.IO_FLAG_NONBLOCK)
+        chanDoCliente.set_flags(GLib.IO_FLAG_NONBLOCK)
+        chanDoServidor.set_flags(GLib.IO_FLAG_NONBLOCK)
 
         condition = GLib.IOCondition(GLib.IOCondition.IN)
 
         # a ideia eh pegar os dados escritos e escreve-los em algum lugar
         # para posteriormente envia-los pelo socket
-        self.chanDoServidor.add_watch(condition, self._exchangeData, 1) # escreve e manda pro servidor
-        self.chanDoCliente.add_watch(condition, self._exchangeData, pts) # deve escrever no vte
+        chanDoServidor.add_watch(condition, self._exchangeData, 1) # escreve e manda pro servidor
+        chanDoCliente.add_watch(condition, self._exchangeData, pts) # deve escrever no vte
+
+        return terminal
 
     # todo criar um metodo ou dar um jeito de fazer isso pra todos os pcs na instancia
-    def buildWindow(self):
-        self.win = Gtk.Window()
-        self.win.connect('delete-event', Gtk.main_quit)
-        self.win.add(self.terminal)
-        self.win.show_all()
+    def _buildWindow(self, terminal, pc):
+        win = Gtk.Window()
+        win.set_name(pc)
+        win.connect('delete-event', Gtk.main_quit)
+        win.add(terminal)
+        win.show_all()
         Gtk.main()
 
     def run(self):
         # criar uma janela pra cada vte e depois dar um jeito de agrupar
-        self._buildTerm()
-        self.buildWindow()
+        term = self._buildTerm()
+        self._buildWindow(term, "pc1")
+
+    def _buildTermVM(self):
+        pass
 
 
 #####################################################################################
@@ -123,9 +134,10 @@ class Client:
 
 if __name__ == '__main__':
     c = Client('127.0.0.1', 5555)
-    print('Redes do catálogo:', c.networks)
-    net = c.get_network('rede2')
-    print('dados da rede rede2:', net)
-    print(net['conf'])
+    # print('Redes do catálogo:', c.networks)
+    # net = c.get_network('rede1')
+    # print('dados da rede rede2:', net)
+    # print(net['conf'])
+    c.start('rede1')
     c.run()
     sys.exit(0)
