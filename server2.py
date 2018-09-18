@@ -260,9 +260,9 @@ Encaminha os dados para as instãncias correspondentes.
         elif msg.cmd == 'data':  # dados para um terminal ... não precisa de resposta
             if msg.address in self.instancias:
                 inst = self.instancias[msg.address]
-                term = inst.pool.get_term(msg.data.term)
+                term = inst.pool.get_term(msg.data['term'])
                 fd = term.getPty()
-                os.write(fd, msg.data.data)
+                os.write(fd, msg.data['data'].encode('ascii'))
 
 
         elif msg.cmd == 'getTerms':
@@ -311,11 +311,11 @@ Encaminha o tratamento do evento'''
                     if term:
                         data = os.read(fd, 256)
                         print("executado", data)
-                        info = {'term': term, 'data': data}
+                        info = dict(term=term, data=data)
                         resp = Message(cmd='data', data=info)
                         # self.socket.send_multipart([address, resp])
+                        # self.socket.send_multipart([address, resp.serialize()])
                         self.socket.send_multipart([address, data])
-
     def run(self):
         'Trata eventos indefinidamente'
 

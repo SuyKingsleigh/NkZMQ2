@@ -5,7 +5,6 @@ Created on Tue Sep 11 16:51:11 2018
 
 @author: msobral
 """
-import os
 import pty
 import sys
 
@@ -84,7 +83,7 @@ class Client:
         payload = {'term': termName, 'data': chan.read(128).decode('ascii')}
         request = Message(cmd='data', data=payload)
         self.socketCMD.send(request.serialize())
-        os.write(fdout, self.readTerm())
+        print(self.get_data())
         return True
 
 
@@ -121,17 +120,9 @@ class Client:
         # criar uma janela pra cada vte e depois dar um jeito de agrupar
         term = self._buildTerm()
         self._buildWindow(term, "pc1")
-        while True:
-            self.readTerm()
-
 
     def _buildTermVM(self):
         pass
-
-    def readTerm(self):
-        resp = self.socketCMD.recv()
-        return resp
-
 
 #####################################################################################
 
