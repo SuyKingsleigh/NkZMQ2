@@ -5,6 +5,7 @@ Created on Tue Sep 11 16:51:11 2018
 
 @author: msobral
 """
+import os
 import pty
 import sys
 
@@ -83,7 +84,10 @@ class Client:
         payload = {'term': termName, 'data': chan.read(128).decode('ascii')}
         request = Message(cmd='data', data=payload)
         self.socketCMD.send(request.serialize())
-        print(self.get_data())
+        resp = self.get_data()
+        for key in resp.keys():
+            output = resp[key]
+            os.write(fdout, output.encode('ascii'))
         return True
 
 

@@ -309,13 +309,13 @@ Encaminha o tratamento do evento'''
                     inst = self.instancias[address]
                     term = inst.handle_fd(fd)
                     if term:
-                        data = os.read(fd, 256)
+                        data = os.read(fd, 256).decode('ascii')
                         print("executado", data)
                         info = dict(term=term, data=data)
                         resp = Message(cmd='data', data=info)
                         # self.socket.send_multipart([address, resp])
-                        # self.socket.send_multipart([address, resp.serialize()])
-                        self.socket.send_multipart([address, data])
+                        self.socket.send_multipart([address, resp.serialize()])
+                        # self.socket.send_multipart([address, data])
     def run(self):
         'Trata eventos indefinidamente'
 
