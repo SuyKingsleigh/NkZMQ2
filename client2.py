@@ -29,7 +29,7 @@ class Client:
         self.socketCMD = self.context.socket(zmq.DEALER)
         self.socketCMD.connect("tcp://%s:%d" % (ip, port))
         self._started = False
-
+        self.windows = dict()
     # nome da rede
     # se tudo ocorrer bem, coloca status started=True
     def start(self, netname):
@@ -40,6 +40,7 @@ class Client:
         if resp.get('status') != 200:
             raise Exception('Erro: %s' % resp.get('info'))
         self._started = True
+        self.terminais = resp.data['terms']
 
     # verifica se o objeto foi iniciado
     @property
@@ -119,12 +120,18 @@ class Client:
         win.connect('delete-event', Gtk.main_quit)
         win.add(terminal)
         win.show_all()
-        Gtk.main()
+        # Gtk.main()
+        return win
 
     def run(self):
-        # criar uma janela pra cada vte e depois dar um jeito de agrupar
-        term = self._buildTerm()
-        self._buildWindow(term, "pc1")
+        gtkMainWin = Gtk.WindowGroup()
+        for termName in self.terminais:
+            term = self._buildTerm()
+            win = self._buildWindow(term, termName)
+            self.windows[termName] = win
+            gtkMainWin.add_window(win)
+
+        Gtk.main()
 
     def _buildTermVM(self):
         pass
@@ -135,9 +142,9 @@ class Client:
 if __name__ == '__main__':
     c = Client('127.0.0.1', 5555)
     # print('Redes do catálogo:', c.networks)
-    # net = c.get_network('rede1')
+    net = c.get_network('rede2')
     # print('dados da rede rede2:', net)
     # print(net['conf'])
-    c.start('rede1')
+    c.start('rede2')
     c.run()
     sys.exit(0)
