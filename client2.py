@@ -67,6 +67,7 @@ class Client:
             raise Exception('Erro: %s' % resp.get('info'))
         return resp.get('network')
 
+    # retorna um dicionario [terminal]->dado(str)
     def get_data(self):
         '''Obtem uma mensagem de dados de terminal. Deve ser chamado somente se houver uma mensagem
         pendente no socket. Depende portanto de previamente se usar um poller ou IOChannel para 
