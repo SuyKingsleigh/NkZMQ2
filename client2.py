@@ -8,6 +8,7 @@ Created on Tue Sep 11 16:51:11 2018
 import os
 import pty
 import sys
+from threading import Thread
 
 import gi
 import zmq
@@ -17,7 +18,6 @@ from nkmessage import Message
 gi.require_version('Gtk', '3.0')
 gi.require_version('Vte', '2.91')
 from gi.repository import Vte, GLib, Gtk
-
 
 class Client:
 
@@ -86,13 +86,9 @@ class Client:
         payload = {'term': termName, 'data': chan.read(128).decode('ascii')}
         request = Message(cmd='data', data=payload)
         self.socketCMD.send(request.serialize())
-
-        resp = self.socketCMD.recv()
-        resp = Message(0, resp)
-        for key in resp.data.keys():
-            os.write(fdout, resp.data[key].encode('ascii'))
-            print(key, resp.data[key])
-
+        self.instanciaDaemon = Thread(target=self._readMessage)
+        self.instanciaDaemon.daemon = True
+        self.instanciaDaemon.start()
         return True
 
     def _buildTerm(self):
@@ -103,18 +99,18 @@ class Client:
             terminal.set_name(term)  # da um nome para o terminal
 
             chanDoCliente = GLib.IOChannel(pts)  # canal para obter mensagens escritas no vte e envia-las pro socket
-            chanDoServidor = GLib.IOChannel(self.socketCMD.fileno())  # recebidas do servidor
+            # chanDoServidor = GLib.IOChannel(self.socketCMD.fileno())  # recebidas do servidor
 
             # define flags para leitura nao bloqueante
             chanDoCliente.set_flags(GLib.IO_FLAG_NONBLOCK)
-            chanDoServidor.set_flags(GLib.IO_FLAG_NONBLOCK)
+            # chanDoServidor.set_flags(GLib.IO_FLAG_NONBLOCK)
 
             # define condicao
             condition = GLib.IOCondition(GLib.IOCondition.IN)
 
-            chanDoServidor.add_watch(condition, self._exchangeData,1, term)  # escreve e manda pro servidor //Funciona
+            # chanDoServidor.add_watch(condition, self._exchangeData, 1, term)  # escreve e manda pro servidor //Funciona
             chanDoCliente.add_watch(condition, self._exchangeData, pts, term)  # deve escrever no vte //fuck
-            self.terminaisDict[term] = terminal
+            self.terminaisDict[term] = (terminal, ptm, pts)
 
     # todo quando fechar a janela, enviar um sinal de stop pro servidor.
     def _buildWindow(self, terminal, pc):
@@ -130,10 +126,20 @@ class Client:
         gtkMainWin = Gtk.WindowGroup()
         self._buildTerm()
         for termName in self.terminaisDict.keys():
-            win = self._buildWindow(self.terminaisDict[termName], termName)
+            win = self._buildWindow(self.terminaisDict[termName][0], termName)
             gtkMainWin.add_window(win)
 
         Gtk.main()
+
+    def _readMessage(self):
+        while True:
+            resp = self.socketCMD.recv()
+            resp = Message(0, resp)
+            if(resp.cmd == 'data'):
+                term = resp.data['term']
+                data = resp.data['data']
+                print("recebeu", term, data)
+                os.write(self.terminaisDict[term][2], data.encode('ascii'))
 
     def run(self):
         self._buildTermWindow()

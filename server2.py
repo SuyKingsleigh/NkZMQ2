@@ -313,9 +313,8 @@ Encaminha o tratamento do evento'''
                         print("executado", data)
                         info = dict(term=term, data=data)
                         resp = Message(cmd='data', data=info)
-                        # self.socket.send_multipart([address, resp])
                         self.socket.send_multipart([address, resp.serialize()])
-                        # self.socket.send_multipart([address, data])
+                        # self.socket.send_multipart([address, data.encode('ascii')])
     def run(self):
         'Trata eventos indefinidamente'
 
