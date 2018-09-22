@@ -86,11 +86,13 @@ class Client:
         payload = {'term': termName, 'data': chan.read(128).decode('ascii')}
         request = Message(cmd='data', data=payload)
         self.socketCMD.send(request.serialize())
-        resp = self.get_data()
-        for key in resp.keys():
-            output = resp[key]
-            os.write(fdout, output.encode('ascii'))
-            print(output)
+
+        resp = self.socketCMD.recv()
+        resp = Message(0, resp)
+        for key in resp.data.keys():
+            os.write(fdout, resp.data[key].encode('ascii'))
+            print(key, resp.data[key])
+
         return True
 
     def _buildTerm(self):
@@ -122,7 +124,6 @@ class Client:
         win.connect('delete-event', Gtk.main_quit)
         win.add(terminal)
         win.show_all()
-        # Gtk.main()
         return win
 
     def _buildTermWindow(self):

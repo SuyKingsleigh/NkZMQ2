@@ -481,117 +481,75 @@ state 0
     (52) vmmgmtip -> . ID LBRACK MGMT_IP RBRACK EQUALS IPMASK COLON VLAN EQUALS NUMBER
     (35) vmrouter -> . ID LBRACK ROUTER RBRACK EQUALS rtlist
 
-    COMMENT         shift and go to state 1
+    COMMENT         shift and go to state 14
     $end            reduce using rule 2 (statement -> .)
-    ID              shift and go to state 12
-    GLOBAL          shift and go to state 4
+    ID              shift and go to state 7
+    GLOBAL          shift and go to state 13
 
-    vmpppoe                        shift and go to state 11
-    vmfec                          shift and go to state 2
-    vmmgmtip                       shift and go to state 19
-    vmpreserve                     shift and go to state 18
-    vmdhcp                         shift and go to state 5
-    vmnat                          shift and go to state 6
-    statement                      shift and go to state 7
-    vmmem                          shift and go to state 14
-    vmroute                        shift and go to state 9
-    vmradvd                        shift and go to state 15
-    vmstp                          shift and go to state 16
-    prefs                          shift and go to state 17
-    vmdef                          shift and go to state 8
-    vmlabelspace                   shift and go to state 21
-    vmnhlfe                        shift and go to state 13
-    vmservices                     shift and go to state 3
-    vmrouter                       shift and go to state 20
-    vmdefgw                        shift and go to state 23
-    vmif                           shift and go to state 22
-    vm8021x                        shift and go to state 10
-    vmilm                          shift and go to state 24
+    vmdhcp                         shift and go to state 12
+    vmilm                          shift and go to state 6
+    prefs                          shift and go to state 15
+    vmpreserve                     shift and go to state 16
+    vm8021x                        shift and go to state 8
+    vmnhlfe                        shift and go to state 1
+    vmfec                          shift and go to state 17
+    vmif                           shift and go to state 4
+    vmradvd                        shift and go to state 5
+    vmmgmtip                       shift and go to state 21
+    vmrouter                       shift and go to state 19
+    vmlabelspace                   shift and go to state 23
+    statement                      shift and go to state 3
+    vmpppoe                        shift and go to state 18
+    vmdef                          shift and go to state 20
+    vmservices                     shift and go to state 22
+    vmdefgw                        shift and go to state 9
+    vmstp                          shift and go to state 10
+    vmnat                          shift and go to state 2
+    vmroute                        shift and go to state 11
+    vmmem                          shift and go to state 24
 
 state 1
 
-    (1) statement -> COMMENT .
+    (17) statement -> vmnhlfe .
 
-    $end            reduce using rule 1 (statement -> COMMENT .)
+    $end            reduce using rule 17 (statement -> vmnhlfe .)
 
 
 state 2
-
-    (15) statement -> vmfec .
-
-    $end            reduce using rule 15 (statement -> vmfec .)
-
-
-state 3
-
-    (7) statement -> vmservices .
-
-    $end            reduce using rule 7 (statement -> vmservices .)
-
-
-state 4
-
-    (44) prefs -> GLOBAL . LBRACK PATH RBRACK EQUALS PATHNAME
-    (45) prefs -> GLOBAL . LBRACK MEM RBRACK EQUALS NUMBER
-    (46) prefs -> GLOBAL . LBRACK VM RBRACK EQUALS NUMBER
-    (47) prefs -> GLOBAL . LBRACK CLEAN RBRACK EQUALS BOOL
-    (48) prefs -> GLOBAL . LBRACK COMPACT RBRACK EQUALS BOOL
-    (49) prefs -> GLOBAL . LBRACK PRESERVE RBRACK EQUALS BOOL
-    (50) prefs -> GLOBAL . LBRACK RW RBRACK EQUALS BOOL
-    (51) prefs -> GLOBAL . LBRACK NAME RBRACK EQUALS ID
-
-    LBRACK          shift and go to state 25
-
-
-state 5
-
-    (10) statement -> vmdhcp .
-
-    $end            reduce using rule 10 (statement -> vmdhcp .)
-
-
-state 6
 
     (11) statement -> vmnat .
 
     $end            reduce using rule 11 (statement -> vmnat .)
 
 
-state 7
+state 3
 
     (0) S' -> statement .
 
 
 
-state 8
+state 4
 
-    (4) statement -> vmdef .
+    (3) statement -> vmif .
 
-    $end            reduce using rule 4 (statement -> vmdef .)
-
-
-state 9
-
-    (5) statement -> vmroute .
-
-    $end            reduce using rule 5 (statement -> vmroute .)
+    $end            reduce using rule 3 (statement -> vmif .)
 
 
-state 10
+state 5
 
-    (20) statement -> vm8021x .
+    (13) statement -> vmradvd .
 
-    $end            reduce using rule 20 (statement -> vm8021x .)
-
-
-state 11
-
-    (14) statement -> vmpppoe .
-
-    $end            reduce using rule 14 (statement -> vmpppoe .)
+    $end            reduce using rule 13 (statement -> vmradvd .)
 
 
-state 12
+state 6
+
+    (16) statement -> vmilm .
+
+    $end            reduce using rule 16 (statement -> vmilm .)
+
+
+state 7
 
     (101) vmif -> ID . LBRACK ETHIF RBRACK EQUALS ethexpr
     (141) vmif -> ID . LBRACK PPPIF RBRACK EQUALS pppexpr
@@ -618,115 +576,136 @@ state 12
     (52) vmmgmtip -> ID . LBRACK MGMT_IP RBRACK EQUALS IPMASK COLON VLAN EQUALS NUMBER
     (35) vmrouter -> ID . LBRACK ROUTER RBRACK EQUALS rtlist
 
-    LBRACK          shift and go to state 26
+    LBRACK          shift and go to state 25
 
 
-state 13
+state 8
 
-    (17) statement -> vmnhlfe .
+    (20) statement -> vm8021x .
 
-    $end            reduce using rule 17 (statement -> vmnhlfe .)
-
-
-state 14
-
-    (9) statement -> vmmem .
-
-    $end            reduce using rule 9 (statement -> vmmem .)
+    $end            reduce using rule 20 (statement -> vm8021x .)
 
 
-state 15
-
-    (13) statement -> vmradvd .
-
-    $end            reduce using rule 13 (statement -> vmradvd .)
-
-
-state 16
-
-    (12) statement -> vmstp .
-
-    $end            reduce using rule 12 (statement -> vmstp .)
-
-
-state 17
-
-    (19) statement -> prefs .
-
-    $end            reduce using rule 19 (statement -> prefs .)
-
-
-state 18
-
-    (8) statement -> vmpreserve .
-
-    $end            reduce using rule 8 (statement -> vmpreserve .)
-
-
-state 19
-
-    (21) statement -> vmmgmtip .
-
-    $end            reduce using rule 21 (statement -> vmmgmtip .)
-
-
-state 20
-
-    (22) statement -> vmrouter .
-
-    $end            reduce using rule 22 (statement -> vmrouter .)
-
-
-state 21
-
-    (18) statement -> vmlabelspace .
-
-    $end            reduce using rule 18 (statement -> vmlabelspace .)
-
-
-state 22
-
-    (3) statement -> vmif .
-
-    $end            reduce using rule 3 (statement -> vmif .)
-
-
-state 23
+state 9
 
     (6) statement -> vmdefgw .
 
     $end            reduce using rule 6 (statement -> vmdefgw .)
 
 
+state 10
+
+    (12) statement -> vmstp .
+
+    $end            reduce using rule 12 (statement -> vmstp .)
+
+
+state 11
+
+    (5) statement -> vmroute .
+
+    $end            reduce using rule 5 (statement -> vmroute .)
+
+
+state 12
+
+    (10) statement -> vmdhcp .
+
+    $end            reduce using rule 10 (statement -> vmdhcp .)
+
+
+state 13
+
+    (44) prefs -> GLOBAL . LBRACK PATH RBRACK EQUALS PATHNAME
+    (45) prefs -> GLOBAL . LBRACK MEM RBRACK EQUALS NUMBER
+    (46) prefs -> GLOBAL . LBRACK VM RBRACK EQUALS NUMBER
+    (47) prefs -> GLOBAL . LBRACK CLEAN RBRACK EQUALS BOOL
+    (48) prefs -> GLOBAL . LBRACK COMPACT RBRACK EQUALS BOOL
+    (49) prefs -> GLOBAL . LBRACK PRESERVE RBRACK EQUALS BOOL
+    (50) prefs -> GLOBAL . LBRACK RW RBRACK EQUALS BOOL
+    (51) prefs -> GLOBAL . LBRACK NAME RBRACK EQUALS ID
+
+    LBRACK          shift and go to state 26
+
+
+state 14
+
+    (1) statement -> COMMENT .
+
+    $end            reduce using rule 1 (statement -> COMMENT .)
+
+
+state 15
+
+    (19) statement -> prefs .
+
+    $end            reduce using rule 19 (statement -> prefs .)
+
+
+state 16
+
+    (8) statement -> vmpreserve .
+
+    $end            reduce using rule 8 (statement -> vmpreserve .)
+
+
+state 17
+
+    (15) statement -> vmfec .
+
+    $end            reduce using rule 15 (statement -> vmfec .)
+
+
+state 18
+
+    (14) statement -> vmpppoe .
+
+    $end            reduce using rule 14 (statement -> vmpppoe .)
+
+
+state 19
+
+    (22) statement -> vmrouter .
+
+    $end            reduce using rule 22 (statement -> vmrouter .)
+
+
+state 20
+
+    (4) statement -> vmdef .
+
+    $end            reduce using rule 4 (statement -> vmdef .)
+
+
+state 21
+
+    (21) statement -> vmmgmtip .
+
+    $end            reduce using rule 21 (statement -> vmmgmtip .)
+
+
+state 22
+
+    (7) statement -> vmservices .
+
+    $end            reduce using rule 7 (statement -> vmservices .)
+
+
+state 23
+
+    (18) statement -> vmlabelspace .
+
+    $end            reduce using rule 18 (statement -> vmlabelspace .)
+
+
 state 24
 
-    (16) statement -> vmilm .
+    (9) statement -> vmmem .
 
-    $end            reduce using rule 16 (statement -> vmilm .)
+    $end            reduce using rule 9 (statement -> vmmem .)
 
 
 state 25
-
-    (44) prefs -> GLOBAL LBRACK . PATH RBRACK EQUALS PATHNAME
-    (45) prefs -> GLOBAL LBRACK . MEM RBRACK EQUALS NUMBER
-    (46) prefs -> GLOBAL LBRACK . VM RBRACK EQUALS NUMBER
-    (47) prefs -> GLOBAL LBRACK . CLEAN RBRACK EQUALS BOOL
-    (48) prefs -> GLOBAL LBRACK . COMPACT RBRACK EQUALS BOOL
-    (49) prefs -> GLOBAL LBRACK . PRESERVE RBRACK EQUALS BOOL
-    (50) prefs -> GLOBAL LBRACK . RW RBRACK EQUALS BOOL
-    (51) prefs -> GLOBAL LBRACK . NAME RBRACK EQUALS ID
-
-    PATH            shift and go to state 31
-    MEM             shift and go to state 28
-    VM              shift and go to state 27
-    CLEAN           shift and go to state 30
-    COMPACT         shift and go to state 29
-    PRESERVE        shift and go to state 32
-    RW              shift and go to state 33
-    NAME            shift and go to state 34
-
-
-state 26
 
     (101) vmif -> ID LBRACK . ETHIF RBRACK EQUALS ethexpr
     (141) vmif -> ID LBRACK . PPPIF RBRACK EQUALS pppexpr
@@ -753,88 +732,112 @@ state 26
     (52) vmmgmtip -> ID LBRACK . MGMT_IP RBRACK EQUALS IPMASK COLON VLAN EQUALS NUMBER
     (35) vmrouter -> ID LBRACK . ROUTER RBRACK EQUALS rtlist
 
-    ETHIF           shift and go to state 49
-    PPPIF           shift and go to state 48
-    BONDIF          shift and go to state 38
-    TYPE            shift and go to state 45
-    ROUTE           shift and go to state 40
-    DEFAULTGW       shift and go to state 41
-    SERVICES        shift and go to state 50
+    ETHIF           shift and go to state 42
+    PPPIF           shift and go to state 43
+    BONDIF          shift and go to state 44
+    TYPE            shift and go to state 38
+    ROUTE           shift and go to state 34
+    DEFAULTGW       shift and go to state 33
+    SERVICES        shift and go to state 35
     PRESERVE        shift and go to state 36
+    MEM             shift and go to state 30
+    DHCP            shift and go to state 28
+    NAT             shift and go to state 41
+    STP             shift and go to state 39
+    RADVD           shift and go to state 40
+    PPPOE           shift and go to state 37
+    FEC             shift and go to state 47
+    ILM             shift and go to state 46
+    NHLFE           shift and go to state 32
+    LABELSPACE      shift and go to state 45
+    IEEE8021X       shift and go to state 27
+    MGMT_IP         shift and go to state 29
+    ROUTER          shift and go to state 31
+
+
+state 26
+
+    (44) prefs -> GLOBAL LBRACK . PATH RBRACK EQUALS PATHNAME
+    (45) prefs -> GLOBAL LBRACK . MEM RBRACK EQUALS NUMBER
+    (46) prefs -> GLOBAL LBRACK . VM RBRACK EQUALS NUMBER
+    (47) prefs -> GLOBAL LBRACK . CLEAN RBRACK EQUALS BOOL
+    (48) prefs -> GLOBAL LBRACK . COMPACT RBRACK EQUALS BOOL
+    (49) prefs -> GLOBAL LBRACK . PRESERVE RBRACK EQUALS BOOL
+    (50) prefs -> GLOBAL LBRACK . RW RBRACK EQUALS BOOL
+    (51) prefs -> GLOBAL LBRACK . NAME RBRACK EQUALS ID
+
+    PATH            shift and go to state 49
     MEM             shift and go to state 51
-    DHCP            shift and go to state 52
-    NAT             shift and go to state 47
-    STP             shift and go to state 46
-    RADVD           shift and go to state 53
-    PPPOE           shift and go to state 43
-    FEC             shift and go to state 44
-    ILM             shift and go to state 42
-    NHLFE           shift and go to state 55
-    LABELSPACE      shift and go to state 54
-    IEEE8021X       shift and go to state 35
-    MGMT_IP         shift and go to state 39
-    ROUTER          shift and go to state 37
+    VM              shift and go to state 53
+    CLEAN           shift and go to state 48
+    COMPACT         shift and go to state 54
+    PRESERVE        shift and go to state 50
+    RW              shift and go to state 52
+    NAME            shift and go to state 55
 
 
 state 27
 
-    (46) prefs -> GLOBAL LBRACK VM . RBRACK EQUALS NUMBER
+    (53) vm8021x -> ID LBRACK IEEE8021X . RBRACK EQUALS ON COLON expr8021x
 
     RBRACK          shift and go to state 56
 
 
 state 28
 
-    (45) prefs -> GLOBAL LBRACK MEM . RBRACK EQUALS NUMBER
+    (92) vmdhcp -> ID LBRACK DHCP . RBRACK EQUALS dhcpexpr
 
     RBRACK          shift and go to state 57
 
 
 state 29
 
-    (48) prefs -> GLOBAL LBRACK COMPACT . RBRACK EQUALS BOOL
+    (52) vmmgmtip -> ID LBRACK MGMT_IP . RBRACK EQUALS IPMASK COLON VLAN EQUALS NUMBER
 
     RBRACK          shift and go to state 58
 
 
 state 30
 
-    (47) prefs -> GLOBAL LBRACK CLEAN . RBRACK EQUALS BOOL
+    (83) vmmem -> ID LBRACK MEM . RBRACK EQUALS NUMBER
 
     RBRACK          shift and go to state 59
 
 
 state 31
 
-    (44) prefs -> GLOBAL LBRACK PATH . RBRACK EQUALS PATHNAME
+    (35) vmrouter -> ID LBRACK ROUTER . RBRACK EQUALS rtlist
 
     RBRACK          shift and go to state 60
 
 
 state 32
 
-    (49) prefs -> GLOBAL LBRACK PRESERVE . RBRACK EQUALS BOOL
+    (205) vmnhlfe -> ID LBRACK NHLFE . RBRACK EQUALS NUMBER COLON nhlfeattrs
 
     RBRACK          shift and go to state 61
 
 
 state 33
 
-    (50) prefs -> GLOBAL LBRACK RW . RBRACK EQUALS BOOL
+    (80) vmdefgw -> ID LBRACK DEFAULTGW . RBRACK EQUALS gwdef
 
     RBRACK          shift and go to state 62
 
 
 state 34
 
-    (51) prefs -> GLOBAL LBRACK NAME . RBRACK EQUALS ID
+    (72) vmroute -> ID LBRACK ROUTE . RBRACK EQUALS IPMASK COLON gwspec
+    (73) vmroute -> ID LBRACK ROUTE . RBRACK EQUALS IPV6MASK COLON gwspecng
+    (74) vmroute -> ID LBRACK ROUTE . RBRACK EQUALS DEFAULT COLON gwspec
+    (75) vmroute -> ID LBRACK ROUTE . RBRACK EQUALS DEFAULT6 COLON gwspecng
 
     RBRACK          shift and go to state 63
 
 
 state 35
 
-    (53) vm8021x -> ID LBRACK IEEE8021X . RBRACK EQUALS ON COLON expr8021x
+    (84) vmservices -> ID LBRACK SERVICES . RBRACK EQUALS servlist
 
     RBRACK          shift and go to state 64
 
@@ -848,199 +851,199 @@ state 36
 
 state 37
 
-    (35) vmrouter -> ID LBRACK ROUTER . RBRACK EQUALS rtlist
+    (194) vmpppoe -> ID LBRACK PPPOE . RBRACK EQUALS ID COLON pppoeattrs
 
     RBRACK          shift and go to state 66
 
 
 state 38
 
-    (157) vmif -> ID LBRACK BONDIF . RBRACK EQUALS bondexpr
+    (64) vmdef -> ID LBRACK TYPE . RBRACK EQUALS types
 
     RBRACK          shift and go to state 67
 
 
 state 39
 
-    (52) vmmgmtip -> ID LBRACK MGMT_IP . RBRACK EQUALS IPMASK COLON VLAN EQUALS NUMBER
+    (183) vmstp -> ID LBRACK STP . RBRACK EQUALS stpexpr
 
     RBRACK          shift and go to state 68
 
 
 state 40
 
-    (72) vmroute -> ID LBRACK ROUTE . RBRACK EQUALS IPMASK COLON gwspec
-    (73) vmroute -> ID LBRACK ROUTE . RBRACK EQUALS IPV6MASK COLON gwspecng
-    (74) vmroute -> ID LBRACK ROUTE . RBRACK EQUALS DEFAULT COLON gwspec
-    (75) vmroute -> ID LBRACK ROUTE . RBRACK EQUALS DEFAULT6 COLON gwspecng
+    (23) vmradvd -> ID LBRACK RADVD . RBRACK EQUALS radvdexpr
 
     RBRACK          shift and go to state 69
 
 
 state 41
 
-    (80) vmdefgw -> ID LBRACK DEFAULTGW . RBRACK EQUALS gwdef
+    (179) vmnat -> ID LBRACK NAT . RBRACK EQUALS interface
 
     RBRACK          shift and go to state 70
 
 
 state 42
 
-    (213) vmilm -> ID LBRACK ILM . RBRACK EQUALS NUMBER COLON ilmattrs
+    (101) vmif -> ID LBRACK ETHIF . RBRACK EQUALS ethexpr
 
     RBRACK          shift and go to state 71
 
 
 state 43
 
-    (194) vmpppoe -> ID LBRACK PPPOE . RBRACK EQUALS ID COLON pppoeattrs
+    (141) vmif -> ID LBRACK PPPIF . RBRACK EQUALS pppexpr
 
     RBRACK          shift and go to state 72
 
 
 state 44
 
-    (204) vmfec -> ID LBRACK FEC . RBRACK EQUALS IPMASK COLON NHLFE EQUALS NUMBER
+    (157) vmif -> ID LBRACK BONDIF . RBRACK EQUALS bondexpr
 
     RBRACK          shift and go to state 73
 
 
 state 45
 
-    (64) vmdef -> ID LBRACK TYPE . RBRACK EQUALS types
+    (218) vmlabelspace -> ID LBRACK LABELSPACE . RBRACK EQUALS NUMBER COLON INTERFACES EQUALS anyiflist
 
     RBRACK          shift and go to state 74
 
 
 state 46
 
-    (183) vmstp -> ID LBRACK STP . RBRACK EQUALS stpexpr
+    (213) vmilm -> ID LBRACK ILM . RBRACK EQUALS NUMBER COLON ilmattrs
 
     RBRACK          shift and go to state 75
 
 
 state 47
 
-    (179) vmnat -> ID LBRACK NAT . RBRACK EQUALS interface
+    (204) vmfec -> ID LBRACK FEC . RBRACK EQUALS IPMASK COLON NHLFE EQUALS NUMBER
 
     RBRACK          shift and go to state 76
 
 
 state 48
 
-    (141) vmif -> ID LBRACK PPPIF . RBRACK EQUALS pppexpr
+    (47) prefs -> GLOBAL LBRACK CLEAN . RBRACK EQUALS BOOL
 
     RBRACK          shift and go to state 77
 
 
 state 49
 
-    (101) vmif -> ID LBRACK ETHIF . RBRACK EQUALS ethexpr
+    (44) prefs -> GLOBAL LBRACK PATH . RBRACK EQUALS PATHNAME
 
     RBRACK          shift and go to state 78
 
 
 state 50
 
-    (84) vmservices -> ID LBRACK SERVICES . RBRACK EQUALS servlist
+    (49) prefs -> GLOBAL LBRACK PRESERVE . RBRACK EQUALS BOOL
 
     RBRACK          shift and go to state 79
 
 
 state 51
 
-    (83) vmmem -> ID LBRACK MEM . RBRACK EQUALS NUMBER
+    (45) prefs -> GLOBAL LBRACK MEM . RBRACK EQUALS NUMBER
 
     RBRACK          shift and go to state 80
 
 
 state 52
 
-    (92) vmdhcp -> ID LBRACK DHCP . RBRACK EQUALS dhcpexpr
+    (50) prefs -> GLOBAL LBRACK RW . RBRACK EQUALS BOOL
 
     RBRACK          shift and go to state 81
 
 
 state 53
 
-    (23) vmradvd -> ID LBRACK RADVD . RBRACK EQUALS radvdexpr
+    (46) prefs -> GLOBAL LBRACK VM . RBRACK EQUALS NUMBER
 
     RBRACK          shift and go to state 82
 
 
 state 54
 
-    (218) vmlabelspace -> ID LBRACK LABELSPACE . RBRACK EQUALS NUMBER COLON INTERFACES EQUALS anyiflist
+    (48) prefs -> GLOBAL LBRACK COMPACT . RBRACK EQUALS BOOL
 
     RBRACK          shift and go to state 83
 
 
 state 55
 
-    (205) vmnhlfe -> ID LBRACK NHLFE . RBRACK EQUALS NUMBER COLON nhlfeattrs
+    (51) prefs -> GLOBAL LBRACK NAME . RBRACK EQUALS ID
 
     RBRACK          shift and go to state 84
 
 
 state 56
 
-    (46) prefs -> GLOBAL LBRACK VM RBRACK . EQUALS NUMBER
+    (53) vm8021x -> ID LBRACK IEEE8021X RBRACK . EQUALS ON COLON expr8021x
 
     EQUALS          shift and go to state 85
 
 
 state 57
 
-    (45) prefs -> GLOBAL LBRACK MEM RBRACK . EQUALS NUMBER
+    (92) vmdhcp -> ID LBRACK DHCP RBRACK . EQUALS dhcpexpr
 
     EQUALS          shift and go to state 86
 
 
 state 58
 
-    (48) prefs -> GLOBAL LBRACK COMPACT RBRACK . EQUALS BOOL
+    (52) vmmgmtip -> ID LBRACK MGMT_IP RBRACK . EQUALS IPMASK COLON VLAN EQUALS NUMBER
 
     EQUALS          shift and go to state 87
 
 
 state 59
 
-    (47) prefs -> GLOBAL LBRACK CLEAN RBRACK . EQUALS BOOL
+    (83) vmmem -> ID LBRACK MEM RBRACK . EQUALS NUMBER
 
     EQUALS          shift and go to state 88
 
 
 state 60
 
-    (44) prefs -> GLOBAL LBRACK PATH RBRACK . EQUALS PATHNAME
+    (35) vmrouter -> ID LBRACK ROUTER RBRACK . EQUALS rtlist
 
     EQUALS          shift and go to state 89
 
 
 state 61
 
-    (49) prefs -> GLOBAL LBRACK PRESERVE RBRACK . EQUALS BOOL
+    (205) vmnhlfe -> ID LBRACK NHLFE RBRACK . EQUALS NUMBER COLON nhlfeattrs
 
     EQUALS          shift and go to state 90
 
 
 state 62
 
-    (50) prefs -> GLOBAL LBRACK RW RBRACK . EQUALS BOOL
+    (80) vmdefgw -> ID LBRACK DEFAULTGW RBRACK . EQUALS gwdef
 
     EQUALS          shift and go to state 91
 
 
 state 63
 
-    (51) prefs -> GLOBAL LBRACK NAME RBRACK . EQUALS ID
+    (72) vmroute -> ID LBRACK ROUTE RBRACK . EQUALS IPMASK COLON gwspec
+    (73) vmroute -> ID LBRACK ROUTE RBRACK . EQUALS IPV6MASK COLON gwspecng
+    (74) vmroute -> ID LBRACK ROUTE RBRACK . EQUALS DEFAULT COLON gwspec
+    (75) vmroute -> ID LBRACK ROUTE RBRACK . EQUALS DEFAULT6 COLON gwspecng
 
     EQUALS          shift and go to state 92
 
 
 state 64
 
-    (53) vm8021x -> ID LBRACK IEEE8021X RBRACK . EQUALS ON COLON expr8021x
+    (84) vmservices -> ID LBRACK SERVICES RBRACK . EQUALS servlist
 
     EQUALS          shift and go to state 93
 
@@ -1054,214 +1057,168 @@ state 65
 
 state 66
 
-    (35) vmrouter -> ID LBRACK ROUTER RBRACK . EQUALS rtlist
+    (194) vmpppoe -> ID LBRACK PPPOE RBRACK . EQUALS ID COLON pppoeattrs
 
     EQUALS          shift and go to state 95
 
 
 state 67
 
-    (157) vmif -> ID LBRACK BONDIF RBRACK . EQUALS bondexpr
+    (64) vmdef -> ID LBRACK TYPE RBRACK . EQUALS types
 
     EQUALS          shift and go to state 96
 
 
 state 68
 
-    (52) vmmgmtip -> ID LBRACK MGMT_IP RBRACK . EQUALS IPMASK COLON VLAN EQUALS NUMBER
+    (183) vmstp -> ID LBRACK STP RBRACK . EQUALS stpexpr
 
     EQUALS          shift and go to state 97
 
 
 state 69
 
-    (72) vmroute -> ID LBRACK ROUTE RBRACK . EQUALS IPMASK COLON gwspec
-    (73) vmroute -> ID LBRACK ROUTE RBRACK . EQUALS IPV6MASK COLON gwspecng
-    (74) vmroute -> ID LBRACK ROUTE RBRACK . EQUALS DEFAULT COLON gwspec
-    (75) vmroute -> ID LBRACK ROUTE RBRACK . EQUALS DEFAULT6 COLON gwspecng
+    (23) vmradvd -> ID LBRACK RADVD RBRACK . EQUALS radvdexpr
 
     EQUALS          shift and go to state 98
 
 
 state 70
 
-    (80) vmdefgw -> ID LBRACK DEFAULTGW RBRACK . EQUALS gwdef
+    (179) vmnat -> ID LBRACK NAT RBRACK . EQUALS interface
 
     EQUALS          shift and go to state 99
 
 
 state 71
 
-    (213) vmilm -> ID LBRACK ILM RBRACK . EQUALS NUMBER COLON ilmattrs
+    (101) vmif -> ID LBRACK ETHIF RBRACK . EQUALS ethexpr
 
     EQUALS          shift and go to state 100
 
 
 state 72
 
-    (194) vmpppoe -> ID LBRACK PPPOE RBRACK . EQUALS ID COLON pppoeattrs
+    (141) vmif -> ID LBRACK PPPIF RBRACK . EQUALS pppexpr
 
     EQUALS          shift and go to state 101
 
 
 state 73
 
-    (204) vmfec -> ID LBRACK FEC RBRACK . EQUALS IPMASK COLON NHLFE EQUALS NUMBER
+    (157) vmif -> ID LBRACK BONDIF RBRACK . EQUALS bondexpr
 
     EQUALS          shift and go to state 102
 
 
 state 74
 
-    (64) vmdef -> ID LBRACK TYPE RBRACK . EQUALS types
+    (218) vmlabelspace -> ID LBRACK LABELSPACE RBRACK . EQUALS NUMBER COLON INTERFACES EQUALS anyiflist
 
     EQUALS          shift and go to state 103
 
 
 state 75
 
-    (183) vmstp -> ID LBRACK STP RBRACK . EQUALS stpexpr
+    (213) vmilm -> ID LBRACK ILM RBRACK . EQUALS NUMBER COLON ilmattrs
 
     EQUALS          shift and go to state 104
 
 
 state 76
 
-    (179) vmnat -> ID LBRACK NAT RBRACK . EQUALS interface
+    (204) vmfec -> ID LBRACK FEC RBRACK . EQUALS IPMASK COLON NHLFE EQUALS NUMBER
 
     EQUALS          shift and go to state 105
 
 
 state 77
 
-    (141) vmif -> ID LBRACK PPPIF RBRACK . EQUALS pppexpr
+    (47) prefs -> GLOBAL LBRACK CLEAN RBRACK . EQUALS BOOL
 
     EQUALS          shift and go to state 106
 
 
 state 78
 
-    (101) vmif -> ID LBRACK ETHIF RBRACK . EQUALS ethexpr
+    (44) prefs -> GLOBAL LBRACK PATH RBRACK . EQUALS PATHNAME
 
     EQUALS          shift and go to state 107
 
 
 state 79
 
-    (84) vmservices -> ID LBRACK SERVICES RBRACK . EQUALS servlist
+    (49) prefs -> GLOBAL LBRACK PRESERVE RBRACK . EQUALS BOOL
 
     EQUALS          shift and go to state 108
 
 
 state 80
 
-    (83) vmmem -> ID LBRACK MEM RBRACK . EQUALS NUMBER
+    (45) prefs -> GLOBAL LBRACK MEM RBRACK . EQUALS NUMBER
 
     EQUALS          shift and go to state 109
 
 
 state 81
 
-    (92) vmdhcp -> ID LBRACK DHCP RBRACK . EQUALS dhcpexpr
+    (50) prefs -> GLOBAL LBRACK RW RBRACK . EQUALS BOOL
 
     EQUALS          shift and go to state 110
 
 
 state 82
 
-    (23) vmradvd -> ID LBRACK RADVD RBRACK . EQUALS radvdexpr
+    (46) prefs -> GLOBAL LBRACK VM RBRACK . EQUALS NUMBER
 
     EQUALS          shift and go to state 111
 
 
 state 83
 
-    (218) vmlabelspace -> ID LBRACK LABELSPACE RBRACK . EQUALS NUMBER COLON INTERFACES EQUALS anyiflist
+    (48) prefs -> GLOBAL LBRACK COMPACT RBRACK . EQUALS BOOL
 
     EQUALS          shift and go to state 112
 
 
 state 84
 
-    (205) vmnhlfe -> ID LBRACK NHLFE RBRACK . EQUALS NUMBER COLON nhlfeattrs
+    (51) prefs -> GLOBAL LBRACK NAME RBRACK . EQUALS ID
 
     EQUALS          shift and go to state 113
 
 
 state 85
 
-    (46) prefs -> GLOBAL LBRACK VM RBRACK EQUALS . NUMBER
+    (53) vm8021x -> ID LBRACK IEEE8021X RBRACK EQUALS . ON COLON expr8021x
 
-    NUMBER          shift and go to state 114
+    ON              shift and go to state 114
 
 
 state 86
 
-    (45) prefs -> GLOBAL LBRACK MEM RBRACK EQUALS . NUMBER
+    (92) vmdhcp -> ID LBRACK DHCP RBRACK EQUALS . dhcpexpr
+    (93) dhcpexpr -> . ETHIF COLON dhcpattrs
 
-    NUMBER          shift and go to state 115
+    ETHIF           shift and go to state 116
 
+    dhcpexpr                       shift and go to state 115
 
 state 87
 
-    (48) prefs -> GLOBAL LBRACK COMPACT RBRACK EQUALS . BOOL
+    (52) vmmgmtip -> ID LBRACK MGMT_IP RBRACK EQUALS . IPMASK COLON VLAN EQUALS NUMBER
 
-    BOOL            shift and go to state 116
+    IPMASK          shift and go to state 117
 
 
 state 88
 
-    (47) prefs -> GLOBAL LBRACK CLEAN RBRACK EQUALS . BOOL
+    (83) vmmem -> ID LBRACK MEM RBRACK EQUALS . NUMBER
 
-    BOOL            shift and go to state 117
+    NUMBER          shift and go to state 118
 
 
 state 89
-
-    (44) prefs -> GLOBAL LBRACK PATH RBRACK EQUALS . PATHNAME
-
-    PATHNAME        shift and go to state 118
-
-
-state 90
-
-    (49) prefs -> GLOBAL LBRACK PRESERVE RBRACK EQUALS . BOOL
-
-    BOOL            shift and go to state 119
-
-
-state 91
-
-    (50) prefs -> GLOBAL LBRACK RW RBRACK EQUALS . BOOL
-
-    BOOL            shift and go to state 120
-
-
-state 92
-
-    (51) prefs -> GLOBAL LBRACK NAME RBRACK EQUALS . ID
-
-    ID              shift and go to state 121
-
-
-state 93
-
-    (53) vm8021x -> ID LBRACK IEEE8021X RBRACK EQUALS . ON COLON expr8021x
-
-    ON              shift and go to state 122
-
-
-state 94
-
-    (89) vmpreserve -> ID LBRACK PRESERVE RBRACK EQUALS . pathlist
-    (90) pathlist -> . PATHNAME COLON pathlist
-    (91) pathlist -> . PATHNAME
-
-    PATHNAME        shift and go to state 123
-
-    pathlist                       shift and go to state 124
-
-state 95
 
     (35) vmrouter -> ID LBRACK ROUTER RBRACK EQUALS . rtlist
     (36) rtlist -> . rtproto VIRG rtlist
@@ -1273,79 +1230,79 @@ state 95
     (42) rtproto -> . OSPF6
     (43) rtproto -> . ISIS
 
-    RIP             shift and go to state 131
-    RIPNG           shift and go to state 126
-    OSPF            shift and go to state 132
-    BGP             shift and go to state 127
-    OSPF6           shift and go to state 128
-    ISIS            shift and go to state 130
+    RIP             shift and go to state 120
+    RIPNG           shift and go to state 125
+    OSPF            shift and go to state 124
+    BGP             shift and go to state 123
+    OSPF6           shift and go to state 119
+    ISIS            shift and go to state 121
 
-    rtproto                        shift and go to state 125
-    rtlist                         shift and go to state 129
+    rtproto                        shift and go to state 122
+    rtlist                         shift and go to state 126
 
-state 96
+state 90
 
-    (157) vmif -> ID LBRACK BONDIF RBRACK EQUALS . bondexpr
-    (158) bondexpr -> . ID COLON bondattrs
-    (159) bondexpr -> . ID
+    (205) vmnhlfe -> ID LBRACK NHLFE RBRACK EQUALS . NUMBER COLON nhlfeattrs
 
-    ID              shift and go to state 133
-
-    bondexpr                       shift and go to state 134
-
-state 97
-
-    (52) vmmgmtip -> ID LBRACK MGMT_IP RBRACK EQUALS . IPMASK COLON VLAN EQUALS NUMBER
-
-    IPMASK          shift and go to state 135
+    NUMBER          shift and go to state 127
 
 
-state 98
+state 91
+
+    (80) vmdefgw -> ID LBRACK DEFAULTGW RBRACK EQUALS . gwdef
+    (81) gwdef -> . IP
+    (82) gwdef -> . IPV6
+
+    IP              shift and go to state 130
+    IPV6            shift and go to state 129
+
+    gwdef                          shift and go to state 128
+
+state 92
 
     (72) vmroute -> ID LBRACK ROUTE RBRACK EQUALS . IPMASK COLON gwspec
     (73) vmroute -> ID LBRACK ROUTE RBRACK EQUALS . IPV6MASK COLON gwspecng
     (74) vmroute -> ID LBRACK ROUTE RBRACK EQUALS . DEFAULT COLON gwspec
     (75) vmroute -> ID LBRACK ROUTE RBRACK EQUALS . DEFAULT6 COLON gwspecng
 
-    IPMASK          shift and go to state 137
-    IPV6MASK        shift and go to state 138
-    DEFAULT         shift and go to state 136
-    DEFAULT6        shift and go to state 139
+    IPMASK          shift and go to state 133
+    IPV6MASK        shift and go to state 134
+    DEFAULT         shift and go to state 132
+    DEFAULT6        shift and go to state 131
 
 
-state 99
+state 93
 
-    (80) vmdefgw -> ID LBRACK DEFAULTGW RBRACK EQUALS . gwdef
-    (81) gwdef -> . IP
-    (82) gwdef -> . IPV6
+    (84) vmservices -> ID LBRACK SERVICES RBRACK EQUALS . servlist
+    (85) servlist -> . servid VIRG servlist
+    (86) servlist -> . servid
+    (87) servid -> . ID
+    (88) servid -> . RADVD
 
-    IP              shift and go to state 142
-    IPV6            shift and go to state 141
+    ID              shift and go to state 136
+    RADVD           shift and go to state 138
 
-    gwdef                          shift and go to state 140
+    servlist                       shift and go to state 135
+    servid                         shift and go to state 137
 
-state 100
+state 94
 
-    (213) vmilm -> ID LBRACK ILM RBRACK EQUALS . NUMBER COLON ilmattrs
+    (89) vmpreserve -> ID LBRACK PRESERVE RBRACK EQUALS . pathlist
+    (90) pathlist -> . PATHNAME COLON pathlist
+    (91) pathlist -> . PATHNAME
 
-    NUMBER          shift and go to state 143
+    PATHNAME        shift and go to state 139
 
+    pathlist                       shift and go to state 140
 
-state 101
+state 95
 
     (194) vmpppoe -> ID LBRACK PPPOE RBRACK EQUALS . ID COLON pppoeattrs
 
-    ID              shift and go to state 144
+    ID              shift and go to state 141
 
 
-state 102
-
-    (204) vmfec -> ID LBRACK FEC RBRACK EQUALS . IPMASK COLON NHLFE EQUALS NUMBER
-
-    IPMASK          shift and go to state 145
-
-
-state 103
+state 96
 
     (64) vmdef -> ID LBRACK TYPE RBRACK EQUALS . types
     (65) types -> . GENERIC
@@ -1356,42 +1313,64 @@ state 103
     (70) types -> . MPLS
     (71) types -> . PBX
 
-    GENERIC         shift and go to state 146
-    GATEWAY         shift and go to state 148
+    GENERIC         shift and go to state 142
+    GATEWAY         shift and go to state 143
     ROUTER          shift and go to state 149
-    SWITCH          shift and go to state 151
-    PPPOE           shift and go to state 153
-    MPLS            shift and go to state 150
+    SWITCH          shift and go to state 146
+    PPPOE           shift and go to state 145
+    MPLS            shift and go to state 144
     PBX             shift and go to state 147
 
-    types                          shift and go to state 152
+    types                          shift and go to state 148
 
-state 104
+state 97
 
     (183) vmstp -> ID LBRACK STP RBRACK EQUALS . stpexpr
     (184) stpexpr -> . ON COLON stpattrs
     (185) stpexpr -> . ON
     (186) stpexpr -> . OFF
 
-    ON              shift and go to state 155
-    OFF             shift and go to state 156
+    ON              shift and go to state 151
+    OFF             shift and go to state 150
 
-    stpexpr                        shift and go to state 154
+    stpexpr                        shift and go to state 152
 
-state 105
+state 98
+
+    (23) vmradvd -> ID LBRACK RADVD RBRACK EQUALS . radvdexpr
+    (24) radvdexpr -> . ETHIF
+    (25) radvdexpr -> . ETHIF COLON radvdattrs
+
+    ETHIF           shift and go to state 153
+
+    radvdexpr                      shift and go to state 154
+
+state 99
 
     (179) vmnat -> ID LBRACK NAT RBRACK EQUALS . interface
     (180) interface -> . ETHIF
     (181) interface -> . PPPIF
     (182) interface -> . BONDIF
 
-    ETHIF           shift and go to state 159
-    PPPIF           shift and go to state 158
-    BONDIF          shift and go to state 160
+    ETHIF           shift and go to state 157
+    PPPIF           shift and go to state 156
+    BONDIF          shift and go to state 155
 
-    interface                      shift and go to state 157
+    interface                      shift and go to state 158
 
-state 106
+state 100
+
+    (101) vmif -> ID LBRACK ETHIF RBRACK EQUALS . ethexpr
+    (102) ethexpr -> . UPLINK COLON uplinkattrs
+    (103) ethexpr -> . ID COLON ethattrs
+    (104) ethexpr -> . ID
+
+    UPLINK          shift and go to state 161
+    ID              shift and go to state 159
+
+    ethexpr                        shift and go to state 160
+
+state 101
 
     (141) vmif -> ID LBRACK PPPIF RBRACK EQUALS . pppexpr
     (142) pppexpr -> . ID COLON pppattrs
@@ -1399,179 +1378,131 @@ state 106
 
     ID              shift and go to state 162
 
-    pppexpr                        shift and go to state 161
+    pppexpr                        shift and go to state 163
+
+state 102
+
+    (157) vmif -> ID LBRACK BONDIF RBRACK EQUALS . bondexpr
+    (158) bondexpr -> . ID COLON bondattrs
+    (159) bondexpr -> . ID
+
+    ID              shift and go to state 165
+
+    bondexpr                       shift and go to state 164
+
+state 103
+
+    (218) vmlabelspace -> ID LBRACK LABELSPACE RBRACK EQUALS . NUMBER COLON INTERFACES EQUALS anyiflist
+
+    NUMBER          shift and go to state 166
+
+
+state 104
+
+    (213) vmilm -> ID LBRACK ILM RBRACK EQUALS . NUMBER COLON ilmattrs
+
+    NUMBER          shift and go to state 167
+
+
+state 105
+
+    (204) vmfec -> ID LBRACK FEC RBRACK EQUALS . IPMASK COLON NHLFE EQUALS NUMBER
+
+    IPMASK          shift and go to state 168
+
+
+state 106
+
+    (47) prefs -> GLOBAL LBRACK CLEAN RBRACK EQUALS . BOOL
+
+    BOOL            shift and go to state 169
+
 
 state 107
 
-    (101) vmif -> ID LBRACK ETHIF RBRACK EQUALS . ethexpr
-    (102) ethexpr -> . UPLINK COLON uplinkattrs
-    (103) ethexpr -> . ID COLON ethattrs
-    (104) ethexpr -> . ID
+    (44) prefs -> GLOBAL LBRACK PATH RBRACK EQUALS . PATHNAME
 
-    UPLINK          shift and go to state 163
-    ID              shift and go to state 165
+    PATHNAME        shift and go to state 170
 
-    ethexpr                        shift and go to state 164
 
 state 108
 
-    (84) vmservices -> ID LBRACK SERVICES RBRACK EQUALS . servlist
-    (85) servlist -> . servid VIRG servlist
-    (86) servlist -> . servid
-    (87) servid -> . ID
-    (88) servid -> . RADVD
+    (49) prefs -> GLOBAL LBRACK PRESERVE RBRACK EQUALS . BOOL
 
-    ID              shift and go to state 167
-    RADVD           shift and go to state 166
+    BOOL            shift and go to state 171
 
-    servlist                       shift and go to state 169
-    servid                         shift and go to state 168
 
 state 109
 
-    (83) vmmem -> ID LBRACK MEM RBRACK EQUALS . NUMBER
+    (45) prefs -> GLOBAL LBRACK MEM RBRACK EQUALS . NUMBER
 
-    NUMBER          shift and go to state 170
+    NUMBER          shift and go to state 172
 
 
 state 110
 
-    (92) vmdhcp -> ID LBRACK DHCP RBRACK EQUALS . dhcpexpr
-    (93) dhcpexpr -> . ETHIF COLON dhcpattrs
+    (50) prefs -> GLOBAL LBRACK RW RBRACK EQUALS . BOOL
 
-    ETHIF           shift and go to state 172
+    BOOL            shift and go to state 173
 
-    dhcpexpr                       shift and go to state 171
 
 state 111
 
-    (23) vmradvd -> ID LBRACK RADVD RBRACK EQUALS . radvdexpr
-    (24) radvdexpr -> . ETHIF
-    (25) radvdexpr -> . ETHIF COLON radvdattrs
+    (46) prefs -> GLOBAL LBRACK VM RBRACK EQUALS . NUMBER
 
-    ETHIF           shift and go to state 174
+    NUMBER          shift and go to state 174
 
-    radvdexpr                      shift and go to state 173
 
 state 112
 
-    (218) vmlabelspace -> ID LBRACK LABELSPACE RBRACK EQUALS . NUMBER COLON INTERFACES EQUALS anyiflist
+    (48) prefs -> GLOBAL LBRACK COMPACT RBRACK EQUALS . BOOL
 
-    NUMBER          shift and go to state 175
+    BOOL            shift and go to state 175
 
 
 state 113
 
-    (205) vmnhlfe -> ID LBRACK NHLFE RBRACK EQUALS . NUMBER COLON nhlfeattrs
+    (51) prefs -> GLOBAL LBRACK NAME RBRACK EQUALS . ID
 
-    NUMBER          shift and go to state 176
+    ID              shift and go to state 176
 
 
 state 114
-
-    (46) prefs -> GLOBAL LBRACK VM RBRACK EQUALS NUMBER .
-
-    $end            reduce using rule 46 (prefs -> GLOBAL LBRACK VM RBRACK EQUALS NUMBER .)
-
-
-state 115
-
-    (45) prefs -> GLOBAL LBRACK MEM RBRACK EQUALS NUMBER .
-
-    $end            reduce using rule 45 (prefs -> GLOBAL LBRACK MEM RBRACK EQUALS NUMBER .)
-
-
-state 116
-
-    (48) prefs -> GLOBAL LBRACK COMPACT RBRACK EQUALS BOOL .
-
-    $end            reduce using rule 48 (prefs -> GLOBAL LBRACK COMPACT RBRACK EQUALS BOOL .)
-
-
-state 117
-
-    (47) prefs -> GLOBAL LBRACK CLEAN RBRACK EQUALS BOOL .
-
-    $end            reduce using rule 47 (prefs -> GLOBAL LBRACK CLEAN RBRACK EQUALS BOOL .)
-
-
-state 118
-
-    (44) prefs -> GLOBAL LBRACK PATH RBRACK EQUALS PATHNAME .
-
-    $end            reduce using rule 44 (prefs -> GLOBAL LBRACK PATH RBRACK EQUALS PATHNAME .)
-
-
-state 119
-
-    (49) prefs -> GLOBAL LBRACK PRESERVE RBRACK EQUALS BOOL .
-
-    $end            reduce using rule 49 (prefs -> GLOBAL LBRACK PRESERVE RBRACK EQUALS BOOL .)
-
-
-state 120
-
-    (50) prefs -> GLOBAL LBRACK RW RBRACK EQUALS BOOL .
-
-    $end            reduce using rule 50 (prefs -> GLOBAL LBRACK RW RBRACK EQUALS BOOL .)
-
-
-state 121
-
-    (51) prefs -> GLOBAL LBRACK NAME RBRACK EQUALS ID .
-
-    $end            reduce using rule 51 (prefs -> GLOBAL LBRACK NAME RBRACK EQUALS ID .)
-
-
-state 122
 
     (53) vm8021x -> ID LBRACK IEEE8021X RBRACK EQUALS ON . COLON expr8021x
 
     COLON           shift and go to state 177
 
 
-state 123
+state 115
 
-    (90) pathlist -> PATHNAME . COLON pathlist
-    (91) pathlist -> PATHNAME .
+    (92) vmdhcp -> ID LBRACK DHCP RBRACK EQUALS dhcpexpr .
+
+    $end            reduce using rule 92 (vmdhcp -> ID LBRACK DHCP RBRACK EQUALS dhcpexpr .)
+
+
+state 116
+
+    (93) dhcpexpr -> ETHIF . COLON dhcpattrs
 
     COLON           shift and go to state 178
-    $end            reduce using rule 91 (pathlist -> PATHNAME .)
 
 
-state 124
+state 117
 
-    (89) vmpreserve -> ID LBRACK PRESERVE RBRACK EQUALS pathlist .
+    (52) vmmgmtip -> ID LBRACK MGMT_IP RBRACK EQUALS IPMASK . COLON VLAN EQUALS NUMBER
 
-    $end            reduce using rule 89 (vmpreserve -> ID LBRACK PRESERVE RBRACK EQUALS pathlist .)
-
-
-state 125
-
-    (36) rtlist -> rtproto . VIRG rtlist
-    (37) rtlist -> rtproto .
-
-    VIRG            shift and go to state 179
-    $end            reduce using rule 37 (rtlist -> rtproto .)
+    COLON           shift and go to state 179
 
 
-state 126
+state 118
 
-    (39) rtproto -> RIPNG .
+    (83) vmmem -> ID LBRACK MEM RBRACK EQUALS NUMBER .
 
-    VIRG            reduce using rule 39 (rtproto -> RIPNG .)
-    $end            reduce using rule 39 (rtproto -> RIPNG .)
-
-
-state 127
-
-    (41) rtproto -> BGP .
-
-    VIRG            reduce using rule 41 (rtproto -> BGP .)
-    $end            reduce using rule 41 (rtproto -> BGP .)
+    $end            reduce using rule 83 (vmmem -> ID LBRACK MEM RBRACK EQUALS NUMBER .)
 
 
-state 128
+state 119
 
     (42) rtproto -> OSPF6 .
 
@@ -1579,22 +1510,7 @@ state 128
     $end            reduce using rule 42 (rtproto -> OSPF6 .)
 
 
-state 129
-
-    (35) vmrouter -> ID LBRACK ROUTER RBRACK EQUALS rtlist .
-
-    $end            reduce using rule 35 (vmrouter -> ID LBRACK ROUTER RBRACK EQUALS rtlist .)
-
-
-state 130
-
-    (43) rtproto -> ISIS .
-
-    VIRG            reduce using rule 43 (rtproto -> ISIS .)
-    $end            reduce using rule 43 (rtproto -> ISIS .)
-
-
-state 131
+state 120
 
     (38) rtproto -> RIP .
 
@@ -1602,7 +1518,32 @@ state 131
     $end            reduce using rule 38 (rtproto -> RIP .)
 
 
-state 132
+state 121
+
+    (43) rtproto -> ISIS .
+
+    VIRG            reduce using rule 43 (rtproto -> ISIS .)
+    $end            reduce using rule 43 (rtproto -> ISIS .)
+
+
+state 122
+
+    (36) rtlist -> rtproto . VIRG rtlist
+    (37) rtlist -> rtproto .
+
+    VIRG            shift and go to state 180
+    $end            reduce using rule 37 (rtlist -> rtproto .)
+
+
+state 123
+
+    (41) rtproto -> BGP .
+
+    VIRG            reduce using rule 41 (rtproto -> BGP .)
+    $end            reduce using rule 41 (rtproto -> BGP .)
+
+
+state 124
 
     (40) rtproto -> OSPF .
 
@@ -1610,104 +1551,165 @@ state 132
     $end            reduce using rule 40 (rtproto -> OSPF .)
 
 
-state 133
+state 125
 
-    (158) bondexpr -> ID . COLON bondattrs
-    (159) bondexpr -> ID .
+    (39) rtproto -> RIPNG .
 
-    COLON           shift and go to state 180
-    $end            reduce using rule 159 (bondexpr -> ID .)
-
-
-state 134
-
-    (157) vmif -> ID LBRACK BONDIF RBRACK EQUALS bondexpr .
-
-    $end            reduce using rule 157 (vmif -> ID LBRACK BONDIF RBRACK EQUALS bondexpr .)
+    VIRG            reduce using rule 39 (rtproto -> RIPNG .)
+    $end            reduce using rule 39 (rtproto -> RIPNG .)
 
 
-state 135
+state 126
 
-    (52) vmmgmtip -> ID LBRACK MGMT_IP RBRACK EQUALS IPMASK . COLON VLAN EQUALS NUMBER
+    (35) vmrouter -> ID LBRACK ROUTER RBRACK EQUALS rtlist .
+
+    $end            reduce using rule 35 (vmrouter -> ID LBRACK ROUTER RBRACK EQUALS rtlist .)
+
+
+state 127
+
+    (205) vmnhlfe -> ID LBRACK NHLFE RBRACK EQUALS NUMBER . COLON nhlfeattrs
 
     COLON           shift and go to state 181
 
 
-state 136
-
-    (74) vmroute -> ID LBRACK ROUTE RBRACK EQUALS DEFAULT . COLON gwspec
-
-    COLON           shift and go to state 182
-
-
-state 137
-
-    (72) vmroute -> ID LBRACK ROUTE RBRACK EQUALS IPMASK . COLON gwspec
-
-    COLON           shift and go to state 183
-
-
-state 138
-
-    (73) vmroute -> ID LBRACK ROUTE RBRACK EQUALS IPV6MASK . COLON gwspecng
-
-    COLON           shift and go to state 184
-
-
-state 139
-
-    (75) vmroute -> ID LBRACK ROUTE RBRACK EQUALS DEFAULT6 . COLON gwspecng
-
-    COLON           shift and go to state 185
-
-
-state 140
+state 128
 
     (80) vmdefgw -> ID LBRACK DEFAULTGW RBRACK EQUALS gwdef .
 
     $end            reduce using rule 80 (vmdefgw -> ID LBRACK DEFAULTGW RBRACK EQUALS gwdef .)
 
 
-state 141
+state 129
 
     (82) gwdef -> IPV6 .
 
     $end            reduce using rule 82 (gwdef -> IPV6 .)
 
 
-state 142
+state 130
 
     (81) gwdef -> IP .
 
     $end            reduce using rule 81 (gwdef -> IP .)
 
 
-state 143
+state 131
 
-    (213) vmilm -> ID LBRACK ILM RBRACK EQUALS NUMBER . COLON ilmattrs
+    (75) vmroute -> ID LBRACK ROUTE RBRACK EQUALS DEFAULT6 . COLON gwspecng
 
-    COLON           shift and go to state 186
+    COLON           shift and go to state 182
 
 
-state 144
+state 132
 
-    (194) vmpppoe -> ID LBRACK PPPOE RBRACK EQUALS ID . COLON pppoeattrs
+    (74) vmroute -> ID LBRACK ROUTE RBRACK EQUALS DEFAULT . COLON gwspec
+
+    COLON           shift and go to state 183
+
+
+state 133
+
+    (72) vmroute -> ID LBRACK ROUTE RBRACK EQUALS IPMASK . COLON gwspec
+
+    COLON           shift and go to state 184
+
+
+state 134
+
+    (73) vmroute -> ID LBRACK ROUTE RBRACK EQUALS IPV6MASK . COLON gwspecng
+
+    COLON           shift and go to state 185
+
+
+state 135
+
+    (84) vmservices -> ID LBRACK SERVICES RBRACK EQUALS servlist .
+
+    $end            reduce using rule 84 (vmservices -> ID LBRACK SERVICES RBRACK EQUALS servlist .)
+
+
+state 136
+
+    (87) servid -> ID .
+
+    VIRG            reduce using rule 87 (servid -> ID .)
+    $end            reduce using rule 87 (servid -> ID .)
+
+
+state 137
+
+    (85) servlist -> servid . VIRG servlist
+    (86) servlist -> servid .
+
+    VIRG            shift and go to state 186
+    $end            reduce using rule 86 (servlist -> servid .)
+
+
+state 138
+
+    (88) servid -> RADVD .
+
+    VIRG            reduce using rule 88 (servid -> RADVD .)
+    $end            reduce using rule 88 (servid -> RADVD .)
+
+
+state 139
+
+    (90) pathlist -> PATHNAME . COLON pathlist
+    (91) pathlist -> PATHNAME .
 
     COLON           shift and go to state 187
+    $end            reduce using rule 91 (pathlist -> PATHNAME .)
 
 
-state 145
+state 140
 
-    (204) vmfec -> ID LBRACK FEC RBRACK EQUALS IPMASK . COLON NHLFE EQUALS NUMBER
+    (89) vmpreserve -> ID LBRACK PRESERVE RBRACK EQUALS pathlist .
+
+    $end            reduce using rule 89 (vmpreserve -> ID LBRACK PRESERVE RBRACK EQUALS pathlist .)
+
+
+state 141
+
+    (194) vmpppoe -> ID LBRACK PPPOE RBRACK EQUALS ID . COLON pppoeattrs
 
     COLON           shift and go to state 188
 
 
-state 146
+state 142
 
     (65) types -> GENERIC .
 
     $end            reduce using rule 65 (types -> GENERIC .)
+
+
+state 143
+
+    (66) types -> GATEWAY .
+
+    $end            reduce using rule 66 (types -> GATEWAY .)
+
+
+state 144
+
+    (70) types -> MPLS .
+
+    $end            reduce using rule 70 (types -> MPLS .)
+
+
+state 145
+
+    (69) types -> PPPOE .
+
+    $end            reduce using rule 69 (types -> PPPOE .)
+
+
+state 146
+
+    (68) types -> SWITCH .
+
+    $end            reduce using rule 68 (types -> SWITCH .)
 
 
 state 147
@@ -1719,9 +1721,9 @@ state 147
 
 state 148
 
-    (66) types -> GATEWAY .
+    (64) vmdef -> ID LBRACK TYPE RBRACK EQUALS types .
 
-    $end            reduce using rule 66 (types -> GATEWAY .)
+    $end            reduce using rule 64 (vmdef -> ID LBRACK TYPE RBRACK EQUALS types .)
 
 
 state 149
@@ -1733,40 +1735,12 @@ state 149
 
 state 150
 
-    (70) types -> MPLS .
+    (186) stpexpr -> OFF .
 
-    $end            reduce using rule 70 (types -> MPLS .)
+    $end            reduce using rule 186 (stpexpr -> OFF .)
 
 
 state 151
-
-    (68) types -> SWITCH .
-
-    $end            reduce using rule 68 (types -> SWITCH .)
-
-
-state 152
-
-    (64) vmdef -> ID LBRACK TYPE RBRACK EQUALS types .
-
-    $end            reduce using rule 64 (vmdef -> ID LBRACK TYPE RBRACK EQUALS types .)
-
-
-state 153
-
-    (69) types -> PPPOE .
-
-    $end            reduce using rule 69 (types -> PPPOE .)
-
-
-state 154
-
-    (183) vmstp -> ID LBRACK STP RBRACK EQUALS stpexpr .
-
-    $end            reduce using rule 183 (vmstp -> ID LBRACK STP RBRACK EQUALS stpexpr .)
-
-
-state 155
 
     (184) stpexpr -> ON . COLON stpattrs
     (185) stpexpr -> ON .
@@ -1775,46 +1749,78 @@ state 155
     $end            reduce using rule 185 (stpexpr -> ON .)
 
 
-state 156
+state 152
 
-    (186) stpexpr -> OFF .
+    (183) vmstp -> ID LBRACK STP RBRACK EQUALS stpexpr .
 
-    $end            reduce using rule 186 (stpexpr -> OFF .)
-
-
-state 157
-
-    (179) vmnat -> ID LBRACK NAT RBRACK EQUALS interface .
-
-    $end            reduce using rule 179 (vmnat -> ID LBRACK NAT RBRACK EQUALS interface .)
+    $end            reduce using rule 183 (vmstp -> ID LBRACK STP RBRACK EQUALS stpexpr .)
 
 
-state 158
+state 153
 
-    (181) interface -> PPPIF .
+    (24) radvdexpr -> ETHIF .
+    (25) radvdexpr -> ETHIF . COLON radvdattrs
 
-    $end            reduce using rule 181 (interface -> PPPIF .)
-
-
-state 159
-
-    (180) interface -> ETHIF .
-
-    $end            reduce using rule 180 (interface -> ETHIF .)
+    $end            reduce using rule 24 (radvdexpr -> ETHIF .)
+    COLON           shift and go to state 190
 
 
-state 160
+state 154
+
+    (23) vmradvd -> ID LBRACK RADVD RBRACK EQUALS radvdexpr .
+
+    $end            reduce using rule 23 (vmradvd -> ID LBRACK RADVD RBRACK EQUALS radvdexpr .)
+
+
+state 155
 
     (182) interface -> BONDIF .
 
     $end            reduce using rule 182 (interface -> BONDIF .)
 
 
+state 156
+
+    (181) interface -> PPPIF .
+
+    $end            reduce using rule 181 (interface -> PPPIF .)
+
+
+state 157
+
+    (180) interface -> ETHIF .
+
+    $end            reduce using rule 180 (interface -> ETHIF .)
+
+
+state 158
+
+    (179) vmnat -> ID LBRACK NAT RBRACK EQUALS interface .
+
+    $end            reduce using rule 179 (vmnat -> ID LBRACK NAT RBRACK EQUALS interface .)
+
+
+state 159
+
+    (103) ethexpr -> ID . COLON ethattrs
+    (104) ethexpr -> ID .
+
+    COLON           shift and go to state 191
+    $end            reduce using rule 104 (ethexpr -> ID .)
+
+
+state 160
+
+    (101) vmif -> ID LBRACK ETHIF RBRACK EQUALS ethexpr .
+
+    $end            reduce using rule 101 (vmif -> ID LBRACK ETHIF RBRACK EQUALS ethexpr .)
+
+
 state 161
 
-    (141) vmif -> ID LBRACK PPPIF RBRACK EQUALS pppexpr .
+    (102) ethexpr -> UPLINK . COLON uplinkattrs
 
-    $end            reduce using rule 141 (vmif -> ID LBRACK PPPIF RBRACK EQUALS pppexpr .)
+    COLON           shift and go to state 192
 
 
 state 162
@@ -1822,114 +1828,108 @@ state 162
     (142) pppexpr -> ID . COLON pppattrs
     (143) pppexpr -> ID .
 
-    COLON           shift and go to state 190
+    COLON           shift and go to state 193
     $end            reduce using rule 143 (pppexpr -> ID .)
 
 
 state 163
 
-    (102) ethexpr -> UPLINK . COLON uplinkattrs
+    (141) vmif -> ID LBRACK PPPIF RBRACK EQUALS pppexpr .
 
-    COLON           shift and go to state 191
+    $end            reduce using rule 141 (vmif -> ID LBRACK PPPIF RBRACK EQUALS pppexpr .)
 
 
 state 164
 
-    (101) vmif -> ID LBRACK ETHIF RBRACK EQUALS ethexpr .
+    (157) vmif -> ID LBRACK BONDIF RBRACK EQUALS bondexpr .
 
-    $end            reduce using rule 101 (vmif -> ID LBRACK ETHIF RBRACK EQUALS ethexpr .)
+    $end            reduce using rule 157 (vmif -> ID LBRACK BONDIF RBRACK EQUALS bondexpr .)
 
 
 state 165
 
-    (103) ethexpr -> ID . COLON ethattrs
-    (104) ethexpr -> ID .
+    (158) bondexpr -> ID . COLON bondattrs
+    (159) bondexpr -> ID .
 
-    COLON           shift and go to state 192
-    $end            reduce using rule 104 (ethexpr -> ID .)
+    COLON           shift and go to state 194
+    $end            reduce using rule 159 (bondexpr -> ID .)
 
 
 state 166
 
-    (88) servid -> RADVD .
+    (218) vmlabelspace -> ID LBRACK LABELSPACE RBRACK EQUALS NUMBER . COLON INTERFACES EQUALS anyiflist
 
-    VIRG            reduce using rule 88 (servid -> RADVD .)
-    $end            reduce using rule 88 (servid -> RADVD .)
+    COLON           shift and go to state 195
 
 
 state 167
 
-    (87) servid -> ID .
-
-    VIRG            reduce using rule 87 (servid -> ID .)
-    $end            reduce using rule 87 (servid -> ID .)
-
-
-state 168
-
-    (85) servlist -> servid . VIRG servlist
-    (86) servlist -> servid .
-
-    VIRG            shift and go to state 193
-    $end            reduce using rule 86 (servlist -> servid .)
-
-
-state 169
-
-    (84) vmservices -> ID LBRACK SERVICES RBRACK EQUALS servlist .
-
-    $end            reduce using rule 84 (vmservices -> ID LBRACK SERVICES RBRACK EQUALS servlist .)
-
-
-state 170
-
-    (83) vmmem -> ID LBRACK MEM RBRACK EQUALS NUMBER .
-
-    $end            reduce using rule 83 (vmmem -> ID LBRACK MEM RBRACK EQUALS NUMBER .)
-
-
-state 171
-
-    (92) vmdhcp -> ID LBRACK DHCP RBRACK EQUALS dhcpexpr .
-
-    $end            reduce using rule 92 (vmdhcp -> ID LBRACK DHCP RBRACK EQUALS dhcpexpr .)
-
-
-state 172
-
-    (93) dhcpexpr -> ETHIF . COLON dhcpattrs
-
-    COLON           shift and go to state 194
-
-
-state 173
-
-    (23) vmradvd -> ID LBRACK RADVD RBRACK EQUALS radvdexpr .
-
-    $end            reduce using rule 23 (vmradvd -> ID LBRACK RADVD RBRACK EQUALS radvdexpr .)
-
-
-state 174
-
-    (24) radvdexpr -> ETHIF .
-    (25) radvdexpr -> ETHIF . COLON radvdattrs
-
-    $end            reduce using rule 24 (radvdexpr -> ETHIF .)
-    COLON           shift and go to state 195
-
-
-state 175
-
-    (218) vmlabelspace -> ID LBRACK LABELSPACE RBRACK EQUALS NUMBER . COLON INTERFACES EQUALS anyiflist
+    (213) vmilm -> ID LBRACK ILM RBRACK EQUALS NUMBER . COLON ilmattrs
 
     COLON           shift and go to state 196
 
 
-state 176
+state 168
 
-    (205) vmnhlfe -> ID LBRACK NHLFE RBRACK EQUALS NUMBER . COLON nhlfeattrs
+    (204) vmfec -> ID LBRACK FEC RBRACK EQUALS IPMASK . COLON NHLFE EQUALS NUMBER
 
     COLON           shift and go to state 197
+
+
+state 169
+
+    (47) prefs -> GLOBAL LBRACK CLEAN RBRACK EQUALS BOOL .
+
+    $end            reduce using rule 47 (prefs -> GLOBAL LBRACK CLEAN RBRACK EQUALS BOOL .)
+
+
+state 170
+
+    (44) prefs -> GLOBAL LBRACK PATH RBRACK EQUALS PATHNAME .
+
+    $end            reduce using rule 44 (prefs -> GLOBAL LBRACK PATH RBRACK EQUALS PATHNAME .)
+
+
+state 171
+
+    (49) prefs -> GLOBAL LBRACK PRESERVE RBRACK EQUALS BOOL .
+
+    $end            reduce using rule 49 (prefs -> GLOBAL LBRACK PRESERVE RBRACK EQUALS BOOL .)
+
+
+state 172
+
+    (45) prefs -> GLOBAL LBRACK MEM RBRACK EQUALS NUMBER .
+
+    $end            reduce using rule 45 (prefs -> GLOBAL LBRACK MEM RBRACK EQUALS NUMBER .)
+
+
+state 173
+
+    (50) prefs -> GLOBAL LBRACK RW RBRACK EQUALS BOOL .
+
+    $end            reduce using rule 50 (prefs -> GLOBAL LBRACK RW RBRACK EQUALS BOOL .)
+
+
+state 174
+
+    (46) prefs -> GLOBAL LBRACK VM RBRACK EQUALS NUMBER .
+
+    $end            reduce using rule 46 (prefs -> GLOBAL LBRACK VM RBRACK EQUALS NUMBER .)
+
+
+state 175
+
+    (48) prefs -> GLOBAL LBRACK COMPACT RBRACK EQUALS BOOL .
+
+    $end            reduce using rule 48 (prefs -> GLOBAL LBRACK COMPACT RBRACK EQUALS BOOL .)
+
+
+state 176
+
+    (51) prefs -> GLOBAL LBRACK NAME RBRACK EQUALS ID .
+
+    $end            reduce using rule 51 (prefs -> GLOBAL LBRACK NAME RBRACK EQUALS ID .)
 
 
 state 177
@@ -1944,27 +1944,44 @@ state 177
     (60) attr8021x -> . RADIUS_CLIENTS EQUALS ipaddrlist
     (61) attr8021x -> . PORT EQUALS NUMBER
 
-    RADIUS_SERVER   shift and go to state 205
-    USERS           shift and go to state 203
+    RADIUS_SERVER   shift and go to state 203
+    USERS           shift and go to state 198
     RADIUS_CLIENTS  shift and go to state 202
-    PORT            shift and go to state 204
+    PORT            shift and go to state 201
 
-    attr8021x                      shift and go to state 201
-    expr8021xsv                    shift and go to state 200
+    expr8021xsv                    shift and go to state 204
     expr8021xcl                    shift and go to state 199
-    expr8021x                      shift and go to state 198
+    attr8021x                      shift and go to state 200
+    expr8021x                      shift and go to state 205
 
 state 178
 
-    (90) pathlist -> PATHNAME COLON . pathlist
-    (90) pathlist -> . PATHNAME COLON pathlist
-    (91) pathlist -> . PATHNAME
+    (93) dhcpexpr -> ETHIF COLON . dhcpattrs
+    (94) dhcpattrs -> . dhcppair COLON dhcpattrs
+    (95) dhcpattrs -> . dhcppair
+    (96) dhcppair -> . RANGE EQUALS IP VIRG IP
+    (97) dhcppair -> . DEFLEASE EQUALS NUMBER
+    (98) dhcppair -> . MAXLEASE EQUALS NUMBER
+    (99) dhcppair -> . GATEWAY EQUALS IP
+    (100) dhcppair -> . NETMASK EQUALS IP
 
-    PATHNAME        shift and go to state 123
+    RANGE           shift and go to state 208
+    DEFLEASE        shift and go to state 209
+    MAXLEASE        shift and go to state 210
+    GATEWAY         shift and go to state 207
+    NETMASK         shift and go to state 211
 
-    pathlist                       shift and go to state 206
+    dhcpattrs                      shift and go to state 206
+    dhcppair                       shift and go to state 212
 
 state 179
+
+    (52) vmmgmtip -> ID LBRACK MGMT_IP RBRACK EQUALS IPMASK COLON . VLAN EQUALS NUMBER
+
+    VLAN            shift and go to state 213
+
+
+state 180
 
     (36) rtlist -> rtproto VIRG . rtlist
     (36) rtlist -> . rtproto VIRG rtlist
@@ -1976,108 +1993,104 @@ state 179
     (42) rtproto -> . OSPF6
     (43) rtproto -> . ISIS
 
-    RIP             shift and go to state 131
-    RIPNG           shift and go to state 126
-    OSPF            shift and go to state 132
-    BGP             shift and go to state 127
-    OSPF6           shift and go to state 128
-    ISIS            shift and go to state 130
+    RIP             shift and go to state 120
+    RIPNG           shift and go to state 125
+    OSPF            shift and go to state 124
+    BGP             shift and go to state 123
+    OSPF6           shift and go to state 119
+    ISIS            shift and go to state 121
 
-    rtproto                        shift and go to state 125
-    rtlist                         shift and go to state 207
-
-state 180
-
-    (158) bondexpr -> ID COLON . bondattrs
-    (160) bondattrs -> . bondpair COLON bondattrs
-    (161) bondattrs -> . bondpair
-    (162) bondpair -> . IPATTR EQUALS iplist
-    (163) bondpair -> . IPV6ATTR EQUALS ipv6list
-    (164) bondpair -> . IPATTR EQUALS DHCP
-    (165) bondpair -> . MODE EQUALS bondmode
-    (166) bondpair -> . LACP_RATE EQUALS SLOW
-    (167) bondpair -> . LACP_RATE EQUALS FAST
-    (168) bondpair -> . RATE EQUALS NUMBER
-    (169) bondpair -> . MIIMON EQUALS NUMBER
-    (176) bondpair -> . INTERFACES EQUALS iflist
-
-    IPATTR          shift and go to state 211
-    IPV6ATTR        shift and go to state 214
-    MODE            shift and go to state 212
-    LACP_RATE       shift and go to state 208
-    RATE            shift and go to state 209
-    MIIMON          shift and go to state 216
-    INTERFACES      shift and go to state 215
-
-    bondpair                       shift and go to state 213
-    bondattrs                      shift and go to state 210
+    rtproto                        shift and go to state 122
+    rtlist                         shift and go to state 214
 
 state 181
 
-    (52) vmmgmtip -> ID LBRACK MGMT_IP RBRACK EQUALS IPMASK COLON . VLAN EQUALS NUMBER
+    (205) vmnhlfe -> ID LBRACK NHLFE RBRACK EQUALS NUMBER COLON . nhlfeattrs
+    (206) nhlfeattrs -> . nhlfepair COLON nhlfeattrs
+    (207) nhlfeattrs -> . nhlfepair
+    (208) nhlfepair -> . INTERFACE EQUALS ETHIF
+    (209) nhlfepair -> . INTERFACE EQUALS PPPIF
+    (210) nhlfepair -> . LABEL EQUALS NUMBER
+    (211) nhlfepair -> . IPATTR EQUALS IP
+    (212) nhlfepair -> . NHLFE EQUALS NUMBER
 
-    VLAN            shift and go to state 217
+    INTERFACE       shift and go to state 217
+    LABEL           shift and go to state 219
+    IPATTR          shift and go to state 215
+    NHLFE           shift and go to state 216
 
+    nhlfeattrs                     shift and go to state 218
+    nhlfepair                      shift and go to state 220
 
 state 182
-
-    (74) vmroute -> ID LBRACK ROUTE RBRACK EQUALS DEFAULT COLON . gwspec
-    (76) gwspec -> . GATEWAY EQUALS IP
-    (77) gwspec -> . DEV EQUALS PPPIF
-
-    GATEWAY         shift and go to state 219
-    DEV             shift and go to state 218
-
-    gwspec                         shift and go to state 220
-
-state 183
-
-    (72) vmroute -> ID LBRACK ROUTE RBRACK EQUALS IPMASK COLON . gwspec
-    (76) gwspec -> . GATEWAY EQUALS IP
-    (77) gwspec -> . DEV EQUALS PPPIF
-
-    GATEWAY         shift and go to state 219
-    DEV             shift and go to state 218
-
-    gwspec                         shift and go to state 221
-
-state 184
-
-    (73) vmroute -> ID LBRACK ROUTE RBRACK EQUALS IPV6MASK COLON . gwspecng
-    (78) gwspecng -> . GATEWAY EQUALS IPV6
-    (79) gwspecng -> . DEV EQUALS PPPIF
-
-    GATEWAY         shift and go to state 224
-    DEV             shift and go to state 222
-
-    gwspecng                       shift and go to state 223
-
-state 185
 
     (75) vmroute -> ID LBRACK ROUTE RBRACK EQUALS DEFAULT6 COLON . gwspecng
     (78) gwspecng -> . GATEWAY EQUALS IPV6
     (79) gwspecng -> . DEV EQUALS PPPIF
 
-    GATEWAY         shift and go to state 224
-    DEV             shift and go to state 222
+    GATEWAY         shift and go to state 222
+    DEV             shift and go to state 223
 
-    gwspecng                       shift and go to state 225
+    gwspecng                       shift and go to state 221
+
+state 183
+
+    (74) vmroute -> ID LBRACK ROUTE RBRACK EQUALS DEFAULT COLON . gwspec
+    (76) gwspec -> . GATEWAY EQUALS IP
+    (77) gwspec -> . DEV EQUALS PPPIF
+
+    GATEWAY         shift and go to state 224
+    DEV             shift and go to state 226
+
+    gwspec                         shift and go to state 225
+
+state 184
+
+    (72) vmroute -> ID LBRACK ROUTE RBRACK EQUALS IPMASK COLON . gwspec
+    (76) gwspec -> . GATEWAY EQUALS IP
+    (77) gwspec -> . DEV EQUALS PPPIF
+
+    GATEWAY         shift and go to state 224
+    DEV             shift and go to state 226
+
+    gwspec                         shift and go to state 227
+
+state 185
+
+    (73) vmroute -> ID LBRACK ROUTE RBRACK EQUALS IPV6MASK COLON . gwspecng
+    (78) gwspecng -> . GATEWAY EQUALS IPV6
+    (79) gwspecng -> . DEV EQUALS PPPIF
+
+    GATEWAY         shift and go to state 222
+    DEV             shift and go to state 223
+
+    gwspecng                       shift and go to state 228
 
 state 186
 
-    (213) vmilm -> ID LBRACK ILM RBRACK EQUALS NUMBER COLON . ilmattrs
-    (214) ilmattrs -> . ilmpair COLON ilmpair
-    (215) ilmattrs -> . ilmpair
-    (216) ilmpair -> . LABELSPACE EQUALS NUMBER
-    (217) ilmpair -> . NHLFE EQUALS NUMBER
+    (85) servlist -> servid VIRG . servlist
+    (85) servlist -> . servid VIRG servlist
+    (86) servlist -> . servid
+    (87) servid -> . ID
+    (88) servid -> . RADVD
 
-    LABELSPACE      shift and go to state 226
-    NHLFE           shift and go to state 229
+    ID              shift and go to state 136
+    RADVD           shift and go to state 138
 
-    ilmattrs                       shift and go to state 227
-    ilmpair                        shift and go to state 228
+    servlist                       shift and go to state 229
+    servid                         shift and go to state 137
 
 state 187
+
+    (90) pathlist -> PATHNAME COLON . pathlist
+    (90) pathlist -> . PATHNAME COLON pathlist
+    (91) pathlist -> . PATHNAME
+
+    PATHNAME        shift and go to state 139
+
+    pathlist                       shift and go to state 230
+
+state 188
 
     (194) vmpppoe -> ID LBRACK PPPOE RBRACK EQUALS ID COLON . pppoeattrs
     (195) pppoeattrs -> . pppoepair COLON pppoeattrs
@@ -2088,21 +2101,14 @@ state 187
     (200) pppoepair -> . USERS EQUALS userlist
     (201) pppoepair -> . RATE EQUALS NUMBER
 
-    RANGE           shift and go to state 235
+    RANGE           shift and go to state 232
     IPATTR          shift and go to state 231
-    INTERFACE       shift and go to state 230
-    USERS           shift and go to state 232
-    RATE            shift and go to state 233
+    INTERFACE       shift and go to state 234
+    USERS           shift and go to state 233
+    RATE            shift and go to state 235
 
+    pppoeattrs                     shift and go to state 237
     pppoepair                      shift and go to state 236
-    pppoeattrs                     shift and go to state 234
-
-state 188
-
-    (204) vmfec -> ID LBRACK FEC RBRACK EQUALS IPMASK COLON . NHLFE EQUALS NUMBER
-
-    NHLFE           shift and go to state 237
-
 
 state 189
 
@@ -2115,47 +2121,84 @@ state 189
     (192) stppair -> . BRDELAY EQUALS NUMBER
     (193) stppair -> . VLAN EQUALS NUMBER
 
-    BRPRIO          shift and go to state 239
-    BRHELLO         shift and go to state 241
-    BRAGE           shift and go to state 240
-    BRDELAY         shift and go to state 243
+    BRPRIO          shift and go to state 242
+    BRHELLO         shift and go to state 243
+    BRAGE           shift and go to state 239
+    BRDELAY         shift and go to state 240
     VLAN            shift and go to state 244
 
-    stpattrs                       shift and go to state 238
-    stppair                        shift and go to state 242
+    stpattrs                       shift and go to state 241
+    stppair                        shift and go to state 238
 
 state 190
 
-    (142) pppexpr -> ID COLON . pppattrs
-    (144) pppattrs -> . ppppair COLON pppattrs
-    (145) pppattrs -> . ppppair
-    (146) ppppair -> . IPATTR EQUALS IPMASK
-    (147) ppppair -> . IPV6ATTR EQUALS IPV6MASK
-    (148) ppppair -> . RATE EQUALS NUMBER
-    (149) ppppair -> . BER EQUALS FLOATNUMBER
-    (150) ppppair -> . DELAY EQUALS NUMBER
-    (151) ppppair -> . INTERFACE EQUALS ETHIF
-    (152) ppppair -> . USER EQUALS ID
-    (153) ppppair -> . PASSWORD EQUALS ID
-    (154) ppppair -> . TYPE EQUALS PPPOE
-    (155) ppppair -> . DEBUG
-    (156) ppppair -> . DEBUG EQUALS BOOL
+    (25) radvdexpr -> ETHIF COLON . radvdattrs
+    (26) radvdattrs -> . radvdpair
+    (27) radvdattrs -> . radvdpair COLON radvdattrs
+    (28) radvdattrs -> . radvdsingle COLON radvdattrs
+    (29) radvdattrs -> . radvdsingle
+    (32) radvdpair -> . MIN_INTERVAL EQUALS NUMBER
+    (33) radvdpair -> . MAX_INTERVAL EQUALS NUMBER
+    (34) radvdpair -> . RDNSS EQUALS IPV6
+    (30) radvdsingle -> . STATELESS
+    (31) radvdsingle -> . STATEFUL
 
-    IPATTR          shift and go to state 248
-    IPV6ATTR        shift and go to state 250
-    RATE            shift and go to state 249
-    BER             shift and go to state 253
-    DELAY           shift and go to state 255
-    INTERFACE       shift and go to state 245
-    USER            shift and go to state 252
-    PASSWORD        shift and go to state 254
-    TYPE            shift and go to state 256
-    DEBUG           shift and go to state 246
+    MIN_INTERVAL    shift and go to state 246
+    MAX_INTERVAL    shift and go to state 252
+    RDNSS           shift and go to state 247
+    STATELESS       shift and go to state 248
+    STATEFUL        shift and go to state 245
 
-    pppattrs                       shift and go to state 247
-    ppppair                        shift and go to state 251
+    radvdattrs                     shift and go to state 250
+    radvdsingle                    shift and go to state 251
+    radvdpair                      shift and go to state 249
 
 state 191
+
+    (103) ethexpr -> ID COLON . ethattrs
+    (105) ethattrs -> . ethpair COLON ethattrs
+    (106) ethattrs -> . ethpair
+    (107) ethpair -> . IPATTR EQUALS iplist
+    (108) ethpair -> . IPATTR EQUALS DHCP
+    (109) ethpair -> . RATE EQUALS NUMBER
+    (110) ethpair -> . UNTAGGED EQUALS NUMBER
+    (111) ethpair -> . tagged EQUALS taglist
+    (112) ethpair -> . IPV6ATTR EQUALS ipv6list
+    (113) ethpair -> . NOIPV6
+    (114) ethpair -> . DOWN
+    (117) ethpair -> . IEEE8021X_AUTH EQUALS NUMBER
+    (118) ethpair -> . IEEE8021X_USER EQUALS USERPAIR
+    (123) ethpair -> . STPCOST EQUALS NUMBER
+    (124) ethpair -> . STPPRIO EQUALS NUMBER
+    (125) ethpair -> . PPPOEAC EQUALS ID
+    (126) ethpair -> . PPPOEUSER EQUALS ID
+    (127) ethpair -> . PPPOEPASSWD EQUALS ID
+    (128) ethpair -> . MODE EQUALS PPPOE
+    (121) tagged -> . TAGGED
+    (122) tagged -> . TAGGEDS
+
+    IPATTR          shift and go to state 254
+    RATE            shift and go to state 266
+    UNTAGGED        shift and go to state 264
+    IPV6ATTR        shift and go to state 259
+    NOIPV6          shift and go to state 267
+    DOWN            shift and go to state 256
+    IEEE8021X_AUTH  shift and go to state 269
+    IEEE8021X_USER  shift and go to state 258
+    STPCOST         shift and go to state 255
+    STPPRIO         shift and go to state 261
+    PPPOEAC         shift and go to state 260
+    PPPOEUSER       shift and go to state 263
+    PPPOEPASSWD     shift and go to state 265
+    MODE            shift and go to state 262
+    TAGGED          shift and go to state 271
+    TAGGEDS         shift and go to state 253
+
+    tagged                         shift and go to state 257
+    ethattrs                       shift and go to state 270
+    ethpair                        shift and go to state 268
+
+state 192
 
     (102) ethexpr -> UPLINK COLON . uplinkattrs
     (137) uplinkattrs -> . ethattrs
@@ -2183,163 +2226,120 @@ state 191
     (121) tagged -> . TAGGED
     (122) tagged -> . TAGGEDS
 
-    BRIDGE          shift and go to state 276
-    IPATTR          shift and go to state 262
-    RATE            shift and go to state 263
+    BRIDGE          shift and go to state 272
+    IPATTR          shift and go to state 254
+    RATE            shift and go to state 266
     UNTAGGED        shift and go to state 264
-    IPV6ATTR        shift and go to state 267
-    NOIPV6          shift and go to state 270
-    DOWN            shift and go to state 271
-    IEEE8021X_AUTH  shift and go to state 261
-    IEEE8021X_USER  shift and go to state 260
-    STPCOST         shift and go to state 266
-    STPPRIO         shift and go to state 268
-    PPPOEAC         shift and go to state 269
-    PPPOEUSER       shift and go to state 257
+    IPV6ATTR        shift and go to state 259
+    NOIPV6          shift and go to state 267
+    DOWN            shift and go to state 256
+    IEEE8021X_AUTH  shift and go to state 269
+    IEEE8021X_USER  shift and go to state 258
+    STPCOST         shift and go to state 255
+    STPPRIO         shift and go to state 261
+    PPPOEAC         shift and go to state 260
+    PPPOEUSER       shift and go to state 263
     PPPOEPASSWD     shift and go to state 265
-    MODE            shift and go to state 277
-    TAGGED          shift and go to state 278
-    TAGGEDS         shift and go to state 274
+    MODE            shift and go to state 262
+    TAGGED          shift and go to state 271
+    TAGGEDS         shift and go to state 253
 
-    tagged                         shift and go to state 275
-    uplinkpair                     shift and go to state 258
-    ethpair                        shift and go to state 259
-    ethattrs                       shift and go to state 272
-    uplinkattrs                    shift and go to state 273
-
-state 192
-
-    (103) ethexpr -> ID COLON . ethattrs
-    (105) ethattrs -> . ethpair COLON ethattrs
-    (106) ethattrs -> . ethpair
-    (107) ethpair -> . IPATTR EQUALS iplist
-    (108) ethpair -> . IPATTR EQUALS DHCP
-    (109) ethpair -> . RATE EQUALS NUMBER
-    (110) ethpair -> . UNTAGGED EQUALS NUMBER
-    (111) ethpair -> . tagged EQUALS taglist
-    (112) ethpair -> . IPV6ATTR EQUALS ipv6list
-    (113) ethpair -> . NOIPV6
-    (114) ethpair -> . DOWN
-    (117) ethpair -> . IEEE8021X_AUTH EQUALS NUMBER
-    (118) ethpair -> . IEEE8021X_USER EQUALS USERPAIR
-    (123) ethpair -> . STPCOST EQUALS NUMBER
-    (124) ethpair -> . STPPRIO EQUALS NUMBER
-    (125) ethpair -> . PPPOEAC EQUALS ID
-    (126) ethpair -> . PPPOEUSER EQUALS ID
-    (127) ethpair -> . PPPOEPASSWD EQUALS ID
-    (128) ethpair -> . MODE EQUALS PPPOE
-    (121) tagged -> . TAGGED
-    (122) tagged -> . TAGGEDS
-
-    IPATTR          shift and go to state 262
-    RATE            shift and go to state 263
-    UNTAGGED        shift and go to state 264
-    IPV6ATTR        shift and go to state 267
-    NOIPV6          shift and go to state 270
-    DOWN            shift and go to state 271
-    IEEE8021X_AUTH  shift and go to state 261
-    IEEE8021X_USER  shift and go to state 260
-    STPCOST         shift and go to state 266
-    STPPRIO         shift and go to state 268
-    PPPOEAC         shift and go to state 269
-    PPPOEUSER       shift and go to state 257
-    PPPOEPASSWD     shift and go to state 265
-    MODE            shift and go to state 277
-    TAGGED          shift and go to state 278
-    TAGGEDS         shift and go to state 274
-
-    tagged                         shift and go to state 275
-    ethattrs                       shift and go to state 279
-    ethpair                        shift and go to state 259
+    uplinkpair                     shift and go to state 273
+    ethattrs                       shift and go to state 274
+    tagged                         shift and go to state 257
+    uplinkattrs                    shift and go to state 275
+    ethpair                        shift and go to state 268
 
 state 193
 
-    (85) servlist -> servid VIRG . servlist
-    (85) servlist -> . servid VIRG servlist
-    (86) servlist -> . servid
-    (87) servid -> . ID
-    (88) servid -> . RADVD
+    (142) pppexpr -> ID COLON . pppattrs
+    (144) pppattrs -> . ppppair COLON pppattrs
+    (145) pppattrs -> . ppppair
+    (146) ppppair -> . IPATTR EQUALS IPMASK
+    (147) ppppair -> . IPV6ATTR EQUALS IPV6MASK
+    (148) ppppair -> . RATE EQUALS NUMBER
+    (149) ppppair -> . BER EQUALS FLOATNUMBER
+    (150) ppppair -> . DELAY EQUALS NUMBER
+    (151) ppppair -> . INTERFACE EQUALS ETHIF
+    (152) ppppair -> . USER EQUALS ID
+    (153) ppppair -> . PASSWORD EQUALS ID
+    (154) ppppair -> . TYPE EQUALS PPPOE
+    (155) ppppair -> . DEBUG
+    (156) ppppair -> . DEBUG EQUALS BOOL
 
-    ID              shift and go to state 167
-    RADVD           shift and go to state 166
+    IPATTR          shift and go to state 276
+    IPV6ATTR        shift and go to state 282
+    RATE            shift and go to state 286
+    BER             shift and go to state 280
+    DELAY           shift and go to state 277
+    INTERFACE       shift and go to state 287
+    USER            shift and go to state 279
+    PASSWORD        shift and go to state 283
+    TYPE            shift and go to state 284
+    DEBUG           shift and go to state 285
 
-    servid                         shift and go to state 168
-    servlist                       shift and go to state 280
+    pppattrs                       shift and go to state 281
+    ppppair                        shift and go to state 278
 
 state 194
 
-    (93) dhcpexpr -> ETHIF COLON . dhcpattrs
-    (94) dhcpattrs -> . dhcppair COLON dhcpattrs
-    (95) dhcpattrs -> . dhcppair
-    (96) dhcppair -> . RANGE EQUALS IP VIRG IP
-    (97) dhcppair -> . DEFLEASE EQUALS NUMBER
-    (98) dhcppair -> . MAXLEASE EQUALS NUMBER
-    (99) dhcppair -> . GATEWAY EQUALS IP
-    (100) dhcppair -> . NETMASK EQUALS IP
+    (158) bondexpr -> ID COLON . bondattrs
+    (160) bondattrs -> . bondpair COLON bondattrs
+    (161) bondattrs -> . bondpair
+    (162) bondpair -> . IPATTR EQUALS iplist
+    (163) bondpair -> . IPV6ATTR EQUALS ipv6list
+    (164) bondpair -> . IPATTR EQUALS DHCP
+    (165) bondpair -> . MODE EQUALS bondmode
+    (166) bondpair -> . LACP_RATE EQUALS SLOW
+    (167) bondpair -> . LACP_RATE EQUALS FAST
+    (168) bondpair -> . RATE EQUALS NUMBER
+    (169) bondpair -> . MIIMON EQUALS NUMBER
+    (176) bondpair -> . INTERFACES EQUALS iflist
 
-    RANGE           shift and go to state 286
-    DEFLEASE        shift and go to state 285
-    MAXLEASE        shift and go to state 287
-    GATEWAY         shift and go to state 282
-    NETMASK         shift and go to state 281
+    IPATTR          shift and go to state 289
+    IPV6ATTR        shift and go to state 293
+    MODE            shift and go to state 295
+    LACP_RATE       shift and go to state 288
+    RATE            shift and go to state 291
+    MIIMON          shift and go to state 292
+    INTERFACES      shift and go to state 296
 
-    dhcppair                       shift and go to state 283
-    dhcpattrs                      shift and go to state 284
+    bondpair                       shift and go to state 290
+    bondattrs                      shift and go to state 294
 
 state 195
 
-    (25) radvdexpr -> ETHIF COLON . radvdattrs
-    (26) radvdattrs -> . radvdpair
-    (27) radvdattrs -> . radvdpair COLON radvdattrs
-    (28) radvdattrs -> . radvdsingle COLON radvdattrs
-    (29) radvdattrs -> . radvdsingle
-    (32) radvdpair -> . MIN_INTERVAL EQUALS NUMBER
-    (33) radvdpair -> . MAX_INTERVAL EQUALS NUMBER
-    (34) radvdpair -> . RDNSS EQUALS IPV6
-    (30) radvdsingle -> . STATELESS
-    (31) radvdsingle -> . STATEFUL
+    (218) vmlabelspace -> ID LBRACK LABELSPACE RBRACK EQUALS NUMBER COLON . INTERFACES EQUALS anyiflist
 
-    MIN_INTERVAL    shift and go to state 295
-    MAX_INTERVAL    shift and go to state 293
-    RDNSS           shift and go to state 289
-    STATELESS       shift and go to state 290
-    STATEFUL        shift and go to state 294
+    INTERFACES      shift and go to state 297
 
-    radvdsingle                    shift and go to state 291
-    radvdattrs                     shift and go to state 292
-    radvdpair                      shift and go to state 288
 
 state 196
 
-    (218) vmlabelspace -> ID LBRACK LABELSPACE RBRACK EQUALS NUMBER COLON . INTERFACES EQUALS anyiflist
+    (213) vmilm -> ID LBRACK ILM RBRACK EQUALS NUMBER COLON . ilmattrs
+    (214) ilmattrs -> . ilmpair COLON ilmpair
+    (215) ilmattrs -> . ilmpair
+    (216) ilmpair -> . LABELSPACE EQUALS NUMBER
+    (217) ilmpair -> . NHLFE EQUALS NUMBER
 
-    INTERFACES      shift and go to state 296
+    LABELSPACE      shift and go to state 300
+    NHLFE           shift and go to state 299
 
+    ilmattrs                       shift and go to state 298
+    ilmpair                        shift and go to state 301
 
 state 197
 
-    (205) vmnhlfe -> ID LBRACK NHLFE RBRACK EQUALS NUMBER COLON . nhlfeattrs
-    (206) nhlfeattrs -> . nhlfepair COLON nhlfeattrs
-    (207) nhlfeattrs -> . nhlfepair
-    (208) nhlfepair -> . INTERFACE EQUALS ETHIF
-    (209) nhlfepair -> . INTERFACE EQUALS PPPIF
-    (210) nhlfepair -> . LABEL EQUALS NUMBER
-    (211) nhlfepair -> . IPATTR EQUALS IP
-    (212) nhlfepair -> . NHLFE EQUALS NUMBER
+    (204) vmfec -> ID LBRACK FEC RBRACK EQUALS IPMASK COLON . NHLFE EQUALS NUMBER
 
-    INTERFACE       shift and go to state 301
-    LABEL           shift and go to state 297
-    IPATTR          shift and go to state 300
     NHLFE           shift and go to state 302
 
-    nhlfepair                      shift and go to state 299
-    nhlfeattrs                     shift and go to state 298
 
 state 198
 
-    (53) vm8021x -> ID LBRACK IEEE8021X RBRACK EQUALS ON COLON expr8021x .
+    (59) attr8021x -> USERS . EQUALS userlist
 
-    $end            reduce using rule 53 (vm8021x -> ID LBRACK IEEE8021X RBRACK EQUALS ON COLON expr8021x .)
+    EQUALS          shift and go to state 303
 
 
 state 199
@@ -2351,260 +2351,259 @@ state 199
 
 state 200
 
-    (54) expr8021x -> expr8021xsv .
+    (57) expr8021xsv -> attr8021x . COLON expr8021xsv
+    (58) expr8021xsv -> attr8021x .
 
-    $end            reduce using rule 54 (expr8021x -> expr8021xsv .)
+    COLON           shift and go to state 304
+    $end            reduce using rule 58 (expr8021xsv -> attr8021x .)
 
 
 state 201
 
-    (57) expr8021xsv -> attr8021x . COLON expr8021xsv
-    (58) expr8021xsv -> attr8021x .
+    (61) attr8021x -> PORT . EQUALS NUMBER
 
-    COLON           shift and go to state 303
-    $end            reduce using rule 58 (expr8021xsv -> attr8021x .)
+    EQUALS          shift and go to state 305
 
 
 state 202
 
     (60) attr8021x -> RADIUS_CLIENTS . EQUALS ipaddrlist
 
-    EQUALS          shift and go to state 304
-
-
-state 203
-
-    (59) attr8021x -> USERS . EQUALS userlist
-
-    EQUALS          shift and go to state 305
-
-
-state 204
-
-    (61) attr8021x -> PORT . EQUALS NUMBER
-
     EQUALS          shift and go to state 306
 
 
-state 205
+state 203
 
     (56) expr8021xcl -> RADIUS_SERVER . EQUALS IP
 
     EQUALS          shift and go to state 307
 
 
+state 204
+
+    (54) expr8021x -> expr8021xsv .
+
+    $end            reduce using rule 54 (expr8021x -> expr8021xsv .)
+
+
+state 205
+
+    (53) vm8021x -> ID LBRACK IEEE8021X RBRACK EQUALS ON COLON expr8021x .
+
+    $end            reduce using rule 53 (vm8021x -> ID LBRACK IEEE8021X RBRACK EQUALS ON COLON expr8021x .)
+
+
 state 206
 
-    (90) pathlist -> PATHNAME COLON pathlist .
+    (93) dhcpexpr -> ETHIF COLON dhcpattrs .
 
-    $end            reduce using rule 90 (pathlist -> PATHNAME COLON pathlist .)
+    $end            reduce using rule 93 (dhcpexpr -> ETHIF COLON dhcpattrs .)
 
 
 state 207
+
+    (99) dhcppair -> GATEWAY . EQUALS IP
+
+    EQUALS          shift and go to state 308
+
+
+state 208
+
+    (96) dhcppair -> RANGE . EQUALS IP VIRG IP
+
+    EQUALS          shift and go to state 309
+
+
+state 209
+
+    (97) dhcppair -> DEFLEASE . EQUALS NUMBER
+
+    EQUALS          shift and go to state 310
+
+
+state 210
+
+    (98) dhcppair -> MAXLEASE . EQUALS NUMBER
+
+    EQUALS          shift and go to state 311
+
+
+state 211
+
+    (100) dhcppair -> NETMASK . EQUALS IP
+
+    EQUALS          shift and go to state 312
+
+
+state 212
+
+    (94) dhcpattrs -> dhcppair . COLON dhcpattrs
+    (95) dhcpattrs -> dhcppair .
+
+    COLON           shift and go to state 313
+    $end            reduce using rule 95 (dhcpattrs -> dhcppair .)
+
+
+state 213
+
+    (52) vmmgmtip -> ID LBRACK MGMT_IP RBRACK EQUALS IPMASK COLON VLAN . EQUALS NUMBER
+
+    EQUALS          shift and go to state 314
+
+
+state 214
 
     (36) rtlist -> rtproto VIRG rtlist .
 
     $end            reduce using rule 36 (rtlist -> rtproto VIRG rtlist .)
 
 
-state 208
-
-    (166) bondpair -> LACP_RATE . EQUALS SLOW
-    (167) bondpair -> LACP_RATE . EQUALS FAST
-
-    EQUALS          shift and go to state 308
-
-
-state 209
-
-    (168) bondpair -> RATE . EQUALS NUMBER
-
-    EQUALS          shift and go to state 309
-
-
-state 210
-
-    (158) bondexpr -> ID COLON bondattrs .
-
-    $end            reduce using rule 158 (bondexpr -> ID COLON bondattrs .)
-
-
-state 211
-
-    (162) bondpair -> IPATTR . EQUALS iplist
-    (164) bondpair -> IPATTR . EQUALS DHCP
-
-    EQUALS          shift and go to state 310
-
-
-state 212
-
-    (165) bondpair -> MODE . EQUALS bondmode
-
-    EQUALS          shift and go to state 311
-
-
-state 213
-
-    (160) bondattrs -> bondpair . COLON bondattrs
-    (161) bondattrs -> bondpair .
-
-    COLON           shift and go to state 312
-    $end            reduce using rule 161 (bondattrs -> bondpair .)
-
-
-state 214
-
-    (163) bondpair -> IPV6ATTR . EQUALS ipv6list
-
-    EQUALS          shift and go to state 313
-
-
 state 215
 
-    (176) bondpair -> INTERFACES . EQUALS iflist
-
-    EQUALS          shift and go to state 314
-
-
-state 216
-
-    (169) bondpair -> MIIMON . EQUALS NUMBER
+    (211) nhlfepair -> IPATTR . EQUALS IP
 
     EQUALS          shift and go to state 315
 
 
-state 217
+state 216
 
-    (52) vmmgmtip -> ID LBRACK MGMT_IP RBRACK EQUALS IPMASK COLON VLAN . EQUALS NUMBER
+    (212) nhlfepair -> NHLFE . EQUALS NUMBER
 
     EQUALS          shift and go to state 316
 
 
-state 218
+state 217
 
-    (77) gwspec -> DEV . EQUALS PPPIF
+    (208) nhlfepair -> INTERFACE . EQUALS ETHIF
+    (209) nhlfepair -> INTERFACE . EQUALS PPPIF
 
     EQUALS          shift and go to state 317
 
 
+state 218
+
+    (205) vmnhlfe -> ID LBRACK NHLFE RBRACK EQUALS NUMBER COLON nhlfeattrs .
+
+    $end            reduce using rule 205 (vmnhlfe -> ID LBRACK NHLFE RBRACK EQUALS NUMBER COLON nhlfeattrs .)
+
+
 state 219
 
-    (76) gwspec -> GATEWAY . EQUALS IP
+    (210) nhlfepair -> LABEL . EQUALS NUMBER
 
     EQUALS          shift and go to state 318
 
 
 state 220
 
-    (74) vmroute -> ID LBRACK ROUTE RBRACK EQUALS DEFAULT COLON gwspec .
+    (206) nhlfeattrs -> nhlfepair . COLON nhlfeattrs
+    (207) nhlfeattrs -> nhlfepair .
 
-    $end            reduce using rule 74 (vmroute -> ID LBRACK ROUTE RBRACK EQUALS DEFAULT COLON gwspec .)
+    COLON           shift and go to state 319
+    $end            reduce using rule 207 (nhlfeattrs -> nhlfepair .)
 
 
 state 221
-
-    (72) vmroute -> ID LBRACK ROUTE RBRACK EQUALS IPMASK COLON gwspec .
-
-    $end            reduce using rule 72 (vmroute -> ID LBRACK ROUTE RBRACK EQUALS IPMASK COLON gwspec .)
-
-
-state 222
-
-    (79) gwspecng -> DEV . EQUALS PPPIF
-
-    EQUALS          shift and go to state 319
-
-
-state 223
-
-    (73) vmroute -> ID LBRACK ROUTE RBRACK EQUALS IPV6MASK COLON gwspecng .
-
-    $end            reduce using rule 73 (vmroute -> ID LBRACK ROUTE RBRACK EQUALS IPV6MASK COLON gwspecng .)
-
-
-state 224
-
-    (78) gwspecng -> GATEWAY . EQUALS IPV6
-
-    EQUALS          shift and go to state 320
-
-
-state 225
 
     (75) vmroute -> ID LBRACK ROUTE RBRACK EQUALS DEFAULT6 COLON gwspecng .
 
     $end            reduce using rule 75 (vmroute -> ID LBRACK ROUTE RBRACK EQUALS DEFAULT6 COLON gwspecng .)
 
 
-state 226
+state 222
 
-    (216) ilmpair -> LABELSPACE . EQUALS NUMBER
+    (78) gwspecng -> GATEWAY . EQUALS IPV6
+
+    EQUALS          shift and go to state 320
+
+
+state 223
+
+    (79) gwspecng -> DEV . EQUALS PPPIF
 
     EQUALS          shift and go to state 321
 
 
-state 227
+state 224
 
-    (213) vmilm -> ID LBRACK ILM RBRACK EQUALS NUMBER COLON ilmattrs .
+    (76) gwspec -> GATEWAY . EQUALS IP
 
-    $end            reduce using rule 213 (vmilm -> ID LBRACK ILM RBRACK EQUALS NUMBER COLON ilmattrs .)
-
-
-state 228
-
-    (214) ilmattrs -> ilmpair . COLON ilmpair
-    (215) ilmattrs -> ilmpair .
-
-    COLON           shift and go to state 322
-    $end            reduce using rule 215 (ilmattrs -> ilmpair .)
+    EQUALS          shift and go to state 322
 
 
-state 229
+state 225
 
-    (217) ilmpair -> NHLFE . EQUALS NUMBER
+    (74) vmroute -> ID LBRACK ROUTE RBRACK EQUALS DEFAULT COLON gwspec .
+
+    $end            reduce using rule 74 (vmroute -> ID LBRACK ROUTE RBRACK EQUALS DEFAULT COLON gwspec .)
+
+
+state 226
+
+    (77) gwspec -> DEV . EQUALS PPPIF
 
     EQUALS          shift and go to state 323
 
 
+state 227
+
+    (72) vmroute -> ID LBRACK ROUTE RBRACK EQUALS IPMASK COLON gwspec .
+
+    $end            reduce using rule 72 (vmroute -> ID LBRACK ROUTE RBRACK EQUALS IPMASK COLON gwspec .)
+
+
+state 228
+
+    (73) vmroute -> ID LBRACK ROUTE RBRACK EQUALS IPV6MASK COLON gwspecng .
+
+    $end            reduce using rule 73 (vmroute -> ID LBRACK ROUTE RBRACK EQUALS IPV6MASK COLON gwspecng .)
+
+
+state 229
+
+    (85) servlist -> servid VIRG servlist .
+
+    $end            reduce using rule 85 (servlist -> servid VIRG servlist .)
+
+
 state 230
 
-    (199) pppoepair -> INTERFACE . EQUALS ETHIF
+    (90) pathlist -> PATHNAME COLON pathlist .
 
-    EQUALS          shift and go to state 324
+    $end            reduce using rule 90 (pathlist -> PATHNAME COLON pathlist .)
 
 
 state 231
 
     (198) pppoepair -> IPATTR . EQUALS IP
 
-    EQUALS          shift and go to state 325
+    EQUALS          shift and go to state 324
 
 
 state 232
+
+    (197) pppoepair -> RANGE . EQUALS IP VIRG IP
+
+    EQUALS          shift and go to state 325
+
+
+state 233
 
     (200) pppoepair -> USERS . EQUALS userlist
 
     EQUALS          shift and go to state 326
 
 
-state 233
+state 234
 
-    (201) pppoepair -> RATE . EQUALS NUMBER
+    (199) pppoepair -> INTERFACE . EQUALS ETHIF
 
     EQUALS          shift and go to state 327
 
 
-state 234
-
-    (194) vmpppoe -> ID LBRACK PPPOE RBRACK EQUALS ID COLON pppoeattrs .
-
-    $end            reduce using rule 194 (vmpppoe -> ID LBRACK PPPOE RBRACK EQUALS ID COLON pppoeattrs .)
-
-
 state 235
 
-    (197) pppoepair -> RANGE . EQUALS IP VIRG IP
+    (201) pppoepair -> RATE . EQUALS NUMBER
 
     EQUALS          shift and go to state 328
 
@@ -2620,425 +2619,63 @@ state 236
 
 state 237
 
-    (204) vmfec -> ID LBRACK FEC RBRACK EQUALS IPMASK COLON NHLFE . EQUALS NUMBER
+    (194) vmpppoe -> ID LBRACK PPPOE RBRACK EQUALS ID COLON pppoeattrs .
 
-    EQUALS          shift and go to state 330
+    $end            reduce using rule 194 (vmpppoe -> ID LBRACK PPPOE RBRACK EQUALS ID COLON pppoeattrs .)
 
 
 state 238
 
-    (184) stpexpr -> ON COLON stpattrs .
+    (187) stpattrs -> stppair . COLON stpattrs
+    (188) stpattrs -> stppair .
 
-    $end            reduce using rule 184 (stpexpr -> ON COLON stpattrs .)
+    COLON           shift and go to state 330
+    $end            reduce using rule 188 (stpattrs -> stppair .)
 
 
 state 239
 
-    (189) stppair -> BRPRIO . EQUALS NUMBER
+    (191) stppair -> BRAGE . EQUALS NUMBER
 
     EQUALS          shift and go to state 331
 
 
 state 240
 
-    (191) stppair -> BRAGE . EQUALS NUMBER
+    (192) stppair -> BRDELAY . EQUALS NUMBER
 
     EQUALS          shift and go to state 332
 
 
 state 241
 
-    (190) stppair -> BRHELLO . EQUALS NUMBER
+    (184) stpexpr -> ON COLON stpattrs .
 
-    EQUALS          shift and go to state 333
+    $end            reduce using rule 184 (stpexpr -> ON COLON stpattrs .)
 
 
 state 242
 
-    (187) stpattrs -> stppair . COLON stpattrs
-    (188) stpattrs -> stppair .
+    (189) stppair -> BRPRIO . EQUALS NUMBER
 
-    COLON           shift and go to state 334
-    $end            reduce using rule 188 (stpattrs -> stppair .)
+    EQUALS          shift and go to state 333
 
 
 state 243
 
-    (192) stppair -> BRDELAY . EQUALS NUMBER
+    (190) stppair -> BRHELLO . EQUALS NUMBER
 
-    EQUALS          shift and go to state 335
+    EQUALS          shift and go to state 334
 
 
 state 244
 
     (193) stppair -> VLAN . EQUALS NUMBER
 
-    EQUALS          shift and go to state 336
+    EQUALS          shift and go to state 335
 
 
 state 245
-
-    (151) ppppair -> INTERFACE . EQUALS ETHIF
-
-    EQUALS          shift and go to state 337
-
-
-state 246
-
-    (155) ppppair -> DEBUG .
-    (156) ppppair -> DEBUG . EQUALS BOOL
-
-    COLON           reduce using rule 155 (ppppair -> DEBUG .)
-    $end            reduce using rule 155 (ppppair -> DEBUG .)
-    EQUALS          shift and go to state 338
-
-
-state 247
-
-    (142) pppexpr -> ID COLON pppattrs .
-
-    $end            reduce using rule 142 (pppexpr -> ID COLON pppattrs .)
-
-
-state 248
-
-    (146) ppppair -> IPATTR . EQUALS IPMASK
-
-    EQUALS          shift and go to state 339
-
-
-state 249
-
-    (148) ppppair -> RATE . EQUALS NUMBER
-
-    EQUALS          shift and go to state 340
-
-
-state 250
-
-    (147) ppppair -> IPV6ATTR . EQUALS IPV6MASK
-
-    EQUALS          shift and go to state 341
-
-
-state 251
-
-    (144) pppattrs -> ppppair . COLON pppattrs
-    (145) pppattrs -> ppppair .
-
-    COLON           shift and go to state 342
-    $end            reduce using rule 145 (pppattrs -> ppppair .)
-
-
-state 252
-
-    (152) ppppair -> USER . EQUALS ID
-
-    EQUALS          shift and go to state 343
-
-
-state 253
-
-    (149) ppppair -> BER . EQUALS FLOATNUMBER
-
-    EQUALS          shift and go to state 344
-
-
-state 254
-
-    (153) ppppair -> PASSWORD . EQUALS ID
-
-    EQUALS          shift and go to state 345
-
-
-state 255
-
-    (150) ppppair -> DELAY . EQUALS NUMBER
-
-    EQUALS          shift and go to state 346
-
-
-state 256
-
-    (154) ppppair -> TYPE . EQUALS PPPOE
-
-    EQUALS          shift and go to state 347
-
-
-state 257
-
-    (126) ethpair -> PPPOEUSER . EQUALS ID
-
-    EQUALS          shift and go to state 348
-
-
-state 258
-
-    (138) uplinkattrs -> uplinkpair . COLON ethattrs
-    (139) uplinkattrs -> uplinkpair .
-
-    COLON           shift and go to state 349
-    $end            reduce using rule 139 (uplinkattrs -> uplinkpair .)
-
-
-state 259
-
-    (105) ethattrs -> ethpair . COLON ethattrs
-    (106) ethattrs -> ethpair .
-
-    COLON           shift and go to state 350
-    $end            reduce using rule 106 (ethattrs -> ethpair .)
-
-
-state 260
-
-    (118) ethpair -> IEEE8021X_USER . EQUALS USERPAIR
-
-    EQUALS          shift and go to state 351
-
-
-state 261
-
-    (117) ethpair -> IEEE8021X_AUTH . EQUALS NUMBER
-
-    EQUALS          shift and go to state 352
-
-
-state 262
-
-    (107) ethpair -> IPATTR . EQUALS iplist
-    (108) ethpair -> IPATTR . EQUALS DHCP
-
-    EQUALS          shift and go to state 353
-
-
-state 263
-
-    (109) ethpair -> RATE . EQUALS NUMBER
-
-    EQUALS          shift and go to state 354
-
-
-state 264
-
-    (110) ethpair -> UNTAGGED . EQUALS NUMBER
-
-    EQUALS          shift and go to state 355
-
-
-state 265
-
-    (127) ethpair -> PPPOEPASSWD . EQUALS ID
-
-    EQUALS          shift and go to state 356
-
-
-state 266
-
-    (123) ethpair -> STPCOST . EQUALS NUMBER
-
-    EQUALS          shift and go to state 357
-
-
-state 267
-
-    (112) ethpair -> IPV6ATTR . EQUALS ipv6list
-
-    EQUALS          shift and go to state 358
-
-
-state 268
-
-    (124) ethpair -> STPPRIO . EQUALS NUMBER
-
-    EQUALS          shift and go to state 359
-
-
-state 269
-
-    (125) ethpair -> PPPOEAC . EQUALS ID
-
-    EQUALS          shift and go to state 360
-
-
-state 270
-
-    (113) ethpair -> NOIPV6 .
-
-    COLON           reduce using rule 113 (ethpair -> NOIPV6 .)
-    $end            reduce using rule 113 (ethpair -> NOIPV6 .)
-
-
-state 271
-
-    (114) ethpair -> DOWN .
-
-    COLON           reduce using rule 114 (ethpair -> DOWN .)
-    $end            reduce using rule 114 (ethpair -> DOWN .)
-
-
-state 272
-
-    (137) uplinkattrs -> ethattrs .
-
-    $end            reduce using rule 137 (uplinkattrs -> ethattrs .)
-
-
-state 273
-
-    (102) ethexpr -> UPLINK COLON uplinkattrs .
-
-    $end            reduce using rule 102 (ethexpr -> UPLINK COLON uplinkattrs .)
-
-
-state 274
-
-    (122) tagged -> TAGGEDS .
-
-    EQUALS          reduce using rule 122 (tagged -> TAGGEDS .)
-
-
-state 275
-
-    (111) ethpair -> tagged . EQUALS taglist
-
-    EQUALS          shift and go to state 361
-
-
-state 276
-
-    (140) uplinkpair -> BRIDGE . EQUALS ETHIF
-
-    EQUALS          shift and go to state 362
-
-
-state 277
-
-    (128) ethpair -> MODE . EQUALS PPPOE
-
-    EQUALS          shift and go to state 363
-
-
-state 278
-
-    (121) tagged -> TAGGED .
-
-    EQUALS          reduce using rule 121 (tagged -> TAGGED .)
-
-
-state 279
-
-    (103) ethexpr -> ID COLON ethattrs .
-
-    $end            reduce using rule 103 (ethexpr -> ID COLON ethattrs .)
-
-
-state 280
-
-    (85) servlist -> servid VIRG servlist .
-
-    $end            reduce using rule 85 (servlist -> servid VIRG servlist .)
-
-
-state 281
-
-    (100) dhcppair -> NETMASK . EQUALS IP
-
-    EQUALS          shift and go to state 364
-
-
-state 282
-
-    (99) dhcppair -> GATEWAY . EQUALS IP
-
-    EQUALS          shift and go to state 365
-
-
-state 283
-
-    (94) dhcpattrs -> dhcppair . COLON dhcpattrs
-    (95) dhcpattrs -> dhcppair .
-
-    COLON           shift and go to state 366
-    $end            reduce using rule 95 (dhcpattrs -> dhcppair .)
-
-
-state 284
-
-    (93) dhcpexpr -> ETHIF COLON dhcpattrs .
-
-    $end            reduce using rule 93 (dhcpexpr -> ETHIF COLON dhcpattrs .)
-
-
-state 285
-
-    (97) dhcppair -> DEFLEASE . EQUALS NUMBER
-
-    EQUALS          shift and go to state 367
-
-
-state 286
-
-    (96) dhcppair -> RANGE . EQUALS IP VIRG IP
-
-    EQUALS          shift and go to state 368
-
-
-state 287
-
-    (98) dhcppair -> MAXLEASE . EQUALS NUMBER
-
-    EQUALS          shift and go to state 369
-
-
-state 288
-
-    (26) radvdattrs -> radvdpair .
-    (27) radvdattrs -> radvdpair . COLON radvdattrs
-
-    $end            reduce using rule 26 (radvdattrs -> radvdpair .)
-    COLON           shift and go to state 370
-
-
-state 289
-
-    (34) radvdpair -> RDNSS . EQUALS IPV6
-
-    EQUALS          shift and go to state 371
-
-
-state 290
-
-    (30) radvdsingle -> STATELESS .
-
-    COLON           reduce using rule 30 (radvdsingle -> STATELESS .)
-    $end            reduce using rule 30 (radvdsingle -> STATELESS .)
-
-
-state 291
-
-    (28) radvdattrs -> radvdsingle . COLON radvdattrs
-    (29) radvdattrs -> radvdsingle .
-
-    COLON           shift and go to state 372
-    $end            reduce using rule 29 (radvdattrs -> radvdsingle .)
-
-
-state 292
-
-    (25) radvdexpr -> ETHIF COLON radvdattrs .
-
-    $end            reduce using rule 25 (radvdexpr -> ETHIF COLON radvdattrs .)
-
-
-state 293
-
-    (33) radvdpair -> MAX_INTERVAL . EQUALS NUMBER
-
-    EQUALS          shift and go to state 373
-
-
-state 294
 
     (31) radvdsingle -> STATEFUL .
 
@@ -3046,66 +2683,439 @@ state 294
     $end            reduce using rule 31 (radvdsingle -> STATEFUL .)
 
 
-state 295
+state 246
 
     (32) radvdpair -> MIN_INTERVAL . EQUALS NUMBER
+
+    EQUALS          shift and go to state 336
+
+
+state 247
+
+    (34) radvdpair -> RDNSS . EQUALS IPV6
+
+    EQUALS          shift and go to state 337
+
+
+state 248
+
+    (30) radvdsingle -> STATELESS .
+
+    COLON           reduce using rule 30 (radvdsingle -> STATELESS .)
+    $end            reduce using rule 30 (radvdsingle -> STATELESS .)
+
+
+state 249
+
+    (26) radvdattrs -> radvdpair .
+    (27) radvdattrs -> radvdpair . COLON radvdattrs
+
+    $end            reduce using rule 26 (radvdattrs -> radvdpair .)
+    COLON           shift and go to state 338
+
+
+state 250
+
+    (25) radvdexpr -> ETHIF COLON radvdattrs .
+
+    $end            reduce using rule 25 (radvdexpr -> ETHIF COLON radvdattrs .)
+
+
+state 251
+
+    (28) radvdattrs -> radvdsingle . COLON radvdattrs
+    (29) radvdattrs -> radvdsingle .
+
+    COLON           shift and go to state 339
+    $end            reduce using rule 29 (radvdattrs -> radvdsingle .)
+
+
+state 252
+
+    (33) radvdpair -> MAX_INTERVAL . EQUALS NUMBER
+
+    EQUALS          shift and go to state 340
+
+
+state 253
+
+    (122) tagged -> TAGGEDS .
+
+    EQUALS          reduce using rule 122 (tagged -> TAGGEDS .)
+
+
+state 254
+
+    (107) ethpair -> IPATTR . EQUALS iplist
+    (108) ethpair -> IPATTR . EQUALS DHCP
+
+    EQUALS          shift and go to state 341
+
+
+state 255
+
+    (123) ethpair -> STPCOST . EQUALS NUMBER
+
+    EQUALS          shift and go to state 342
+
+
+state 256
+
+    (114) ethpair -> DOWN .
+
+    COLON           reduce using rule 114 (ethpair -> DOWN .)
+    $end            reduce using rule 114 (ethpair -> DOWN .)
+
+
+state 257
+
+    (111) ethpair -> tagged . EQUALS taglist
+
+    EQUALS          shift and go to state 343
+
+
+state 258
+
+    (118) ethpair -> IEEE8021X_USER . EQUALS USERPAIR
+
+    EQUALS          shift and go to state 344
+
+
+state 259
+
+    (112) ethpair -> IPV6ATTR . EQUALS ipv6list
+
+    EQUALS          shift and go to state 345
+
+
+state 260
+
+    (125) ethpair -> PPPOEAC . EQUALS ID
+
+    EQUALS          shift and go to state 346
+
+
+state 261
+
+    (124) ethpair -> STPPRIO . EQUALS NUMBER
+
+    EQUALS          shift and go to state 347
+
+
+state 262
+
+    (128) ethpair -> MODE . EQUALS PPPOE
+
+    EQUALS          shift and go to state 348
+
+
+state 263
+
+    (126) ethpair -> PPPOEUSER . EQUALS ID
+
+    EQUALS          shift and go to state 349
+
+
+state 264
+
+    (110) ethpair -> UNTAGGED . EQUALS NUMBER
+
+    EQUALS          shift and go to state 350
+
+
+state 265
+
+    (127) ethpair -> PPPOEPASSWD . EQUALS ID
+
+    EQUALS          shift and go to state 351
+
+
+state 266
+
+    (109) ethpair -> RATE . EQUALS NUMBER
+
+    EQUALS          shift and go to state 352
+
+
+state 267
+
+    (113) ethpair -> NOIPV6 .
+
+    COLON           reduce using rule 113 (ethpair -> NOIPV6 .)
+    $end            reduce using rule 113 (ethpair -> NOIPV6 .)
+
+
+state 268
+
+    (105) ethattrs -> ethpair . COLON ethattrs
+    (106) ethattrs -> ethpair .
+
+    COLON           shift and go to state 353
+    $end            reduce using rule 106 (ethattrs -> ethpair .)
+
+
+state 269
+
+    (117) ethpair -> IEEE8021X_AUTH . EQUALS NUMBER
+
+    EQUALS          shift and go to state 354
+
+
+state 270
+
+    (103) ethexpr -> ID COLON ethattrs .
+
+    $end            reduce using rule 103 (ethexpr -> ID COLON ethattrs .)
+
+
+state 271
+
+    (121) tagged -> TAGGED .
+
+    EQUALS          reduce using rule 121 (tagged -> TAGGED .)
+
+
+state 272
+
+    (140) uplinkpair -> BRIDGE . EQUALS ETHIF
+
+    EQUALS          shift and go to state 355
+
+
+state 273
+
+    (138) uplinkattrs -> uplinkpair . COLON ethattrs
+    (139) uplinkattrs -> uplinkpair .
+
+    COLON           shift and go to state 356
+    $end            reduce using rule 139 (uplinkattrs -> uplinkpair .)
+
+
+state 274
+
+    (137) uplinkattrs -> ethattrs .
+
+    $end            reduce using rule 137 (uplinkattrs -> ethattrs .)
+
+
+state 275
+
+    (102) ethexpr -> UPLINK COLON uplinkattrs .
+
+    $end            reduce using rule 102 (ethexpr -> UPLINK COLON uplinkattrs .)
+
+
+state 276
+
+    (146) ppppair -> IPATTR . EQUALS IPMASK
+
+    EQUALS          shift and go to state 357
+
+
+state 277
+
+    (150) ppppair -> DELAY . EQUALS NUMBER
+
+    EQUALS          shift and go to state 358
+
+
+state 278
+
+    (144) pppattrs -> ppppair . COLON pppattrs
+    (145) pppattrs -> ppppair .
+
+    COLON           shift and go to state 359
+    $end            reduce using rule 145 (pppattrs -> ppppair .)
+
+
+state 279
+
+    (152) ppppair -> USER . EQUALS ID
+
+    EQUALS          shift and go to state 360
+
+
+state 280
+
+    (149) ppppair -> BER . EQUALS FLOATNUMBER
+
+    EQUALS          shift and go to state 361
+
+
+state 281
+
+    (142) pppexpr -> ID COLON pppattrs .
+
+    $end            reduce using rule 142 (pppexpr -> ID COLON pppattrs .)
+
+
+state 282
+
+    (147) ppppair -> IPV6ATTR . EQUALS IPV6MASK
+
+    EQUALS          shift and go to state 362
+
+
+state 283
+
+    (153) ppppair -> PASSWORD . EQUALS ID
+
+    EQUALS          shift and go to state 363
+
+
+state 284
+
+    (154) ppppair -> TYPE . EQUALS PPPOE
+
+    EQUALS          shift and go to state 364
+
+
+state 285
+
+    (155) ppppair -> DEBUG .
+    (156) ppppair -> DEBUG . EQUALS BOOL
+
+    COLON           reduce using rule 155 (ppppair -> DEBUG .)
+    $end            reduce using rule 155 (ppppair -> DEBUG .)
+    EQUALS          shift and go to state 365
+
+
+state 286
+
+    (148) ppppair -> RATE . EQUALS NUMBER
+
+    EQUALS          shift and go to state 366
+
+
+state 287
+
+    (151) ppppair -> INTERFACE . EQUALS ETHIF
+
+    EQUALS          shift and go to state 367
+
+
+state 288
+
+    (166) bondpair -> LACP_RATE . EQUALS SLOW
+    (167) bondpair -> LACP_RATE . EQUALS FAST
+
+    EQUALS          shift and go to state 368
+
+
+state 289
+
+    (162) bondpair -> IPATTR . EQUALS iplist
+    (164) bondpair -> IPATTR . EQUALS DHCP
+
+    EQUALS          shift and go to state 369
+
+
+state 290
+
+    (160) bondattrs -> bondpair . COLON bondattrs
+    (161) bondattrs -> bondpair .
+
+    COLON           shift and go to state 370
+    $end            reduce using rule 161 (bondattrs -> bondpair .)
+
+
+state 291
+
+    (168) bondpair -> RATE . EQUALS NUMBER
+
+    EQUALS          shift and go to state 371
+
+
+state 292
+
+    (169) bondpair -> MIIMON . EQUALS NUMBER
+
+    EQUALS          shift and go to state 372
+
+
+state 293
+
+    (163) bondpair -> IPV6ATTR . EQUALS ipv6list
+
+    EQUALS          shift and go to state 373
+
+
+state 294
+
+    (158) bondexpr -> ID COLON bondattrs .
+
+    $end            reduce using rule 158 (bondexpr -> ID COLON bondattrs .)
+
+
+state 295
+
+    (165) bondpair -> MODE . EQUALS bondmode
 
     EQUALS          shift and go to state 374
 
 
 state 296
 
-    (218) vmlabelspace -> ID LBRACK LABELSPACE RBRACK EQUALS NUMBER COLON INTERFACES . EQUALS anyiflist
+    (176) bondpair -> INTERFACES . EQUALS iflist
 
     EQUALS          shift and go to state 375
 
 
 state 297
 
-    (210) nhlfepair -> LABEL . EQUALS NUMBER
+    (218) vmlabelspace -> ID LBRACK LABELSPACE RBRACK EQUALS NUMBER COLON INTERFACES . EQUALS anyiflist
 
     EQUALS          shift and go to state 376
 
 
 state 298
 
-    (205) vmnhlfe -> ID LBRACK NHLFE RBRACK EQUALS NUMBER COLON nhlfeattrs .
+    (213) vmilm -> ID LBRACK ILM RBRACK EQUALS NUMBER COLON ilmattrs .
 
-    $end            reduce using rule 205 (vmnhlfe -> ID LBRACK NHLFE RBRACK EQUALS NUMBER COLON nhlfeattrs .)
+    $end            reduce using rule 213 (vmilm -> ID LBRACK ILM RBRACK EQUALS NUMBER COLON ilmattrs .)
 
 
 state 299
 
-    (206) nhlfeattrs -> nhlfepair . COLON nhlfeattrs
-    (207) nhlfeattrs -> nhlfepair .
+    (217) ilmpair -> NHLFE . EQUALS NUMBER
 
-    COLON           shift and go to state 377
-    $end            reduce using rule 207 (nhlfeattrs -> nhlfepair .)
+    EQUALS          shift and go to state 377
 
 
 state 300
 
-    (211) nhlfepair -> IPATTR . EQUALS IP
+    (216) ilmpair -> LABELSPACE . EQUALS NUMBER
 
     EQUALS          shift and go to state 378
 
 
 state 301
 
-    (208) nhlfepair -> INTERFACE . EQUALS ETHIF
-    (209) nhlfepair -> INTERFACE . EQUALS PPPIF
+    (214) ilmattrs -> ilmpair . COLON ilmpair
+    (215) ilmattrs -> ilmpair .
 
-    EQUALS          shift and go to state 379
+    COLON           shift and go to state 379
+    $end            reduce using rule 215 (ilmattrs -> ilmpair .)
 
 
 state 302
 
-    (212) nhlfepair -> NHLFE . EQUALS NUMBER
+    (204) vmfec -> ID LBRACK FEC RBRACK EQUALS IPMASK COLON NHLFE . EQUALS NUMBER
 
     EQUALS          shift and go to state 380
 
 
 state 303
+
+    (59) attr8021x -> USERS EQUALS . userlist
+    (202) userlist -> . USERPAIR VIRG userlist
+    (203) userlist -> . USERPAIR
+
+    USERPAIR        shift and go to state 382
+
+    userlist                       shift and go to state 381
+
+state 304
 
     (57) expr8021xsv -> attr8021x COLON . expr8021xsv
     (57) expr8021xsv -> . attr8021x COLON expr8021xsv
@@ -3114,39 +3124,29 @@ state 303
     (60) attr8021x -> . RADIUS_CLIENTS EQUALS ipaddrlist
     (61) attr8021x -> . PORT EQUALS NUMBER
 
-    USERS           shift and go to state 203
+    USERS           shift and go to state 198
     RADIUS_CLIENTS  shift and go to state 202
-    PORT            shift and go to state 204
+    PORT            shift and go to state 201
 
-    attr8021x                      shift and go to state 201
-    expr8021xsv                    shift and go to state 381
+    attr8021x                      shift and go to state 200
+    expr8021xsv                    shift and go to state 383
 
-state 304
+state 305
+
+    (61) attr8021x -> PORT EQUALS . NUMBER
+
+    NUMBER          shift and go to state 384
+
+
+state 306
 
     (60) attr8021x -> RADIUS_CLIENTS EQUALS . ipaddrlist
     (62) ipaddrlist -> . IP VIRG ipaddrlist
     (63) ipaddrlist -> . IP
 
-    IP              shift and go to state 383
+    IP              shift and go to state 385
 
-    ipaddrlist                     shift and go to state 382
-
-state 305
-
-    (59) attr8021x -> USERS EQUALS . userlist
-    (202) userlist -> . USERPAIR VIRG userlist
-    (203) userlist -> . USERPAIR
-
-    USERPAIR        shift and go to state 384
-
-    userlist                       shift and go to state 385
-
-state 306
-
-    (61) attr8021x -> PORT EQUALS . NUMBER
-
-    NUMBER          shift and go to state 386
-
+    ipaddrlist                     shift and go to state 386
 
 state 307
 
@@ -3157,176 +3157,155 @@ state 307
 
 state 308
 
-    (166) bondpair -> LACP_RATE EQUALS . SLOW
-    (167) bondpair -> LACP_RATE EQUALS . FAST
+    (99) dhcppair -> GATEWAY EQUALS . IP
 
-    SLOW            shift and go to state 388
-    FAST            shift and go to state 389
+    IP              shift and go to state 388
 
 
 state 309
 
-    (168) bondpair -> RATE EQUALS . NUMBER
+    (96) dhcppair -> RANGE EQUALS . IP VIRG IP
 
-    NUMBER          shift and go to state 390
+    IP              shift and go to state 389
 
 
 state 310
 
-    (162) bondpair -> IPATTR EQUALS . iplist
-    (164) bondpair -> IPATTR EQUALS . DHCP
-    (119) iplist -> . IPMASK VIRG iplist
-    (120) iplist -> . IPMASK
+    (97) dhcppair -> DEFLEASE EQUALS . NUMBER
 
-    DHCP            shift and go to state 392
-    IPMASK          shift and go to state 393
+    NUMBER          shift and go to state 390
 
-    iplist                         shift and go to state 391
 
 state 311
 
-    (165) bondpair -> MODE EQUALS . bondmode
-    (170) bondmode -> . RR
-    (171) bondmode -> . 8023AD
-    (172) bondmode -> . BACKUP
-    (173) bondmode -> . XOR
-    (174) bondmode -> . TLB
-    (175) bondmode -> . ALB
+    (98) dhcppair -> MAXLEASE EQUALS . NUMBER
 
-    RR              shift and go to state 394
-    8023AD          shift and go to state 399
-    BACKUP          shift and go to state 396
-    XOR             shift and go to state 400
-    TLB             shift and go to state 395
-    ALB             shift and go to state 397
+    NUMBER          shift and go to state 391
 
-    bondmode                       shift and go to state 398
 
 state 312
 
-    (160) bondattrs -> bondpair COLON . bondattrs
-    (160) bondattrs -> . bondpair COLON bondattrs
-    (161) bondattrs -> . bondpair
-    (162) bondpair -> . IPATTR EQUALS iplist
-    (163) bondpair -> . IPV6ATTR EQUALS ipv6list
-    (164) bondpair -> . IPATTR EQUALS DHCP
-    (165) bondpair -> . MODE EQUALS bondmode
-    (166) bondpair -> . LACP_RATE EQUALS SLOW
-    (167) bondpair -> . LACP_RATE EQUALS FAST
-    (168) bondpair -> . RATE EQUALS NUMBER
-    (169) bondpair -> . MIIMON EQUALS NUMBER
-    (176) bondpair -> . INTERFACES EQUALS iflist
+    (100) dhcppair -> NETMASK EQUALS . IP
 
-    IPATTR          shift and go to state 211
-    IPV6ATTR        shift and go to state 214
-    MODE            shift and go to state 212
-    LACP_RATE       shift and go to state 208
-    RATE            shift and go to state 209
-    MIIMON          shift and go to state 216
-    INTERFACES      shift and go to state 215
+    IP              shift and go to state 392
 
-    bondpair                       shift and go to state 213
-    bondattrs                      shift and go to state 401
 
 state 313
 
-    (163) bondpair -> IPV6ATTR EQUALS . ipv6list
-    (115) ipv6list -> . IPV6MASK VIRG ipv6list
-    (116) ipv6list -> . IPV6MASK
+    (94) dhcpattrs -> dhcppair COLON . dhcpattrs
+    (94) dhcpattrs -> . dhcppair COLON dhcpattrs
+    (95) dhcpattrs -> . dhcppair
+    (96) dhcppair -> . RANGE EQUALS IP VIRG IP
+    (97) dhcppair -> . DEFLEASE EQUALS NUMBER
+    (98) dhcppair -> . MAXLEASE EQUALS NUMBER
+    (99) dhcppair -> . GATEWAY EQUALS IP
+    (100) dhcppair -> . NETMASK EQUALS IP
 
-    IPV6MASK        shift and go to state 403
+    RANGE           shift and go to state 208
+    DEFLEASE        shift and go to state 209
+    MAXLEASE        shift and go to state 210
+    GATEWAY         shift and go to state 207
+    NETMASK         shift and go to state 211
 
-    ipv6list                       shift and go to state 402
+    dhcpattrs                      shift and go to state 393
+    dhcppair                       shift and go to state 212
 
 state 314
 
-    (176) bondpair -> INTERFACES EQUALS . iflist
-    (177) iflist -> . ETHIF VIRG iflist
-    (178) iflist -> . ETHIF
+    (52) vmmgmtip -> ID LBRACK MGMT_IP RBRACK EQUALS IPMASK COLON VLAN EQUALS . NUMBER
 
-    ETHIF           shift and go to state 404
+    NUMBER          shift and go to state 394
 
-    iflist                         shift and go to state 405
 
 state 315
 
-    (169) bondpair -> MIIMON EQUALS . NUMBER
+    (211) nhlfepair -> IPATTR EQUALS . IP
 
-    NUMBER          shift and go to state 406
+    IP              shift and go to state 395
 
 
 state 316
 
-    (52) vmmgmtip -> ID LBRACK MGMT_IP RBRACK EQUALS IPMASK COLON VLAN EQUALS . NUMBER
+    (212) nhlfepair -> NHLFE EQUALS . NUMBER
 
-    NUMBER          shift and go to state 407
+    NUMBER          shift and go to state 396
 
 
 state 317
 
-    (77) gwspec -> DEV EQUALS . PPPIF
+    (208) nhlfepair -> INTERFACE EQUALS . ETHIF
+    (209) nhlfepair -> INTERFACE EQUALS . PPPIF
 
-    PPPIF           shift and go to state 408
+    ETHIF           shift and go to state 397
+    PPPIF           shift and go to state 398
 
 
 state 318
 
-    (76) gwspec -> GATEWAY EQUALS . IP
+    (210) nhlfepair -> LABEL EQUALS . NUMBER
 
-    IP              shift and go to state 409
+    NUMBER          shift and go to state 399
 
 
 state 319
 
-    (79) gwspecng -> DEV EQUALS . PPPIF
+    (206) nhlfeattrs -> nhlfepair COLON . nhlfeattrs
+    (206) nhlfeattrs -> . nhlfepair COLON nhlfeattrs
+    (207) nhlfeattrs -> . nhlfepair
+    (208) nhlfepair -> . INTERFACE EQUALS ETHIF
+    (209) nhlfepair -> . INTERFACE EQUALS PPPIF
+    (210) nhlfepair -> . LABEL EQUALS NUMBER
+    (211) nhlfepair -> . IPATTR EQUALS IP
+    (212) nhlfepair -> . NHLFE EQUALS NUMBER
 
-    PPPIF           shift and go to state 410
+    INTERFACE       shift and go to state 217
+    LABEL           shift and go to state 219
+    IPATTR          shift and go to state 215
+    NHLFE           shift and go to state 216
 
+    nhlfeattrs                     shift and go to state 400
+    nhlfepair                      shift and go to state 220
 
 state 320
 
     (78) gwspecng -> GATEWAY EQUALS . IPV6
 
-    IPV6            shift and go to state 411
+    IPV6            shift and go to state 401
 
 
 state 321
 
-    (216) ilmpair -> LABELSPACE EQUALS . NUMBER
+    (79) gwspecng -> DEV EQUALS . PPPIF
 
-    NUMBER          shift and go to state 412
+    PPPIF           shift and go to state 402
 
 
 state 322
 
-    (214) ilmattrs -> ilmpair COLON . ilmpair
-    (216) ilmpair -> . LABELSPACE EQUALS NUMBER
-    (217) ilmpair -> . NHLFE EQUALS NUMBER
+    (76) gwspec -> GATEWAY EQUALS . IP
 
-    LABELSPACE      shift and go to state 226
-    NHLFE           shift and go to state 229
+    IP              shift and go to state 403
 
-    ilmpair                        shift and go to state 413
 
 state 323
 
-    (217) ilmpair -> NHLFE EQUALS . NUMBER
+    (77) gwspec -> DEV EQUALS . PPPIF
 
-    NUMBER          shift and go to state 414
+    PPPIF           shift and go to state 404
 
 
 state 324
 
-    (199) pppoepair -> INTERFACE EQUALS . ETHIF
+    (198) pppoepair -> IPATTR EQUALS . IP
 
-    ETHIF           shift and go to state 415
+    IP              shift and go to state 405
 
 
 state 325
 
-    (198) pppoepair -> IPATTR EQUALS . IP
+    (197) pppoepair -> RANGE EQUALS . IP VIRG IP
 
-    IP              shift and go to state 416
+    IP              shift and go to state 406
 
 
 state 326
@@ -3335,22 +3314,22 @@ state 326
     (202) userlist -> . USERPAIR VIRG userlist
     (203) userlist -> . USERPAIR
 
-    USERPAIR        shift and go to state 384
+    USERPAIR        shift and go to state 382
 
-    userlist                       shift and go to state 417
+    userlist                       shift and go to state 407
 
 state 327
 
-    (201) pppoepair -> RATE EQUALS . NUMBER
+    (199) pppoepair -> INTERFACE EQUALS . ETHIF
 
-    NUMBER          shift and go to state 418
+    ETHIF           shift and go to state 408
 
 
 state 328
 
-    (197) pppoepair -> RANGE EQUALS . IP VIRG IP
+    (201) pppoepair -> RATE EQUALS . NUMBER
 
-    IP              shift and go to state 419
+    NUMBER          shift and go to state 409
 
 
 state 329
@@ -3364,44 +3343,16 @@ state 329
     (200) pppoepair -> . USERS EQUALS userlist
     (201) pppoepair -> . RATE EQUALS NUMBER
 
-    RANGE           shift and go to state 235
+    RANGE           shift and go to state 232
     IPATTR          shift and go to state 231
-    INTERFACE       shift and go to state 230
-    USERS           shift and go to state 232
-    RATE            shift and go to state 233
+    INTERFACE       shift and go to state 234
+    USERS           shift and go to state 233
+    RATE            shift and go to state 235
 
+    pppoeattrs                     shift and go to state 410
     pppoepair                      shift and go to state 236
-    pppoeattrs                     shift and go to state 420
 
 state 330
-
-    (204) vmfec -> ID LBRACK FEC RBRACK EQUALS IPMASK COLON NHLFE EQUALS . NUMBER
-
-    NUMBER          shift and go to state 421
-
-
-state 331
-
-    (189) stppair -> BRPRIO EQUALS . NUMBER
-
-    NUMBER          shift and go to state 422
-
-
-state 332
-
-    (191) stppair -> BRAGE EQUALS . NUMBER
-
-    NUMBER          shift and go to state 423
-
-
-state 333
-
-    (190) stppair -> BRHELLO EQUALS . NUMBER
-
-    NUMBER          shift and go to state 424
-
-
-state 334
 
     (187) stpattrs -> stppair COLON . stpattrs
     (187) stpattrs -> . stppair COLON stpattrs
@@ -3412,183 +3363,221 @@ state 334
     (192) stppair -> . BRDELAY EQUALS NUMBER
     (193) stppair -> . VLAN EQUALS NUMBER
 
-    BRPRIO          shift and go to state 239
-    BRHELLO         shift and go to state 241
-    BRAGE           shift and go to state 240
-    BRDELAY         shift and go to state 243
+    BRPRIO          shift and go to state 242
+    BRHELLO         shift and go to state 243
+    BRAGE           shift and go to state 239
+    BRDELAY         shift and go to state 240
     VLAN            shift and go to state 244
 
-    stpattrs                       shift and go to state 425
-    stppair                        shift and go to state 242
+    stpattrs                       shift and go to state 411
+    stppair                        shift and go to state 238
 
-state 335
+state 331
+
+    (191) stppair -> BRAGE EQUALS . NUMBER
+
+    NUMBER          shift and go to state 412
+
+
+state 332
 
     (192) stppair -> BRDELAY EQUALS . NUMBER
 
-    NUMBER          shift and go to state 426
+    NUMBER          shift and go to state 413
+
+
+state 333
+
+    (189) stppair -> BRPRIO EQUALS . NUMBER
+
+    NUMBER          shift and go to state 414
+
+
+state 334
+
+    (190) stppair -> BRHELLO EQUALS . NUMBER
+
+    NUMBER          shift and go to state 415
+
+
+state 335
+
+    (193) stppair -> VLAN EQUALS . NUMBER
+
+    NUMBER          shift and go to state 416
 
 
 state 336
 
-    (193) stppair -> VLAN EQUALS . NUMBER
+    (32) radvdpair -> MIN_INTERVAL EQUALS . NUMBER
 
-    NUMBER          shift and go to state 427
+    NUMBER          shift and go to state 417
 
 
 state 337
 
-    (151) ppppair -> INTERFACE EQUALS . ETHIF
+    (34) radvdpair -> RDNSS EQUALS . IPV6
 
-    ETHIF           shift and go to state 428
+    IPV6            shift and go to state 418
 
 
 state 338
 
-    (156) ppppair -> DEBUG EQUALS . BOOL
+    (27) radvdattrs -> radvdpair COLON . radvdattrs
+    (26) radvdattrs -> . radvdpair
+    (27) radvdattrs -> . radvdpair COLON radvdattrs
+    (28) radvdattrs -> . radvdsingle COLON radvdattrs
+    (29) radvdattrs -> . radvdsingle
+    (32) radvdpair -> . MIN_INTERVAL EQUALS NUMBER
+    (33) radvdpair -> . MAX_INTERVAL EQUALS NUMBER
+    (34) radvdpair -> . RDNSS EQUALS IPV6
+    (30) radvdsingle -> . STATELESS
+    (31) radvdsingle -> . STATEFUL
 
-    BOOL            shift and go to state 429
+    MIN_INTERVAL    shift and go to state 246
+    MAX_INTERVAL    shift and go to state 252
+    RDNSS           shift and go to state 247
+    STATELESS       shift and go to state 248
+    STATEFUL        shift and go to state 245
 
+    radvdpair                      shift and go to state 249
+    radvdsingle                    shift and go to state 251
+    radvdattrs                     shift and go to state 419
 
 state 339
 
-    (146) ppppair -> IPATTR EQUALS . IPMASK
+    (28) radvdattrs -> radvdsingle COLON . radvdattrs
+    (26) radvdattrs -> . radvdpair
+    (27) radvdattrs -> . radvdpair COLON radvdattrs
+    (28) radvdattrs -> . radvdsingle COLON radvdattrs
+    (29) radvdattrs -> . radvdsingle
+    (32) radvdpair -> . MIN_INTERVAL EQUALS NUMBER
+    (33) radvdpair -> . MAX_INTERVAL EQUALS NUMBER
+    (34) radvdpair -> . RDNSS EQUALS IPV6
+    (30) radvdsingle -> . STATELESS
+    (31) radvdsingle -> . STATEFUL
 
-    IPMASK          shift and go to state 430
+    MIN_INTERVAL    shift and go to state 246
+    MAX_INTERVAL    shift and go to state 252
+    RDNSS           shift and go to state 247
+    STATELESS       shift and go to state 248
+    STATEFUL        shift and go to state 245
 
+    radvdattrs                     shift and go to state 420
+    radvdsingle                    shift and go to state 251
+    radvdpair                      shift and go to state 249
 
 state 340
 
-    (148) ppppair -> RATE EQUALS . NUMBER
+    (33) radvdpair -> MAX_INTERVAL EQUALS . NUMBER
 
-    NUMBER          shift and go to state 431
+    NUMBER          shift and go to state 421
 
 
 state 341
 
-    (147) ppppair -> IPV6ATTR EQUALS . IPV6MASK
+    (107) ethpair -> IPATTR EQUALS . iplist
+    (108) ethpair -> IPATTR EQUALS . DHCP
+    (119) iplist -> . IPMASK VIRG iplist
+    (120) iplist -> . IPMASK
 
-    IPV6MASK        shift and go to state 432
+    DHCP            shift and go to state 424
+    IPMASK          shift and go to state 422
 
+    iplist                         shift and go to state 423
 
 state 342
 
-    (144) pppattrs -> ppppair COLON . pppattrs
-    (144) pppattrs -> . ppppair COLON pppattrs
-    (145) pppattrs -> . ppppair
-    (146) ppppair -> . IPATTR EQUALS IPMASK
-    (147) ppppair -> . IPV6ATTR EQUALS IPV6MASK
-    (148) ppppair -> . RATE EQUALS NUMBER
-    (149) ppppair -> . BER EQUALS FLOATNUMBER
-    (150) ppppair -> . DELAY EQUALS NUMBER
-    (151) ppppair -> . INTERFACE EQUALS ETHIF
-    (152) ppppair -> . USER EQUALS ID
-    (153) ppppair -> . PASSWORD EQUALS ID
-    (154) ppppair -> . TYPE EQUALS PPPOE
-    (155) ppppair -> . DEBUG
-    (156) ppppair -> . DEBUG EQUALS BOOL
+    (123) ethpair -> STPCOST EQUALS . NUMBER
 
-    IPATTR          shift and go to state 248
-    IPV6ATTR        shift and go to state 250
-    RATE            shift and go to state 249
-    BER             shift and go to state 253
-    DELAY           shift and go to state 255
-    INTERFACE       shift and go to state 245
-    USER            shift and go to state 252
-    PASSWORD        shift and go to state 254
-    TYPE            shift and go to state 256
-    DEBUG           shift and go to state 246
+    NUMBER          shift and go to state 425
 
-    pppattrs                       shift and go to state 433
-    ppppair                        shift and go to state 251
 
 state 343
 
-    (152) ppppair -> USER EQUALS . ID
+    (111) ethpair -> tagged EQUALS . taglist
+    (129) taglist -> . NUMBER VIRG taglist
+    (130) taglist -> . NUMBER
+    (131) taglist -> . tagpair VIRG taglist
+    (132) taglist -> . tagpair
+    (133) tagpair -> . LPAR NUMBER VIRG iplist RPAR
+    (134) tagpair -> . LPAR NUMBER VIRG IPATTR EQUALS iplist RPAR
+    (135) tagpair -> . LPAR NUMBER VIRG ipv6list RPAR
+    (136) tagpair -> . LPAR NUMBER VIRG IPV6ATTR EQUALS ipv6list RPAR
 
-    ID              shift and go to state 434
+    NUMBER          shift and go to state 426
+    LPAR            shift and go to state 428
 
+    taglist                        shift and go to state 427
+    tagpair                        shift and go to state 429
 
 state 344
 
-    (149) ppppair -> BER EQUALS . FLOATNUMBER
+    (118) ethpair -> IEEE8021X_USER EQUALS . USERPAIR
 
-    FLOATNUMBER     shift and go to state 435
+    USERPAIR        shift and go to state 430
 
 
 state 345
 
-    (153) ppppair -> PASSWORD EQUALS . ID
+    (112) ethpair -> IPV6ATTR EQUALS . ipv6list
+    (115) ipv6list -> . IPV6MASK VIRG ipv6list
+    (116) ipv6list -> . IPV6MASK
 
-    ID              shift and go to state 436
+    IPV6MASK        shift and go to state 432
 
+    ipv6list                       shift and go to state 431
 
 state 346
 
-    (150) ppppair -> DELAY EQUALS . NUMBER
+    (125) ethpair -> PPPOEAC EQUALS . ID
 
-    NUMBER          shift and go to state 437
+    ID              shift and go to state 433
 
 
 state 347
 
-    (154) ppppair -> TYPE EQUALS . PPPOE
+    (124) ethpair -> STPPRIO EQUALS . NUMBER
 
-    PPPOE           shift and go to state 438
+    NUMBER          shift and go to state 434
 
 
 state 348
 
-    (126) ethpair -> PPPOEUSER EQUALS . ID
+    (128) ethpair -> MODE EQUALS . PPPOE
 
-    ID              shift and go to state 439
+    PPPOE           shift and go to state 435
 
 
 state 349
 
-    (138) uplinkattrs -> uplinkpair COLON . ethattrs
-    (105) ethattrs -> . ethpair COLON ethattrs
-    (106) ethattrs -> . ethpair
-    (107) ethpair -> . IPATTR EQUALS iplist
-    (108) ethpair -> . IPATTR EQUALS DHCP
-    (109) ethpair -> . RATE EQUALS NUMBER
-    (110) ethpair -> . UNTAGGED EQUALS NUMBER
-    (111) ethpair -> . tagged EQUALS taglist
-    (112) ethpair -> . IPV6ATTR EQUALS ipv6list
-    (113) ethpair -> . NOIPV6
-    (114) ethpair -> . DOWN
-    (117) ethpair -> . IEEE8021X_AUTH EQUALS NUMBER
-    (118) ethpair -> . IEEE8021X_USER EQUALS USERPAIR
-    (123) ethpair -> . STPCOST EQUALS NUMBER
-    (124) ethpair -> . STPPRIO EQUALS NUMBER
-    (125) ethpair -> . PPPOEAC EQUALS ID
-    (126) ethpair -> . PPPOEUSER EQUALS ID
-    (127) ethpair -> . PPPOEPASSWD EQUALS ID
-    (128) ethpair -> . MODE EQUALS PPPOE
-    (121) tagged -> . TAGGED
-    (122) tagged -> . TAGGEDS
+    (126) ethpair -> PPPOEUSER EQUALS . ID
 
-    IPATTR          shift and go to state 262
-    RATE            shift and go to state 263
-    UNTAGGED        shift and go to state 264
-    IPV6ATTR        shift and go to state 267
-    NOIPV6          shift and go to state 270
-    DOWN            shift and go to state 271
-    IEEE8021X_AUTH  shift and go to state 261
-    IEEE8021X_USER  shift and go to state 260
-    STPCOST         shift and go to state 266
-    STPPRIO         shift and go to state 268
-    PPPOEAC         shift and go to state 269
-    PPPOEUSER       shift and go to state 257
-    PPPOEPASSWD     shift and go to state 265
-    MODE            shift and go to state 277
-    TAGGED          shift and go to state 278
-    TAGGEDS         shift and go to state 274
+    ID              shift and go to state 436
 
-    tagged                         shift and go to state 275
-    ethattrs                       shift and go to state 440
-    ethpair                        shift and go to state 259
 
 state 350
+
+    (110) ethpair -> UNTAGGED EQUALS . NUMBER
+
+    NUMBER          shift and go to state 437
+
+
+state 351
+
+    (127) ethpair -> PPPOEPASSWD EQUALS . ID
+
+    ID              shift and go to state 438
+
+
+state 352
+
+    (109) ethpair -> RATE EQUALS . NUMBER
+
+    NUMBER          shift and go to state 439
+
+
+state 353
 
     (105) ethattrs -> ethpair COLON . ethattrs
     (105) ethattrs -> . ethpair COLON ethattrs
@@ -3612,260 +3601,288 @@ state 350
     (121) tagged -> . TAGGED
     (122) tagged -> . TAGGEDS
 
-    IPATTR          shift and go to state 262
-    RATE            shift and go to state 263
+    IPATTR          shift and go to state 254
+    RATE            shift and go to state 266
     UNTAGGED        shift and go to state 264
-    IPV6ATTR        shift and go to state 267
-    NOIPV6          shift and go to state 270
-    DOWN            shift and go to state 271
-    IEEE8021X_AUTH  shift and go to state 261
-    IEEE8021X_USER  shift and go to state 260
-    STPCOST         shift and go to state 266
-    STPPRIO         shift and go to state 268
-    PPPOEAC         shift and go to state 269
-    PPPOEUSER       shift and go to state 257
+    IPV6ATTR        shift and go to state 259
+    NOIPV6          shift and go to state 267
+    DOWN            shift and go to state 256
+    IEEE8021X_AUTH  shift and go to state 269
+    IEEE8021X_USER  shift and go to state 258
+    STPCOST         shift and go to state 255
+    STPPRIO         shift and go to state 261
+    PPPOEAC         shift and go to state 260
+    PPPOEUSER       shift and go to state 263
     PPPOEPASSWD     shift and go to state 265
-    MODE            shift and go to state 277
-    TAGGED          shift and go to state 278
-    TAGGEDS         shift and go to state 274
+    MODE            shift and go to state 262
+    TAGGED          shift and go to state 271
+    TAGGEDS         shift and go to state 253
 
-    tagged                         shift and go to state 275
-    ethattrs                       shift and go to state 441
-    ethpair                        shift and go to state 259
-
-state 351
-
-    (118) ethpair -> IEEE8021X_USER EQUALS . USERPAIR
-
-    USERPAIR        shift and go to state 442
-
-
-state 352
-
-    (117) ethpair -> IEEE8021X_AUTH EQUALS . NUMBER
-
-    NUMBER          shift and go to state 443
-
-
-state 353
-
-    (107) ethpair -> IPATTR EQUALS . iplist
-    (108) ethpair -> IPATTR EQUALS . DHCP
-    (119) iplist -> . IPMASK VIRG iplist
-    (120) iplist -> . IPMASK
-
-    DHCP            shift and go to state 445
-    IPMASK          shift and go to state 393
-
-    iplist                         shift and go to state 444
+    tagged                         shift and go to state 257
+    ethattrs                       shift and go to state 440
+    ethpair                        shift and go to state 268
 
 state 354
 
-    (109) ethpair -> RATE EQUALS . NUMBER
+    (117) ethpair -> IEEE8021X_AUTH EQUALS . NUMBER
 
-    NUMBER          shift and go to state 446
+    NUMBER          shift and go to state 441
 
 
 state 355
 
-    (110) ethpair -> UNTAGGED EQUALS . NUMBER
+    (140) uplinkpair -> BRIDGE EQUALS . ETHIF
 
-    NUMBER          shift and go to state 447
+    ETHIF           shift and go to state 442
 
 
 state 356
 
-    (127) ethpair -> PPPOEPASSWD EQUALS . ID
+    (138) uplinkattrs -> uplinkpair COLON . ethattrs
+    (105) ethattrs -> . ethpair COLON ethattrs
+    (106) ethattrs -> . ethpair
+    (107) ethpair -> . IPATTR EQUALS iplist
+    (108) ethpair -> . IPATTR EQUALS DHCP
+    (109) ethpair -> . RATE EQUALS NUMBER
+    (110) ethpair -> . UNTAGGED EQUALS NUMBER
+    (111) ethpair -> . tagged EQUALS taglist
+    (112) ethpair -> . IPV6ATTR EQUALS ipv6list
+    (113) ethpair -> . NOIPV6
+    (114) ethpair -> . DOWN
+    (117) ethpair -> . IEEE8021X_AUTH EQUALS NUMBER
+    (118) ethpair -> . IEEE8021X_USER EQUALS USERPAIR
+    (123) ethpair -> . STPCOST EQUALS NUMBER
+    (124) ethpair -> . STPPRIO EQUALS NUMBER
+    (125) ethpair -> . PPPOEAC EQUALS ID
+    (126) ethpair -> . PPPOEUSER EQUALS ID
+    (127) ethpair -> . PPPOEPASSWD EQUALS ID
+    (128) ethpair -> . MODE EQUALS PPPOE
+    (121) tagged -> . TAGGED
+    (122) tagged -> . TAGGEDS
 
-    ID              shift and go to state 448
+    IPATTR          shift and go to state 254
+    RATE            shift and go to state 266
+    UNTAGGED        shift and go to state 264
+    IPV6ATTR        shift and go to state 259
+    NOIPV6          shift and go to state 267
+    DOWN            shift and go to state 256
+    IEEE8021X_AUTH  shift and go to state 269
+    IEEE8021X_USER  shift and go to state 258
+    STPCOST         shift and go to state 255
+    STPPRIO         shift and go to state 261
+    PPPOEAC         shift and go to state 260
+    PPPOEUSER       shift and go to state 263
+    PPPOEPASSWD     shift and go to state 265
+    MODE            shift and go to state 262
+    TAGGED          shift and go to state 271
+    TAGGEDS         shift and go to state 253
 
+    tagged                         shift and go to state 257
+    ethattrs                       shift and go to state 443
+    ethpair                        shift and go to state 268
 
 state 357
 
-    (123) ethpair -> STPCOST EQUALS . NUMBER
+    (146) ppppair -> IPATTR EQUALS . IPMASK
 
-    NUMBER          shift and go to state 449
+    IPMASK          shift and go to state 444
 
 
 state 358
 
-    (112) ethpair -> IPV6ATTR EQUALS . ipv6list
-    (115) ipv6list -> . IPV6MASK VIRG ipv6list
-    (116) ipv6list -> . IPV6MASK
+    (150) ppppair -> DELAY EQUALS . NUMBER
 
-    IPV6MASK        shift and go to state 403
+    NUMBER          shift and go to state 445
 
-    ipv6list                       shift and go to state 450
 
 state 359
 
-    (124) ethpair -> STPPRIO EQUALS . NUMBER
+    (144) pppattrs -> ppppair COLON . pppattrs
+    (144) pppattrs -> . ppppair COLON pppattrs
+    (145) pppattrs -> . ppppair
+    (146) ppppair -> . IPATTR EQUALS IPMASK
+    (147) ppppair -> . IPV6ATTR EQUALS IPV6MASK
+    (148) ppppair -> . RATE EQUALS NUMBER
+    (149) ppppair -> . BER EQUALS FLOATNUMBER
+    (150) ppppair -> . DELAY EQUALS NUMBER
+    (151) ppppair -> . INTERFACE EQUALS ETHIF
+    (152) ppppair -> . USER EQUALS ID
+    (153) ppppair -> . PASSWORD EQUALS ID
+    (154) ppppair -> . TYPE EQUALS PPPOE
+    (155) ppppair -> . DEBUG
+    (156) ppppair -> . DEBUG EQUALS BOOL
 
-    NUMBER          shift and go to state 451
+    IPATTR          shift and go to state 276
+    IPV6ATTR        shift and go to state 282
+    RATE            shift and go to state 286
+    BER             shift and go to state 280
+    DELAY           shift and go to state 277
+    INTERFACE       shift and go to state 287
+    USER            shift and go to state 279
+    PASSWORD        shift and go to state 283
+    TYPE            shift and go to state 284
+    DEBUG           shift and go to state 285
 
+    pppattrs                       shift and go to state 446
+    ppppair                        shift and go to state 278
 
 state 360
 
-    (125) ethpair -> PPPOEAC EQUALS . ID
+    (152) ppppair -> USER EQUALS . ID
 
-    ID              shift and go to state 452
+    ID              shift and go to state 447
 
 
 state 361
 
-    (111) ethpair -> tagged EQUALS . taglist
-    (129) taglist -> . NUMBER VIRG taglist
-    (130) taglist -> . NUMBER
-    (131) taglist -> . tagpair VIRG taglist
-    (132) taglist -> . tagpair
-    (133) tagpair -> . LPAR NUMBER VIRG iplist RPAR
-    (134) tagpair -> . LPAR NUMBER VIRG IPATTR EQUALS iplist RPAR
-    (135) tagpair -> . LPAR NUMBER VIRG ipv6list RPAR
-    (136) tagpair -> . LPAR NUMBER VIRG IPV6ATTR EQUALS ipv6list RPAR
+    (149) ppppair -> BER EQUALS . FLOATNUMBER
 
-    NUMBER          shift and go to state 453
-    LPAR            shift and go to state 456
+    FLOATNUMBER     shift and go to state 448
 
-    tagpair                        shift and go to state 454
-    taglist                        shift and go to state 455
 
 state 362
 
-    (140) uplinkpair -> BRIDGE EQUALS . ETHIF
+    (147) ppppair -> IPV6ATTR EQUALS . IPV6MASK
 
-    ETHIF           shift and go to state 457
+    IPV6MASK        shift and go to state 449
 
 
 state 363
 
-    (128) ethpair -> MODE EQUALS . PPPOE
+    (153) ppppair -> PASSWORD EQUALS . ID
 
-    PPPOE           shift and go to state 458
+    ID              shift and go to state 450
 
 
 state 364
 
-    (100) dhcppair -> NETMASK EQUALS . IP
+    (154) ppppair -> TYPE EQUALS . PPPOE
 
-    IP              shift and go to state 459
+    PPPOE           shift and go to state 451
 
 
 state 365
 
-    (99) dhcppair -> GATEWAY EQUALS . IP
+    (156) ppppair -> DEBUG EQUALS . BOOL
 
-    IP              shift and go to state 460
+    BOOL            shift and go to state 452
 
 
 state 366
 
-    (94) dhcpattrs -> dhcppair COLON . dhcpattrs
-    (94) dhcpattrs -> . dhcppair COLON dhcpattrs
-    (95) dhcpattrs -> . dhcppair
-    (96) dhcppair -> . RANGE EQUALS IP VIRG IP
-    (97) dhcppair -> . DEFLEASE EQUALS NUMBER
-    (98) dhcppair -> . MAXLEASE EQUALS NUMBER
-    (99) dhcppair -> . GATEWAY EQUALS IP
-    (100) dhcppair -> . NETMASK EQUALS IP
+    (148) ppppair -> RATE EQUALS . NUMBER
 
-    RANGE           shift and go to state 286
-    DEFLEASE        shift and go to state 285
-    MAXLEASE        shift and go to state 287
-    GATEWAY         shift and go to state 282
-    NETMASK         shift and go to state 281
+    NUMBER          shift and go to state 453
 
-    dhcppair                       shift and go to state 283
-    dhcpattrs                      shift and go to state 461
 
 state 367
 
-    (97) dhcppair -> DEFLEASE EQUALS . NUMBER
+    (151) ppppair -> INTERFACE EQUALS . ETHIF
 
-    NUMBER          shift and go to state 462
+    ETHIF           shift and go to state 454
 
 
 state 368
 
-    (96) dhcppair -> RANGE EQUALS . IP VIRG IP
+    (166) bondpair -> LACP_RATE EQUALS . SLOW
+    (167) bondpair -> LACP_RATE EQUALS . FAST
 
-    IP              shift and go to state 463
+    SLOW            shift and go to state 456
+    FAST            shift and go to state 455
 
 
 state 369
 
-    (98) dhcppair -> MAXLEASE EQUALS . NUMBER
+    (162) bondpair -> IPATTR EQUALS . iplist
+    (164) bondpair -> IPATTR EQUALS . DHCP
+    (119) iplist -> . IPMASK VIRG iplist
+    (120) iplist -> . IPMASK
 
-    NUMBER          shift and go to state 464
+    DHCP            shift and go to state 458
+    IPMASK          shift and go to state 422
 
+    iplist                         shift and go to state 457
 
 state 370
 
-    (27) radvdattrs -> radvdpair COLON . radvdattrs
-    (26) radvdattrs -> . radvdpair
-    (27) radvdattrs -> . radvdpair COLON radvdattrs
-    (28) radvdattrs -> . radvdsingle COLON radvdattrs
-    (29) radvdattrs -> . radvdsingle
-    (32) radvdpair -> . MIN_INTERVAL EQUALS NUMBER
-    (33) radvdpair -> . MAX_INTERVAL EQUALS NUMBER
-    (34) radvdpair -> . RDNSS EQUALS IPV6
-    (30) radvdsingle -> . STATELESS
-    (31) radvdsingle -> . STATEFUL
+    (160) bondattrs -> bondpair COLON . bondattrs
+    (160) bondattrs -> . bondpair COLON bondattrs
+    (161) bondattrs -> . bondpair
+    (162) bondpair -> . IPATTR EQUALS iplist
+    (163) bondpair -> . IPV6ATTR EQUALS ipv6list
+    (164) bondpair -> . IPATTR EQUALS DHCP
+    (165) bondpair -> . MODE EQUALS bondmode
+    (166) bondpair -> . LACP_RATE EQUALS SLOW
+    (167) bondpair -> . LACP_RATE EQUALS FAST
+    (168) bondpair -> . RATE EQUALS NUMBER
+    (169) bondpair -> . MIIMON EQUALS NUMBER
+    (176) bondpair -> . INTERFACES EQUALS iflist
 
-    MIN_INTERVAL    shift and go to state 295
-    MAX_INTERVAL    shift and go to state 293
-    RDNSS           shift and go to state 289
-    STATELESS       shift and go to state 290
-    STATEFUL        shift and go to state 294
+    IPATTR          shift and go to state 289
+    IPV6ATTR        shift and go to state 293
+    MODE            shift and go to state 295
+    LACP_RATE       shift and go to state 288
+    RATE            shift and go to state 291
+    MIIMON          shift and go to state 292
+    INTERFACES      shift and go to state 296
 
-    radvdsingle                    shift and go to state 291
-    radvdattrs                     shift and go to state 465
-    radvdpair                      shift and go to state 288
+    bondpair                       shift and go to state 290
+    bondattrs                      shift and go to state 459
 
 state 371
 
-    (34) radvdpair -> RDNSS EQUALS . IPV6
+    (168) bondpair -> RATE EQUALS . NUMBER
 
-    IPV6            shift and go to state 466
+    NUMBER          shift and go to state 460
 
 
 state 372
 
-    (28) radvdattrs -> radvdsingle COLON . radvdattrs
-    (26) radvdattrs -> . radvdpair
-    (27) radvdattrs -> . radvdpair COLON radvdattrs
-    (28) radvdattrs -> . radvdsingle COLON radvdattrs
-    (29) radvdattrs -> . radvdsingle
-    (32) radvdpair -> . MIN_INTERVAL EQUALS NUMBER
-    (33) radvdpair -> . MAX_INTERVAL EQUALS NUMBER
-    (34) radvdpair -> . RDNSS EQUALS IPV6
-    (30) radvdsingle -> . STATELESS
-    (31) radvdsingle -> . STATEFUL
+    (169) bondpair -> MIIMON EQUALS . NUMBER
 
-    MIN_INTERVAL    shift and go to state 295
-    MAX_INTERVAL    shift and go to state 293
-    RDNSS           shift and go to state 289
-    STATELESS       shift and go to state 290
-    STATEFUL        shift and go to state 294
+    NUMBER          shift and go to state 461
 
-    radvdsingle                    shift and go to state 291
-    radvdattrs                     shift and go to state 467
-    radvdpair                      shift and go to state 288
 
 state 373
 
-    (33) radvdpair -> MAX_INTERVAL EQUALS . NUMBER
+    (163) bondpair -> IPV6ATTR EQUALS . ipv6list
+    (115) ipv6list -> . IPV6MASK VIRG ipv6list
+    (116) ipv6list -> . IPV6MASK
 
-    NUMBER          shift and go to state 468
+    IPV6MASK        shift and go to state 432
 
+    ipv6list                       shift and go to state 462
 
 state 374
 
-    (32) radvdpair -> MIN_INTERVAL EQUALS . NUMBER
+    (165) bondpair -> MODE EQUALS . bondmode
+    (170) bondmode -> . RR
+    (171) bondmode -> . 8023AD
+    (172) bondmode -> . BACKUP
+    (173) bondmode -> . XOR
+    (174) bondmode -> . TLB
+    (175) bondmode -> . ALB
 
-    NUMBER          shift and go to state 469
+    RR              shift and go to state 466
+    8023AD          shift and go to state 469
+    BACKUP          shift and go to state 467
+    XOR             shift and go to state 463
+    TLB             shift and go to state 464
+    ALB             shift and go to state 468
 
+    bondmode                       shift and go to state 465
 
 state 375
+
+    (176) bondpair -> INTERFACES EQUALS . iflist
+    (177) iflist -> . ETHIF VIRG iflist
+    (178) iflist -> . ETHIF
+
+    ETHIF           shift and go to state 470
+
+    iflist                         shift and go to state 471
+
+state 376
 
     (218) vmlabelspace -> ID LBRACK LABELSPACE RBRACK EQUALS NUMBER COLON INTERFACES EQUALS . anyiflist
     (219) anyiflist -> . ETHIF VIRG anyiflist
@@ -3874,95 +3891,43 @@ state 375
     (222) anyiflist -> . PPPIF
 
     ETHIF           shift and go to state 472
-    PPPIF           shift and go to state 470
+    PPPIF           shift and go to state 473
 
-    anyiflist                      shift and go to state 471
-
-state 376
-
-    (210) nhlfepair -> LABEL EQUALS . NUMBER
-
-    NUMBER          shift and go to state 473
-
+    anyiflist                      shift and go to state 474
 
 state 377
 
-    (206) nhlfeattrs -> nhlfepair COLON . nhlfeattrs
-    (206) nhlfeattrs -> . nhlfepair COLON nhlfeattrs
-    (207) nhlfeattrs -> . nhlfepair
-    (208) nhlfepair -> . INTERFACE EQUALS ETHIF
-    (209) nhlfepair -> . INTERFACE EQUALS PPPIF
-    (210) nhlfepair -> . LABEL EQUALS NUMBER
-    (211) nhlfepair -> . IPATTR EQUALS IP
-    (212) nhlfepair -> . NHLFE EQUALS NUMBER
+    (217) ilmpair -> NHLFE EQUALS . NUMBER
 
-    INTERFACE       shift and go to state 301
-    LABEL           shift and go to state 297
-    IPATTR          shift and go to state 300
-    NHLFE           shift and go to state 302
+    NUMBER          shift and go to state 475
 
-    nhlfepair                      shift and go to state 299
-    nhlfeattrs                     shift and go to state 474
 
 state 378
 
-    (211) nhlfepair -> IPATTR EQUALS . IP
+    (216) ilmpair -> LABELSPACE EQUALS . NUMBER
 
-    IP              shift and go to state 475
+    NUMBER          shift and go to state 476
 
 
 state 379
 
-    (208) nhlfepair -> INTERFACE EQUALS . ETHIF
-    (209) nhlfepair -> INTERFACE EQUALS . PPPIF
+    (214) ilmattrs -> ilmpair COLON . ilmpair
+    (216) ilmpair -> . LABELSPACE EQUALS NUMBER
+    (217) ilmpair -> . NHLFE EQUALS NUMBER
 
-    ETHIF           shift and go to state 476
-    PPPIF           shift and go to state 477
+    LABELSPACE      shift and go to state 300
+    NHLFE           shift and go to state 299
 
+    ilmpair                        shift and go to state 477
 
 state 380
 
-    (212) nhlfepair -> NHLFE EQUALS . NUMBER
+    (204) vmfec -> ID LBRACK FEC RBRACK EQUALS IPMASK COLON NHLFE EQUALS . NUMBER
 
     NUMBER          shift and go to state 478
 
 
 state 381
-
-    (57) expr8021xsv -> attr8021x COLON expr8021xsv .
-
-    $end            reduce using rule 57 (expr8021xsv -> attr8021x COLON expr8021xsv .)
-
-
-state 382
-
-    (60) attr8021x -> RADIUS_CLIENTS EQUALS ipaddrlist .
-
-    COLON           reduce using rule 60 (attr8021x -> RADIUS_CLIENTS EQUALS ipaddrlist .)
-    $end            reduce using rule 60 (attr8021x -> RADIUS_CLIENTS EQUALS ipaddrlist .)
-
-
-state 383
-
-    (62) ipaddrlist -> IP . VIRG ipaddrlist
-    (63) ipaddrlist -> IP .
-
-    VIRG            shift and go to state 479
-    COLON           reduce using rule 63 (ipaddrlist -> IP .)
-    $end            reduce using rule 63 (ipaddrlist -> IP .)
-
-
-state 384
-
-    (202) userlist -> USERPAIR . VIRG userlist
-    (203) userlist -> USERPAIR .
-
-    VIRG            shift and go to state 480
-    COLON           reduce using rule 203 (userlist -> USERPAIR .)
-    $end            reduce using rule 203 (userlist -> USERPAIR .)
-
-
-state 385
 
     (59) attr8021x -> USERS EQUALS userlist .
 
@@ -3970,12 +3935,47 @@ state 385
     $end            reduce using rule 59 (attr8021x -> USERS EQUALS userlist .)
 
 
-state 386
+state 382
+
+    (202) userlist -> USERPAIR . VIRG userlist
+    (203) userlist -> USERPAIR .
+
+    VIRG            shift and go to state 479
+    COLON           reduce using rule 203 (userlist -> USERPAIR .)
+    $end            reduce using rule 203 (userlist -> USERPAIR .)
+
+
+state 383
+
+    (57) expr8021xsv -> attr8021x COLON expr8021xsv .
+
+    $end            reduce using rule 57 (expr8021xsv -> attr8021x COLON expr8021xsv .)
+
+
+state 384
 
     (61) attr8021x -> PORT EQUALS NUMBER .
 
     COLON           reduce using rule 61 (attr8021x -> PORT EQUALS NUMBER .)
     $end            reduce using rule 61 (attr8021x -> PORT EQUALS NUMBER .)
+
+
+state 385
+
+    (62) ipaddrlist -> IP . VIRG ipaddrlist
+    (63) ipaddrlist -> IP .
+
+    VIRG            shift and go to state 480
+    COLON           reduce using rule 63 (ipaddrlist -> IP .)
+    $end            reduce using rule 63 (ipaddrlist -> IP .)
+
+
+state 386
+
+    (60) attr8021x -> RADIUS_CLIENTS EQUALS ipaddrlist .
+
+    COLON           reduce using rule 60 (attr8021x -> RADIUS_CLIENTS EQUALS ipaddrlist .)
+    $end            reduce using rule 60 (attr8021x -> RADIUS_CLIENTS EQUALS ipaddrlist .)
 
 
 state 387
@@ -3987,230 +3987,133 @@ state 387
 
 state 388
 
-    (166) bondpair -> LACP_RATE EQUALS SLOW .
+    (99) dhcppair -> GATEWAY EQUALS IP .
 
-    COLON           reduce using rule 166 (bondpair -> LACP_RATE EQUALS SLOW .)
-    $end            reduce using rule 166 (bondpair -> LACP_RATE EQUALS SLOW .)
+    COLON           reduce using rule 99 (dhcppair -> GATEWAY EQUALS IP .)
+    $end            reduce using rule 99 (dhcppair -> GATEWAY EQUALS IP .)
 
 
 state 389
 
-    (167) bondpair -> LACP_RATE EQUALS FAST .
+    (96) dhcppair -> RANGE EQUALS IP . VIRG IP
 
-    COLON           reduce using rule 167 (bondpair -> LACP_RATE EQUALS FAST .)
-    $end            reduce using rule 167 (bondpair -> LACP_RATE EQUALS FAST .)
+    VIRG            shift and go to state 481
 
 
 state 390
 
-    (168) bondpair -> RATE EQUALS NUMBER .
+    (97) dhcppair -> DEFLEASE EQUALS NUMBER .
 
-    COLON           reduce using rule 168 (bondpair -> RATE EQUALS NUMBER .)
-    $end            reduce using rule 168 (bondpair -> RATE EQUALS NUMBER .)
+    COLON           reduce using rule 97 (dhcppair -> DEFLEASE EQUALS NUMBER .)
+    $end            reduce using rule 97 (dhcppair -> DEFLEASE EQUALS NUMBER .)
 
 
 state 391
 
-    (162) bondpair -> IPATTR EQUALS iplist .
+    (98) dhcppair -> MAXLEASE EQUALS NUMBER .
 
-    COLON           reduce using rule 162 (bondpair -> IPATTR EQUALS iplist .)
-    $end            reduce using rule 162 (bondpair -> IPATTR EQUALS iplist .)
+    COLON           reduce using rule 98 (dhcppair -> MAXLEASE EQUALS NUMBER .)
+    $end            reduce using rule 98 (dhcppair -> MAXLEASE EQUALS NUMBER .)
 
 
 state 392
 
-    (164) bondpair -> IPATTR EQUALS DHCP .
+    (100) dhcppair -> NETMASK EQUALS IP .
 
-    COLON           reduce using rule 164 (bondpair -> IPATTR EQUALS DHCP .)
-    $end            reduce using rule 164 (bondpair -> IPATTR EQUALS DHCP .)
+    COLON           reduce using rule 100 (dhcppair -> NETMASK EQUALS IP .)
+    $end            reduce using rule 100 (dhcppair -> NETMASK EQUALS IP .)
 
 
 state 393
 
-    (119) iplist -> IPMASK . VIRG iplist
-    (120) iplist -> IPMASK .
+    (94) dhcpattrs -> dhcppair COLON dhcpattrs .
 
-    VIRG            shift and go to state 481
-    COLON           reduce using rule 120 (iplist -> IPMASK .)
-    $end            reduce using rule 120 (iplist -> IPMASK .)
-    RPAR            reduce using rule 120 (iplist -> IPMASK .)
+    $end            reduce using rule 94 (dhcpattrs -> dhcppair COLON dhcpattrs .)
 
 
 state 394
-
-    (170) bondmode -> RR .
-
-    COLON           reduce using rule 170 (bondmode -> RR .)
-    $end            reduce using rule 170 (bondmode -> RR .)
-
-
-state 395
-
-    (174) bondmode -> TLB .
-
-    COLON           reduce using rule 174 (bondmode -> TLB .)
-    $end            reduce using rule 174 (bondmode -> TLB .)
-
-
-state 396
-
-    (172) bondmode -> BACKUP .
-
-    COLON           reduce using rule 172 (bondmode -> BACKUP .)
-    $end            reduce using rule 172 (bondmode -> BACKUP .)
-
-
-state 397
-
-    (175) bondmode -> ALB .
-
-    COLON           reduce using rule 175 (bondmode -> ALB .)
-    $end            reduce using rule 175 (bondmode -> ALB .)
-
-
-state 398
-
-    (165) bondpair -> MODE EQUALS bondmode .
-
-    COLON           reduce using rule 165 (bondpair -> MODE EQUALS bondmode .)
-    $end            reduce using rule 165 (bondpair -> MODE EQUALS bondmode .)
-
-
-state 399
-
-    (171) bondmode -> 8023AD .
-
-    COLON           reduce using rule 171 (bondmode -> 8023AD .)
-    $end            reduce using rule 171 (bondmode -> 8023AD .)
-
-
-state 400
-
-    (173) bondmode -> XOR .
-
-    COLON           reduce using rule 173 (bondmode -> XOR .)
-    $end            reduce using rule 173 (bondmode -> XOR .)
-
-
-state 401
-
-    (160) bondattrs -> bondpair COLON bondattrs .
-
-    $end            reduce using rule 160 (bondattrs -> bondpair COLON bondattrs .)
-
-
-state 402
-
-    (163) bondpair -> IPV6ATTR EQUALS ipv6list .
-
-    COLON           reduce using rule 163 (bondpair -> IPV6ATTR EQUALS ipv6list .)
-    $end            reduce using rule 163 (bondpair -> IPV6ATTR EQUALS ipv6list .)
-
-
-state 403
-
-    (115) ipv6list -> IPV6MASK . VIRG ipv6list
-    (116) ipv6list -> IPV6MASK .
-
-    VIRG            shift and go to state 482
-    COLON           reduce using rule 116 (ipv6list -> IPV6MASK .)
-    $end            reduce using rule 116 (ipv6list -> IPV6MASK .)
-    RPAR            reduce using rule 116 (ipv6list -> IPV6MASK .)
-
-
-state 404
-
-    (177) iflist -> ETHIF . VIRG iflist
-    (178) iflist -> ETHIF .
-
-    VIRG            shift and go to state 483
-    COLON           reduce using rule 178 (iflist -> ETHIF .)
-    $end            reduce using rule 178 (iflist -> ETHIF .)
-
-
-state 405
-
-    (176) bondpair -> INTERFACES EQUALS iflist .
-
-    COLON           reduce using rule 176 (bondpair -> INTERFACES EQUALS iflist .)
-    $end            reduce using rule 176 (bondpair -> INTERFACES EQUALS iflist .)
-
-
-state 406
-
-    (169) bondpair -> MIIMON EQUALS NUMBER .
-
-    COLON           reduce using rule 169 (bondpair -> MIIMON EQUALS NUMBER .)
-    $end            reduce using rule 169 (bondpair -> MIIMON EQUALS NUMBER .)
-
-
-state 407
 
     (52) vmmgmtip -> ID LBRACK MGMT_IP RBRACK EQUALS IPMASK COLON VLAN EQUALS NUMBER .
 
     $end            reduce using rule 52 (vmmgmtip -> ID LBRACK MGMT_IP RBRACK EQUALS IPMASK COLON VLAN EQUALS NUMBER .)
 
 
-state 408
+state 395
 
-    (77) gwspec -> DEV EQUALS PPPIF .
+    (211) nhlfepair -> IPATTR EQUALS IP .
 
-    $end            reduce using rule 77 (gwspec -> DEV EQUALS PPPIF .)
-
-
-state 409
-
-    (76) gwspec -> GATEWAY EQUALS IP .
-
-    $end            reduce using rule 76 (gwspec -> GATEWAY EQUALS IP .)
+    COLON           reduce using rule 211 (nhlfepair -> IPATTR EQUALS IP .)
+    $end            reduce using rule 211 (nhlfepair -> IPATTR EQUALS IP .)
 
 
-state 410
+state 396
 
-    (79) gwspecng -> DEV EQUALS PPPIF .
+    (212) nhlfepair -> NHLFE EQUALS NUMBER .
 
-    $end            reduce using rule 79 (gwspecng -> DEV EQUALS PPPIF .)
+    COLON           reduce using rule 212 (nhlfepair -> NHLFE EQUALS NUMBER .)
+    $end            reduce using rule 212 (nhlfepair -> NHLFE EQUALS NUMBER .)
 
 
-state 411
+state 397
+
+    (208) nhlfepair -> INTERFACE EQUALS ETHIF .
+
+    COLON           reduce using rule 208 (nhlfepair -> INTERFACE EQUALS ETHIF .)
+    $end            reduce using rule 208 (nhlfepair -> INTERFACE EQUALS ETHIF .)
+
+
+state 398
+
+    (209) nhlfepair -> INTERFACE EQUALS PPPIF .
+
+    COLON           reduce using rule 209 (nhlfepair -> INTERFACE EQUALS PPPIF .)
+    $end            reduce using rule 209 (nhlfepair -> INTERFACE EQUALS PPPIF .)
+
+
+state 399
+
+    (210) nhlfepair -> LABEL EQUALS NUMBER .
+
+    COLON           reduce using rule 210 (nhlfepair -> LABEL EQUALS NUMBER .)
+    $end            reduce using rule 210 (nhlfepair -> LABEL EQUALS NUMBER .)
+
+
+state 400
+
+    (206) nhlfeattrs -> nhlfepair COLON nhlfeattrs .
+
+    $end            reduce using rule 206 (nhlfeattrs -> nhlfepair COLON nhlfeattrs .)
+
+
+state 401
 
     (78) gwspecng -> GATEWAY EQUALS IPV6 .
 
     $end            reduce using rule 78 (gwspecng -> GATEWAY EQUALS IPV6 .)
 
 
-state 412
+state 402
 
-    (216) ilmpair -> LABELSPACE EQUALS NUMBER .
+    (79) gwspecng -> DEV EQUALS PPPIF .
 
-    $end            reduce using rule 216 (ilmpair -> LABELSPACE EQUALS NUMBER .)
-    COLON           reduce using rule 216 (ilmpair -> LABELSPACE EQUALS NUMBER .)
-
-
-state 413
-
-    (214) ilmattrs -> ilmpair COLON ilmpair .
-
-    $end            reduce using rule 214 (ilmattrs -> ilmpair COLON ilmpair .)
+    $end            reduce using rule 79 (gwspecng -> DEV EQUALS PPPIF .)
 
 
-state 414
+state 403
 
-    (217) ilmpair -> NHLFE EQUALS NUMBER .
+    (76) gwspec -> GATEWAY EQUALS IP .
 
-    $end            reduce using rule 217 (ilmpair -> NHLFE EQUALS NUMBER .)
-    COLON           reduce using rule 217 (ilmpair -> NHLFE EQUALS NUMBER .)
-
-
-state 415
-
-    (199) pppoepair -> INTERFACE EQUALS ETHIF .
-
-    COLON           reduce using rule 199 (pppoepair -> INTERFACE EQUALS ETHIF .)
-    $end            reduce using rule 199 (pppoepair -> INTERFACE EQUALS ETHIF .)
+    $end            reduce using rule 76 (gwspec -> GATEWAY EQUALS IP .)
 
 
-state 416
+state 404
+
+    (77) gwspec -> DEV EQUALS PPPIF .
+
+    $end            reduce using rule 77 (gwspec -> DEV EQUALS PPPIF .)
+
+
+state 405
 
     (198) pppoepair -> IPATTR EQUALS IP .
 
@@ -4218,7 +4121,14 @@ state 416
     $end            reduce using rule 198 (pppoepair -> IPATTR EQUALS IP .)
 
 
-state 417
+state 406
+
+    (197) pppoepair -> RANGE EQUALS IP . VIRG IP
+
+    VIRG            shift and go to state 482
+
+
+state 407
 
     (200) pppoepair -> USERS EQUALS userlist .
 
@@ -4226,7 +4136,15 @@ state 417
     $end            reduce using rule 200 (pppoepair -> USERS EQUALS userlist .)
 
 
-state 418
+state 408
+
+    (199) pppoepair -> INTERFACE EQUALS ETHIF .
+
+    COLON           reduce using rule 199 (pppoepair -> INTERFACE EQUALS ETHIF .)
+    $end            reduce using rule 199 (pppoepair -> INTERFACE EQUALS ETHIF .)
+
+
+state 409
 
     (201) pppoepair -> RATE EQUALS NUMBER .
 
@@ -4234,36 +4152,21 @@ state 418
     $end            reduce using rule 201 (pppoepair -> RATE EQUALS NUMBER .)
 
 
-state 419
-
-    (197) pppoepair -> RANGE EQUALS IP . VIRG IP
-
-    VIRG            shift and go to state 484
-
-
-state 420
+state 410
 
     (195) pppoeattrs -> pppoepair COLON pppoeattrs .
 
     $end            reduce using rule 195 (pppoeattrs -> pppoepair COLON pppoeattrs .)
 
 
-state 421
+state 411
 
-    (204) vmfec -> ID LBRACK FEC RBRACK EQUALS IPMASK COLON NHLFE EQUALS NUMBER .
+    (187) stpattrs -> stppair COLON stpattrs .
 
-    $end            reduce using rule 204 (vmfec -> ID LBRACK FEC RBRACK EQUALS IPMASK COLON NHLFE EQUALS NUMBER .)
-
-
-state 422
-
-    (189) stppair -> BRPRIO EQUALS NUMBER .
-
-    COLON           reduce using rule 189 (stppair -> BRPRIO EQUALS NUMBER .)
-    $end            reduce using rule 189 (stppair -> BRPRIO EQUALS NUMBER .)
+    $end            reduce using rule 187 (stpattrs -> stppair COLON stpattrs .)
 
 
-state 423
+state 412
 
     (191) stppair -> BRAGE EQUALS NUMBER .
 
@@ -4271,22 +4174,7 @@ state 423
     $end            reduce using rule 191 (stppair -> BRAGE EQUALS NUMBER .)
 
 
-state 424
-
-    (190) stppair -> BRHELLO EQUALS NUMBER .
-
-    COLON           reduce using rule 190 (stppair -> BRHELLO EQUALS NUMBER .)
-    $end            reduce using rule 190 (stppair -> BRHELLO EQUALS NUMBER .)
-
-
-state 425
-
-    (187) stpattrs -> stppair COLON stpattrs .
-
-    $end            reduce using rule 187 (stpattrs -> stppair COLON stpattrs .)
-
-
-state 426
+state 413
 
     (192) stppair -> BRDELAY EQUALS NUMBER .
 
@@ -4294,7 +4182,23 @@ state 426
     $end            reduce using rule 192 (stppair -> BRDELAY EQUALS NUMBER .)
 
 
-state 427
+state 414
+
+    (189) stppair -> BRPRIO EQUALS NUMBER .
+
+    COLON           reduce using rule 189 (stppair -> BRPRIO EQUALS NUMBER .)
+    $end            reduce using rule 189 (stppair -> BRPRIO EQUALS NUMBER .)
+
+
+state 415
+
+    (190) stppair -> BRHELLO EQUALS NUMBER .
+
+    COLON           reduce using rule 190 (stppair -> BRHELLO EQUALS NUMBER .)
+    $end            reduce using rule 190 (stppair -> BRHELLO EQUALS NUMBER .)
+
+
+state 416
 
     (193) stppair -> VLAN EQUALS NUMBER .
 
@@ -4302,132 +4206,56 @@ state 427
     $end            reduce using rule 193 (stppair -> VLAN EQUALS NUMBER .)
 
 
-state 428
+state 417
 
-    (151) ppppair -> INTERFACE EQUALS ETHIF .
+    (32) radvdpair -> MIN_INTERVAL EQUALS NUMBER .
 
-    COLON           reduce using rule 151 (ppppair -> INTERFACE EQUALS ETHIF .)
-    $end            reduce using rule 151 (ppppair -> INTERFACE EQUALS ETHIF .)
+    COLON           reduce using rule 32 (radvdpair -> MIN_INTERVAL EQUALS NUMBER .)
+    $end            reduce using rule 32 (radvdpair -> MIN_INTERVAL EQUALS NUMBER .)
 
 
-state 429
+state 418
 
-    (156) ppppair -> DEBUG EQUALS BOOL .
+    (34) radvdpair -> RDNSS EQUALS IPV6 .
 
-    COLON           reduce using rule 156 (ppppair -> DEBUG EQUALS BOOL .)
-    $end            reduce using rule 156 (ppppair -> DEBUG EQUALS BOOL .)
+    COLON           reduce using rule 34 (radvdpair -> RDNSS EQUALS IPV6 .)
+    $end            reduce using rule 34 (radvdpair -> RDNSS EQUALS IPV6 .)
 
 
-state 430
+state 419
 
-    (146) ppppair -> IPATTR EQUALS IPMASK .
+    (27) radvdattrs -> radvdpair COLON radvdattrs .
 
-    COLON           reduce using rule 146 (ppppair -> IPATTR EQUALS IPMASK .)
-    $end            reduce using rule 146 (ppppair -> IPATTR EQUALS IPMASK .)
+    $end            reduce using rule 27 (radvdattrs -> radvdpair COLON radvdattrs .)
 
 
-state 431
+state 420
 
-    (148) ppppair -> RATE EQUALS NUMBER .
+    (28) radvdattrs -> radvdsingle COLON radvdattrs .
 
-    COLON           reduce using rule 148 (ppppair -> RATE EQUALS NUMBER .)
-    $end            reduce using rule 148 (ppppair -> RATE EQUALS NUMBER .)
+    $end            reduce using rule 28 (radvdattrs -> radvdsingle COLON radvdattrs .)
 
 
-state 432
+state 421
 
-    (147) ppppair -> IPV6ATTR EQUALS IPV6MASK .
+    (33) radvdpair -> MAX_INTERVAL EQUALS NUMBER .
 
-    COLON           reduce using rule 147 (ppppair -> IPV6ATTR EQUALS IPV6MASK .)
-    $end            reduce using rule 147 (ppppair -> IPV6ATTR EQUALS IPV6MASK .)
+    COLON           reduce using rule 33 (radvdpair -> MAX_INTERVAL EQUALS NUMBER .)
+    $end            reduce using rule 33 (radvdpair -> MAX_INTERVAL EQUALS NUMBER .)
 
 
-state 433
+state 422
 
-    (144) pppattrs -> ppppair COLON pppattrs .
+    (119) iplist -> IPMASK . VIRG iplist
+    (120) iplist -> IPMASK .
 
-    $end            reduce using rule 144 (pppattrs -> ppppair COLON pppattrs .)
+    VIRG            shift and go to state 483
+    COLON           reduce using rule 120 (iplist -> IPMASK .)
+    $end            reduce using rule 120 (iplist -> IPMASK .)
+    RPAR            reduce using rule 120 (iplist -> IPMASK .)
 
 
-state 434
-
-    (152) ppppair -> USER EQUALS ID .
-
-    COLON           reduce using rule 152 (ppppair -> USER EQUALS ID .)
-    $end            reduce using rule 152 (ppppair -> USER EQUALS ID .)
-
-
-state 435
-
-    (149) ppppair -> BER EQUALS FLOATNUMBER .
-
-    COLON           reduce using rule 149 (ppppair -> BER EQUALS FLOATNUMBER .)
-    $end            reduce using rule 149 (ppppair -> BER EQUALS FLOATNUMBER .)
-
-
-state 436
-
-    (153) ppppair -> PASSWORD EQUALS ID .
-
-    COLON           reduce using rule 153 (ppppair -> PASSWORD EQUALS ID .)
-    $end            reduce using rule 153 (ppppair -> PASSWORD EQUALS ID .)
-
-
-state 437
-
-    (150) ppppair -> DELAY EQUALS NUMBER .
-
-    COLON           reduce using rule 150 (ppppair -> DELAY EQUALS NUMBER .)
-    $end            reduce using rule 150 (ppppair -> DELAY EQUALS NUMBER .)
-
-
-state 438
-
-    (154) ppppair -> TYPE EQUALS PPPOE .
-
-    COLON           reduce using rule 154 (ppppair -> TYPE EQUALS PPPOE .)
-    $end            reduce using rule 154 (ppppair -> TYPE EQUALS PPPOE .)
-
-
-state 439
-
-    (126) ethpair -> PPPOEUSER EQUALS ID .
-
-    COLON           reduce using rule 126 (ethpair -> PPPOEUSER EQUALS ID .)
-    $end            reduce using rule 126 (ethpair -> PPPOEUSER EQUALS ID .)
-
-
-state 440
-
-    (138) uplinkattrs -> uplinkpair COLON ethattrs .
-
-    $end            reduce using rule 138 (uplinkattrs -> uplinkpair COLON ethattrs .)
-
-
-state 441
-
-    (105) ethattrs -> ethpair COLON ethattrs .
-
-    $end            reduce using rule 105 (ethattrs -> ethpair COLON ethattrs .)
-
-
-state 442
-
-    (118) ethpair -> IEEE8021X_USER EQUALS USERPAIR .
-
-    COLON           reduce using rule 118 (ethpair -> IEEE8021X_USER EQUALS USERPAIR .)
-    $end            reduce using rule 118 (ethpair -> IEEE8021X_USER EQUALS USERPAIR .)
-
-
-state 443
-
-    (117) ethpair -> IEEE8021X_AUTH EQUALS NUMBER .
-
-    COLON           reduce using rule 117 (ethpair -> IEEE8021X_AUTH EQUALS NUMBER .)
-    $end            reduce using rule 117 (ethpair -> IEEE8021X_AUTH EQUALS NUMBER .)
-
-
-state 444
+state 423
 
     (107) ethpair -> IPATTR EQUALS iplist .
 
@@ -4435,7 +4263,7 @@ state 444
     $end            reduce using rule 107 (ethpair -> IPATTR EQUALS iplist .)
 
 
-state 445
+state 424
 
     (108) ethpair -> IPATTR EQUALS DHCP .
 
@@ -4443,31 +4271,7 @@ state 445
     $end            reduce using rule 108 (ethpair -> IPATTR EQUALS DHCP .)
 
 
-state 446
-
-    (109) ethpair -> RATE EQUALS NUMBER .
-
-    COLON           reduce using rule 109 (ethpair -> RATE EQUALS NUMBER .)
-    $end            reduce using rule 109 (ethpair -> RATE EQUALS NUMBER .)
-
-
-state 447
-
-    (110) ethpair -> UNTAGGED EQUALS NUMBER .
-
-    COLON           reduce using rule 110 (ethpair -> UNTAGGED EQUALS NUMBER .)
-    $end            reduce using rule 110 (ethpair -> UNTAGGED EQUALS NUMBER .)
-
-
-state 448
-
-    (127) ethpair -> PPPOEPASSWD EQUALS ID .
-
-    COLON           reduce using rule 127 (ethpair -> PPPOEPASSWD EQUALS ID .)
-    $end            reduce using rule 127 (ethpair -> PPPOEPASSWD EQUALS ID .)
-
-
-state 449
+state 425
 
     (123) ethpair -> STPCOST EQUALS NUMBER .
 
@@ -4475,41 +4279,35 @@ state 449
     $end            reduce using rule 123 (ethpair -> STPCOST EQUALS NUMBER .)
 
 
-state 450
-
-    (112) ethpair -> IPV6ATTR EQUALS ipv6list .
-
-    COLON           reduce using rule 112 (ethpair -> IPV6ATTR EQUALS ipv6list .)
-    $end            reduce using rule 112 (ethpair -> IPV6ATTR EQUALS ipv6list .)
-
-
-state 451
-
-    (124) ethpair -> STPPRIO EQUALS NUMBER .
-
-    COLON           reduce using rule 124 (ethpair -> STPPRIO EQUALS NUMBER .)
-    $end            reduce using rule 124 (ethpair -> STPPRIO EQUALS NUMBER .)
-
-
-state 452
-
-    (125) ethpair -> PPPOEAC EQUALS ID .
-
-    COLON           reduce using rule 125 (ethpair -> PPPOEAC EQUALS ID .)
-    $end            reduce using rule 125 (ethpair -> PPPOEAC EQUALS ID .)
-
-
-state 453
+state 426
 
     (129) taglist -> NUMBER . VIRG taglist
     (130) taglist -> NUMBER .
 
-    VIRG            shift and go to state 485
+    VIRG            shift and go to state 484
     COLON           reduce using rule 130 (taglist -> NUMBER .)
     $end            reduce using rule 130 (taglist -> NUMBER .)
 
 
-state 454
+state 427
+
+    (111) ethpair -> tagged EQUALS taglist .
+
+    COLON           reduce using rule 111 (ethpair -> tagged EQUALS taglist .)
+    $end            reduce using rule 111 (ethpair -> tagged EQUALS taglist .)
+
+
+state 428
+
+    (133) tagpair -> LPAR . NUMBER VIRG iplist RPAR
+    (134) tagpair -> LPAR . NUMBER VIRG IPATTR EQUALS iplist RPAR
+    (135) tagpair -> LPAR . NUMBER VIRG ipv6list RPAR
+    (136) tagpair -> LPAR . NUMBER VIRG IPV6ATTR EQUALS ipv6list RPAR
+
+    NUMBER          shift and go to state 485
+
+
+state 429
 
     (131) taglist -> tagpair . VIRG taglist
     (132) taglist -> tagpair .
@@ -4519,33 +4317,50 @@ state 454
     $end            reduce using rule 132 (taglist -> tagpair .)
 
 
-state 455
+state 430
 
-    (111) ethpair -> tagged EQUALS taglist .
+    (118) ethpair -> IEEE8021X_USER EQUALS USERPAIR .
 
-    COLON           reduce using rule 111 (ethpair -> tagged EQUALS taglist .)
-    $end            reduce using rule 111 (ethpair -> tagged EQUALS taglist .)
-
-
-state 456
-
-    (133) tagpair -> LPAR . NUMBER VIRG iplist RPAR
-    (134) tagpair -> LPAR . NUMBER VIRG IPATTR EQUALS iplist RPAR
-    (135) tagpair -> LPAR . NUMBER VIRG ipv6list RPAR
-    (136) tagpair -> LPAR . NUMBER VIRG IPV6ATTR EQUALS ipv6list RPAR
-
-    NUMBER          shift and go to state 487
+    COLON           reduce using rule 118 (ethpair -> IEEE8021X_USER EQUALS USERPAIR .)
+    $end            reduce using rule 118 (ethpair -> IEEE8021X_USER EQUALS USERPAIR .)
 
 
-state 457
+state 431
 
-    (140) uplinkpair -> BRIDGE EQUALS ETHIF .
+    (112) ethpair -> IPV6ATTR EQUALS ipv6list .
 
-    COLON           reduce using rule 140 (uplinkpair -> BRIDGE EQUALS ETHIF .)
-    $end            reduce using rule 140 (uplinkpair -> BRIDGE EQUALS ETHIF .)
+    COLON           reduce using rule 112 (ethpair -> IPV6ATTR EQUALS ipv6list .)
+    $end            reduce using rule 112 (ethpair -> IPV6ATTR EQUALS ipv6list .)
 
 
-state 458
+state 432
+
+    (115) ipv6list -> IPV6MASK . VIRG ipv6list
+    (116) ipv6list -> IPV6MASK .
+
+    VIRG            shift and go to state 487
+    COLON           reduce using rule 116 (ipv6list -> IPV6MASK .)
+    $end            reduce using rule 116 (ipv6list -> IPV6MASK .)
+    RPAR            reduce using rule 116 (ipv6list -> IPV6MASK .)
+
+
+state 433
+
+    (125) ethpair -> PPPOEAC EQUALS ID .
+
+    COLON           reduce using rule 125 (ethpair -> PPPOEAC EQUALS ID .)
+    $end            reduce using rule 125 (ethpair -> PPPOEAC EQUALS ID .)
+
+
+state 434
+
+    (124) ethpair -> STPPRIO EQUALS NUMBER .
+
+    COLON           reduce using rule 124 (ethpair -> STPPRIO EQUALS NUMBER .)
+    $end            reduce using rule 124 (ethpair -> STPPRIO EQUALS NUMBER .)
+
+
+state 435
 
     (128) ethpair -> MODE EQUALS PPPOE .
 
@@ -4553,104 +4368,290 @@ state 458
     $end            reduce using rule 128 (ethpair -> MODE EQUALS PPPOE .)
 
 
+state 436
+
+    (126) ethpair -> PPPOEUSER EQUALS ID .
+
+    COLON           reduce using rule 126 (ethpair -> PPPOEUSER EQUALS ID .)
+    $end            reduce using rule 126 (ethpair -> PPPOEUSER EQUALS ID .)
+
+
+state 437
+
+    (110) ethpair -> UNTAGGED EQUALS NUMBER .
+
+    COLON           reduce using rule 110 (ethpair -> UNTAGGED EQUALS NUMBER .)
+    $end            reduce using rule 110 (ethpair -> UNTAGGED EQUALS NUMBER .)
+
+
+state 438
+
+    (127) ethpair -> PPPOEPASSWD EQUALS ID .
+
+    COLON           reduce using rule 127 (ethpair -> PPPOEPASSWD EQUALS ID .)
+    $end            reduce using rule 127 (ethpair -> PPPOEPASSWD EQUALS ID .)
+
+
+state 439
+
+    (109) ethpair -> RATE EQUALS NUMBER .
+
+    COLON           reduce using rule 109 (ethpair -> RATE EQUALS NUMBER .)
+    $end            reduce using rule 109 (ethpair -> RATE EQUALS NUMBER .)
+
+
+state 440
+
+    (105) ethattrs -> ethpair COLON ethattrs .
+
+    $end            reduce using rule 105 (ethattrs -> ethpair COLON ethattrs .)
+
+
+state 441
+
+    (117) ethpair -> IEEE8021X_AUTH EQUALS NUMBER .
+
+    COLON           reduce using rule 117 (ethpair -> IEEE8021X_AUTH EQUALS NUMBER .)
+    $end            reduce using rule 117 (ethpair -> IEEE8021X_AUTH EQUALS NUMBER .)
+
+
+state 442
+
+    (140) uplinkpair -> BRIDGE EQUALS ETHIF .
+
+    COLON           reduce using rule 140 (uplinkpair -> BRIDGE EQUALS ETHIF .)
+    $end            reduce using rule 140 (uplinkpair -> BRIDGE EQUALS ETHIF .)
+
+
+state 443
+
+    (138) uplinkattrs -> uplinkpair COLON ethattrs .
+
+    $end            reduce using rule 138 (uplinkattrs -> uplinkpair COLON ethattrs .)
+
+
+state 444
+
+    (146) ppppair -> IPATTR EQUALS IPMASK .
+
+    COLON           reduce using rule 146 (ppppair -> IPATTR EQUALS IPMASK .)
+    $end            reduce using rule 146 (ppppair -> IPATTR EQUALS IPMASK .)
+
+
+state 445
+
+    (150) ppppair -> DELAY EQUALS NUMBER .
+
+    COLON           reduce using rule 150 (ppppair -> DELAY EQUALS NUMBER .)
+    $end            reduce using rule 150 (ppppair -> DELAY EQUALS NUMBER .)
+
+
+state 446
+
+    (144) pppattrs -> ppppair COLON pppattrs .
+
+    $end            reduce using rule 144 (pppattrs -> ppppair COLON pppattrs .)
+
+
+state 447
+
+    (152) ppppair -> USER EQUALS ID .
+
+    COLON           reduce using rule 152 (ppppair -> USER EQUALS ID .)
+    $end            reduce using rule 152 (ppppair -> USER EQUALS ID .)
+
+
+state 448
+
+    (149) ppppair -> BER EQUALS FLOATNUMBER .
+
+    COLON           reduce using rule 149 (ppppair -> BER EQUALS FLOATNUMBER .)
+    $end            reduce using rule 149 (ppppair -> BER EQUALS FLOATNUMBER .)
+
+
+state 449
+
+    (147) ppppair -> IPV6ATTR EQUALS IPV6MASK .
+
+    COLON           reduce using rule 147 (ppppair -> IPV6ATTR EQUALS IPV6MASK .)
+    $end            reduce using rule 147 (ppppair -> IPV6ATTR EQUALS IPV6MASK .)
+
+
+state 450
+
+    (153) ppppair -> PASSWORD EQUALS ID .
+
+    COLON           reduce using rule 153 (ppppair -> PASSWORD EQUALS ID .)
+    $end            reduce using rule 153 (ppppair -> PASSWORD EQUALS ID .)
+
+
+state 451
+
+    (154) ppppair -> TYPE EQUALS PPPOE .
+
+    COLON           reduce using rule 154 (ppppair -> TYPE EQUALS PPPOE .)
+    $end            reduce using rule 154 (ppppair -> TYPE EQUALS PPPOE .)
+
+
+state 452
+
+    (156) ppppair -> DEBUG EQUALS BOOL .
+
+    COLON           reduce using rule 156 (ppppair -> DEBUG EQUALS BOOL .)
+    $end            reduce using rule 156 (ppppair -> DEBUG EQUALS BOOL .)
+
+
+state 453
+
+    (148) ppppair -> RATE EQUALS NUMBER .
+
+    COLON           reduce using rule 148 (ppppair -> RATE EQUALS NUMBER .)
+    $end            reduce using rule 148 (ppppair -> RATE EQUALS NUMBER .)
+
+
+state 454
+
+    (151) ppppair -> INTERFACE EQUALS ETHIF .
+
+    COLON           reduce using rule 151 (ppppair -> INTERFACE EQUALS ETHIF .)
+    $end            reduce using rule 151 (ppppair -> INTERFACE EQUALS ETHIF .)
+
+
+state 455
+
+    (167) bondpair -> LACP_RATE EQUALS FAST .
+
+    COLON           reduce using rule 167 (bondpair -> LACP_RATE EQUALS FAST .)
+    $end            reduce using rule 167 (bondpair -> LACP_RATE EQUALS FAST .)
+
+
+state 456
+
+    (166) bondpair -> LACP_RATE EQUALS SLOW .
+
+    COLON           reduce using rule 166 (bondpair -> LACP_RATE EQUALS SLOW .)
+    $end            reduce using rule 166 (bondpair -> LACP_RATE EQUALS SLOW .)
+
+
+state 457
+
+    (162) bondpair -> IPATTR EQUALS iplist .
+
+    COLON           reduce using rule 162 (bondpair -> IPATTR EQUALS iplist .)
+    $end            reduce using rule 162 (bondpair -> IPATTR EQUALS iplist .)
+
+
+state 458
+
+    (164) bondpair -> IPATTR EQUALS DHCP .
+
+    COLON           reduce using rule 164 (bondpair -> IPATTR EQUALS DHCP .)
+    $end            reduce using rule 164 (bondpair -> IPATTR EQUALS DHCP .)
+
+
 state 459
 
-    (100) dhcppair -> NETMASK EQUALS IP .
+    (160) bondattrs -> bondpair COLON bondattrs .
 
-    COLON           reduce using rule 100 (dhcppair -> NETMASK EQUALS IP .)
-    $end            reduce using rule 100 (dhcppair -> NETMASK EQUALS IP .)
+    $end            reduce using rule 160 (bondattrs -> bondpair COLON bondattrs .)
 
 
 state 460
 
-    (99) dhcppair -> GATEWAY EQUALS IP .
+    (168) bondpair -> RATE EQUALS NUMBER .
 
-    COLON           reduce using rule 99 (dhcppair -> GATEWAY EQUALS IP .)
-    $end            reduce using rule 99 (dhcppair -> GATEWAY EQUALS IP .)
+    COLON           reduce using rule 168 (bondpair -> RATE EQUALS NUMBER .)
+    $end            reduce using rule 168 (bondpair -> RATE EQUALS NUMBER .)
 
 
 state 461
 
-    (94) dhcpattrs -> dhcppair COLON dhcpattrs .
+    (169) bondpair -> MIIMON EQUALS NUMBER .
 
-    $end            reduce using rule 94 (dhcpattrs -> dhcppair COLON dhcpattrs .)
+    COLON           reduce using rule 169 (bondpair -> MIIMON EQUALS NUMBER .)
+    $end            reduce using rule 169 (bondpair -> MIIMON EQUALS NUMBER .)
 
 
 state 462
 
-    (97) dhcppair -> DEFLEASE EQUALS NUMBER .
+    (163) bondpair -> IPV6ATTR EQUALS ipv6list .
 
-    COLON           reduce using rule 97 (dhcppair -> DEFLEASE EQUALS NUMBER .)
-    $end            reduce using rule 97 (dhcppair -> DEFLEASE EQUALS NUMBER .)
+    COLON           reduce using rule 163 (bondpair -> IPV6ATTR EQUALS ipv6list .)
+    $end            reduce using rule 163 (bondpair -> IPV6ATTR EQUALS ipv6list .)
 
 
 state 463
 
-    (96) dhcppair -> RANGE EQUALS IP . VIRG IP
+    (173) bondmode -> XOR .
 
-    VIRG            shift and go to state 488
+    COLON           reduce using rule 173 (bondmode -> XOR .)
+    $end            reduce using rule 173 (bondmode -> XOR .)
 
 
 state 464
 
-    (98) dhcppair -> MAXLEASE EQUALS NUMBER .
+    (174) bondmode -> TLB .
 
-    COLON           reduce using rule 98 (dhcppair -> MAXLEASE EQUALS NUMBER .)
-    $end            reduce using rule 98 (dhcppair -> MAXLEASE EQUALS NUMBER .)
+    COLON           reduce using rule 174 (bondmode -> TLB .)
+    $end            reduce using rule 174 (bondmode -> TLB .)
 
 
 state 465
 
-    (27) radvdattrs -> radvdpair COLON radvdattrs .
+    (165) bondpair -> MODE EQUALS bondmode .
 
-    $end            reduce using rule 27 (radvdattrs -> radvdpair COLON radvdattrs .)
+    COLON           reduce using rule 165 (bondpair -> MODE EQUALS bondmode .)
+    $end            reduce using rule 165 (bondpair -> MODE EQUALS bondmode .)
 
 
 state 466
 
-    (34) radvdpair -> RDNSS EQUALS IPV6 .
+    (170) bondmode -> RR .
 
-    COLON           reduce using rule 34 (radvdpair -> RDNSS EQUALS IPV6 .)
-    $end            reduce using rule 34 (radvdpair -> RDNSS EQUALS IPV6 .)
+    COLON           reduce using rule 170 (bondmode -> RR .)
+    $end            reduce using rule 170 (bondmode -> RR .)
 
 
 state 467
 
-    (28) radvdattrs -> radvdsingle COLON radvdattrs .
+    (172) bondmode -> BACKUP .
 
-    $end            reduce using rule 28 (radvdattrs -> radvdsingle COLON radvdattrs .)
+    COLON           reduce using rule 172 (bondmode -> BACKUP .)
+    $end            reduce using rule 172 (bondmode -> BACKUP .)
 
 
 state 468
 
-    (33) radvdpair -> MAX_INTERVAL EQUALS NUMBER .
+    (175) bondmode -> ALB .
 
-    COLON           reduce using rule 33 (radvdpair -> MAX_INTERVAL EQUALS NUMBER .)
-    $end            reduce using rule 33 (radvdpair -> MAX_INTERVAL EQUALS NUMBER .)
+    COLON           reduce using rule 175 (bondmode -> ALB .)
+    $end            reduce using rule 175 (bondmode -> ALB .)
 
 
 state 469
 
-    (32) radvdpair -> MIN_INTERVAL EQUALS NUMBER .
+    (171) bondmode -> 8023AD .
 
-    COLON           reduce using rule 32 (radvdpair -> MIN_INTERVAL EQUALS NUMBER .)
-    $end            reduce using rule 32 (radvdpair -> MIN_INTERVAL EQUALS NUMBER .)
+    COLON           reduce using rule 171 (bondmode -> 8023AD .)
+    $end            reduce using rule 171 (bondmode -> 8023AD .)
 
 
 state 470
 
-    (220) anyiflist -> PPPIF . VIRG anyiflist
-    (222) anyiflist -> PPPIF .
+    (177) iflist -> ETHIF . VIRG iflist
+    (178) iflist -> ETHIF .
 
-    VIRG            shift and go to state 489
-    $end            reduce using rule 222 (anyiflist -> PPPIF .)
+    VIRG            shift and go to state 488
+    COLON           reduce using rule 178 (iflist -> ETHIF .)
+    $end            reduce using rule 178 (iflist -> ETHIF .)
 
 
 state 471
 
-    (218) vmlabelspace -> ID LBRACK LABELSPACE RBRACK EQUALS NUMBER COLON INTERFACES EQUALS anyiflist .
+    (176) bondpair -> INTERFACES EQUALS iflist .
 
-    $end            reduce using rule 218 (vmlabelspace -> ID LBRACK LABELSPACE RBRACK EQUALS NUMBER COLON INTERFACES EQUALS anyiflist .)
+    COLON           reduce using rule 176 (bondpair -> INTERFACES EQUALS iflist .)
+    $end            reduce using rule 176 (bondpair -> INTERFACES EQUALS iflist .)
 
 
 state 472
@@ -4658,115 +4659,101 @@ state 472
     (219) anyiflist -> ETHIF . VIRG anyiflist
     (221) anyiflist -> ETHIF .
 
-    VIRG            shift and go to state 490
+    VIRG            shift and go to state 489
     $end            reduce using rule 221 (anyiflist -> ETHIF .)
 
 
 state 473
 
-    (210) nhlfepair -> LABEL EQUALS NUMBER .
+    (220) anyiflist -> PPPIF . VIRG anyiflist
+    (222) anyiflist -> PPPIF .
 
-    COLON           reduce using rule 210 (nhlfepair -> LABEL EQUALS NUMBER .)
-    $end            reduce using rule 210 (nhlfepair -> LABEL EQUALS NUMBER .)
+    VIRG            shift and go to state 490
+    $end            reduce using rule 222 (anyiflist -> PPPIF .)
 
 
 state 474
 
-    (206) nhlfeattrs -> nhlfepair COLON nhlfeattrs .
+    (218) vmlabelspace -> ID LBRACK LABELSPACE RBRACK EQUALS NUMBER COLON INTERFACES EQUALS anyiflist .
 
-    $end            reduce using rule 206 (nhlfeattrs -> nhlfepair COLON nhlfeattrs .)
+    $end            reduce using rule 218 (vmlabelspace -> ID LBRACK LABELSPACE RBRACK EQUALS NUMBER COLON INTERFACES EQUALS anyiflist .)
 
 
 state 475
 
-    (211) nhlfepair -> IPATTR EQUALS IP .
+    (217) ilmpair -> NHLFE EQUALS NUMBER .
 
-    COLON           reduce using rule 211 (nhlfepair -> IPATTR EQUALS IP .)
-    $end            reduce using rule 211 (nhlfepair -> IPATTR EQUALS IP .)
+    COLON           reduce using rule 217 (ilmpair -> NHLFE EQUALS NUMBER .)
+    $end            reduce using rule 217 (ilmpair -> NHLFE EQUALS NUMBER .)
 
 
 state 476
 
-    (208) nhlfepair -> INTERFACE EQUALS ETHIF .
+    (216) ilmpair -> LABELSPACE EQUALS NUMBER .
 
-    COLON           reduce using rule 208 (nhlfepair -> INTERFACE EQUALS ETHIF .)
-    $end            reduce using rule 208 (nhlfepair -> INTERFACE EQUALS ETHIF .)
+    COLON           reduce using rule 216 (ilmpair -> LABELSPACE EQUALS NUMBER .)
+    $end            reduce using rule 216 (ilmpair -> LABELSPACE EQUALS NUMBER .)
 
 
 state 477
 
-    (209) nhlfepair -> INTERFACE EQUALS PPPIF .
+    (214) ilmattrs -> ilmpair COLON ilmpair .
 
-    COLON           reduce using rule 209 (nhlfepair -> INTERFACE EQUALS PPPIF .)
-    $end            reduce using rule 209 (nhlfepair -> INTERFACE EQUALS PPPIF .)
+    $end            reduce using rule 214 (ilmattrs -> ilmpair COLON ilmpair .)
 
 
 state 478
 
-    (212) nhlfepair -> NHLFE EQUALS NUMBER .
+    (204) vmfec -> ID LBRACK FEC RBRACK EQUALS IPMASK COLON NHLFE EQUALS NUMBER .
 
-    COLON           reduce using rule 212 (nhlfepair -> NHLFE EQUALS NUMBER .)
-    $end            reduce using rule 212 (nhlfepair -> NHLFE EQUALS NUMBER .)
+    $end            reduce using rule 204 (vmfec -> ID LBRACK FEC RBRACK EQUALS IPMASK COLON NHLFE EQUALS NUMBER .)
 
 
 state 479
-
-    (62) ipaddrlist -> IP VIRG . ipaddrlist
-    (62) ipaddrlist -> . IP VIRG ipaddrlist
-    (63) ipaddrlist -> . IP
-
-    IP              shift and go to state 383
-
-    ipaddrlist                     shift and go to state 491
-
-state 480
 
     (202) userlist -> USERPAIR VIRG . userlist
     (202) userlist -> . USERPAIR VIRG userlist
     (203) userlist -> . USERPAIR
 
-    USERPAIR        shift and go to state 384
+    USERPAIR        shift and go to state 382
 
-    userlist                       shift and go to state 492
+    userlist                       shift and go to state 491
+
+state 480
+
+    (62) ipaddrlist -> IP VIRG . ipaddrlist
+    (62) ipaddrlist -> . IP VIRG ipaddrlist
+    (63) ipaddrlist -> . IP
+
+    IP              shift and go to state 385
+
+    ipaddrlist                     shift and go to state 492
 
 state 481
+
+    (96) dhcppair -> RANGE EQUALS IP VIRG . IP
+
+    IP              shift and go to state 493
+
+
+state 482
+
+    (197) pppoepair -> RANGE EQUALS IP VIRG . IP
+
+    IP              shift and go to state 494
+
+
+state 483
 
     (119) iplist -> IPMASK VIRG . iplist
     (119) iplist -> . IPMASK VIRG iplist
     (120) iplist -> . IPMASK
 
-    IPMASK          shift and go to state 393
+    IPMASK          shift and go to state 422
 
-    iplist                         shift and go to state 493
-
-state 482
-
-    (115) ipv6list -> IPV6MASK VIRG . ipv6list
-    (115) ipv6list -> . IPV6MASK VIRG ipv6list
-    (116) ipv6list -> . IPV6MASK
-
-    IPV6MASK        shift and go to state 403
-
-    ipv6list                       shift and go to state 494
-
-state 483
-
-    (177) iflist -> ETHIF VIRG . iflist
-    (177) iflist -> . ETHIF VIRG iflist
-    (178) iflist -> . ETHIF
-
-    ETHIF           shift and go to state 404
-
-    iflist                         shift and go to state 495
+    iplist                         shift and go to state 495
 
 state 484
-
-    (197) pppoepair -> RANGE EQUALS IP VIRG . IP
-
-    IP              shift and go to state 496
-
-
-state 485
 
     (129) taglist -> NUMBER VIRG . taglist
     (129) taglist -> . NUMBER VIRG taglist
@@ -4778,11 +4765,21 @@ state 485
     (135) tagpair -> . LPAR NUMBER VIRG ipv6list RPAR
     (136) tagpair -> . LPAR NUMBER VIRG IPV6ATTR EQUALS ipv6list RPAR
 
-    NUMBER          shift and go to state 453
-    LPAR            shift and go to state 456
+    NUMBER          shift and go to state 426
+    LPAR            shift and go to state 428
 
-    tagpair                        shift and go to state 454
-    taglist                        shift and go to state 497
+    taglist                        shift and go to state 496
+    tagpair                        shift and go to state 429
+
+state 485
+
+    (133) tagpair -> LPAR NUMBER . VIRG iplist RPAR
+    (134) tagpair -> LPAR NUMBER . VIRG IPATTR EQUALS iplist RPAR
+    (135) tagpair -> LPAR NUMBER . VIRG ipv6list RPAR
+    (136) tagpair -> LPAR NUMBER . VIRG IPV6ATTR EQUALS ipv6list RPAR
+
+    VIRG            shift and go to state 497
+
 
 state 486
 
@@ -4796,43 +4793,33 @@ state 486
     (135) tagpair -> . LPAR NUMBER VIRG ipv6list RPAR
     (136) tagpair -> . LPAR NUMBER VIRG IPV6ATTR EQUALS ipv6list RPAR
 
-    NUMBER          shift and go to state 453
-    LPAR            shift and go to state 456
+    NUMBER          shift and go to state 426
+    LPAR            shift and go to state 428
 
-    tagpair                        shift and go to state 454
     taglist                        shift and go to state 498
+    tagpair                        shift and go to state 429
 
 state 487
 
-    (133) tagpair -> LPAR NUMBER . VIRG iplist RPAR
-    (134) tagpair -> LPAR NUMBER . VIRG IPATTR EQUALS iplist RPAR
-    (135) tagpair -> LPAR NUMBER . VIRG ipv6list RPAR
-    (136) tagpair -> LPAR NUMBER . VIRG IPV6ATTR EQUALS ipv6list RPAR
+    (115) ipv6list -> IPV6MASK VIRG . ipv6list
+    (115) ipv6list -> . IPV6MASK VIRG ipv6list
+    (116) ipv6list -> . IPV6MASK
 
-    VIRG            shift and go to state 499
+    IPV6MASK        shift and go to state 432
 
+    ipv6list                       shift and go to state 499
 
 state 488
 
-    (96) dhcppair -> RANGE EQUALS IP VIRG . IP
+    (177) iflist -> ETHIF VIRG . iflist
+    (177) iflist -> . ETHIF VIRG iflist
+    (178) iflist -> . ETHIF
 
-    IP              shift and go to state 500
+    ETHIF           shift and go to state 470
 
+    iflist                         shift and go to state 500
 
 state 489
-
-    (220) anyiflist -> PPPIF VIRG . anyiflist
-    (219) anyiflist -> . ETHIF VIRG anyiflist
-    (220) anyiflist -> . PPPIF VIRG anyiflist
-    (221) anyiflist -> . ETHIF
-    (222) anyiflist -> . PPPIF
-
-    ETHIF           shift and go to state 472
-    PPPIF           shift and go to state 470
-
-    anyiflist                      shift and go to state 501
-
-state 490
 
     (219) anyiflist -> ETHIF VIRG . anyiflist
     (219) anyiflist -> . ETHIF VIRG anyiflist
@@ -4841,19 +4828,24 @@ state 490
     (222) anyiflist -> . PPPIF
 
     ETHIF           shift and go to state 472
-    PPPIF           shift and go to state 470
+    PPPIF           shift and go to state 473
+
+    anyiflist                      shift and go to state 501
+
+state 490
+
+    (220) anyiflist -> PPPIF VIRG . anyiflist
+    (219) anyiflist -> . ETHIF VIRG anyiflist
+    (220) anyiflist -> . PPPIF VIRG anyiflist
+    (221) anyiflist -> . ETHIF
+    (222) anyiflist -> . PPPIF
+
+    ETHIF           shift and go to state 472
+    PPPIF           shift and go to state 473
 
     anyiflist                      shift and go to state 502
 
 state 491
-
-    (62) ipaddrlist -> IP VIRG ipaddrlist .
-
-    COLON           reduce using rule 62 (ipaddrlist -> IP VIRG ipaddrlist .)
-    $end            reduce using rule 62 (ipaddrlist -> IP VIRG ipaddrlist .)
-
-
-state 492
 
     (202) userlist -> USERPAIR VIRG userlist .
 
@@ -4861,7 +4853,31 @@ state 492
     $end            reduce using rule 202 (userlist -> USERPAIR VIRG userlist .)
 
 
+state 492
+
+    (62) ipaddrlist -> IP VIRG ipaddrlist .
+
+    COLON           reduce using rule 62 (ipaddrlist -> IP VIRG ipaddrlist .)
+    $end            reduce using rule 62 (ipaddrlist -> IP VIRG ipaddrlist .)
+
+
 state 493
+
+    (96) dhcppair -> RANGE EQUALS IP VIRG IP .
+
+    COLON           reduce using rule 96 (dhcppair -> RANGE EQUALS IP VIRG IP .)
+    $end            reduce using rule 96 (dhcppair -> RANGE EQUALS IP VIRG IP .)
+
+
+state 494
+
+    (197) pppoepair -> RANGE EQUALS IP VIRG IP .
+
+    COLON           reduce using rule 197 (pppoepair -> RANGE EQUALS IP VIRG IP .)
+    $end            reduce using rule 197 (pppoepair -> RANGE EQUALS IP VIRG IP .)
+
+
+state 495
 
     (119) iplist -> IPMASK VIRG iplist .
 
@@ -4870,38 +4886,32 @@ state 493
     RPAR            reduce using rule 119 (iplist -> IPMASK VIRG iplist .)
 
 
-state 494
-
-    (115) ipv6list -> IPV6MASK VIRG ipv6list .
-
-    COLON           reduce using rule 115 (ipv6list -> IPV6MASK VIRG ipv6list .)
-    $end            reduce using rule 115 (ipv6list -> IPV6MASK VIRG ipv6list .)
-    RPAR            reduce using rule 115 (ipv6list -> IPV6MASK VIRG ipv6list .)
-
-
-state 495
-
-    (177) iflist -> ETHIF VIRG iflist .
-
-    COLON           reduce using rule 177 (iflist -> ETHIF VIRG iflist .)
-    $end            reduce using rule 177 (iflist -> ETHIF VIRG iflist .)
-
-
 state 496
-
-    (197) pppoepair -> RANGE EQUALS IP VIRG IP .
-
-    COLON           reduce using rule 197 (pppoepair -> RANGE EQUALS IP VIRG IP .)
-    $end            reduce using rule 197 (pppoepair -> RANGE EQUALS IP VIRG IP .)
-
-
-state 497
 
     (129) taglist -> NUMBER VIRG taglist .
 
     COLON           reduce using rule 129 (taglist -> NUMBER VIRG taglist .)
     $end            reduce using rule 129 (taglist -> NUMBER VIRG taglist .)
 
+
+state 497
+
+    (133) tagpair -> LPAR NUMBER VIRG . iplist RPAR
+    (134) tagpair -> LPAR NUMBER VIRG . IPATTR EQUALS iplist RPAR
+    (135) tagpair -> LPAR NUMBER VIRG . ipv6list RPAR
+    (136) tagpair -> LPAR NUMBER VIRG . IPV6ATTR EQUALS ipv6list RPAR
+    (119) iplist -> . IPMASK VIRG iplist
+    (120) iplist -> . IPMASK
+    (115) ipv6list -> . IPV6MASK VIRG ipv6list
+    (116) ipv6list -> . IPV6MASK
+
+    IPATTR          shift and go to state 503
+    IPV6ATTR        shift and go to state 506
+    IPMASK          shift and go to state 422
+    IPV6MASK        shift and go to state 432
+
+    ipv6list                       shift and go to state 504
+    iplist                         shift and go to state 505
 
 state 498
 
@@ -4913,74 +4923,83 @@ state 498
 
 state 499
 
-    (133) tagpair -> LPAR NUMBER VIRG . iplist RPAR
-    (134) tagpair -> LPAR NUMBER VIRG . IPATTR EQUALS iplist RPAR
-    (135) tagpair -> LPAR NUMBER VIRG . ipv6list RPAR
-    (136) tagpair -> LPAR NUMBER VIRG . IPV6ATTR EQUALS ipv6list RPAR
-    (119) iplist -> . IPMASK VIRG iplist
-    (120) iplist -> . IPMASK
-    (115) ipv6list -> . IPV6MASK VIRG ipv6list
-    (116) ipv6list -> . IPV6MASK
+    (115) ipv6list -> IPV6MASK VIRG ipv6list .
 
-    IPATTR          shift and go to state 504
-    IPV6ATTR        shift and go to state 505
-    IPMASK          shift and go to state 393
-    IPV6MASK        shift and go to state 403
+    COLON           reduce using rule 115 (ipv6list -> IPV6MASK VIRG ipv6list .)
+    $end            reduce using rule 115 (ipv6list -> IPV6MASK VIRG ipv6list .)
+    RPAR            reduce using rule 115 (ipv6list -> IPV6MASK VIRG ipv6list .)
 
-    iplist                         shift and go to state 503
-    ipv6list                       shift and go to state 506
 
 state 500
 
-    (96) dhcppair -> RANGE EQUALS IP VIRG IP .
+    (177) iflist -> ETHIF VIRG iflist .
 
-    COLON           reduce using rule 96 (dhcppair -> RANGE EQUALS IP VIRG IP .)
-    $end            reduce using rule 96 (dhcppair -> RANGE EQUALS IP VIRG IP .)
+    COLON           reduce using rule 177 (iflist -> ETHIF VIRG iflist .)
+    $end            reduce using rule 177 (iflist -> ETHIF VIRG iflist .)
 
 
 state 501
-
-    (220) anyiflist -> PPPIF VIRG anyiflist .
-
-    $end            reduce using rule 220 (anyiflist -> PPPIF VIRG anyiflist .)
-
-
-state 502
 
     (219) anyiflist -> ETHIF VIRG anyiflist .
 
     $end            reduce using rule 219 (anyiflist -> ETHIF VIRG anyiflist .)
 
 
+state 502
+
+    (220) anyiflist -> PPPIF VIRG anyiflist .
+
+    $end            reduce using rule 220 (anyiflist -> PPPIF VIRG anyiflist .)
+
+
 state 503
 
-    (133) tagpair -> LPAR NUMBER VIRG iplist . RPAR
+    (134) tagpair -> LPAR NUMBER VIRG IPATTR . EQUALS iplist RPAR
 
-    RPAR            shift and go to state 507
+    EQUALS          shift and go to state 507
 
 
 state 504
 
-    (134) tagpair -> LPAR NUMBER VIRG IPATTR . EQUALS iplist RPAR
+    (135) tagpair -> LPAR NUMBER VIRG ipv6list . RPAR
 
-    EQUALS          shift and go to state 508
+    RPAR            shift and go to state 508
 
 
 state 505
 
-    (136) tagpair -> LPAR NUMBER VIRG IPV6ATTR . EQUALS ipv6list RPAR
+    (133) tagpair -> LPAR NUMBER VIRG iplist . RPAR
 
-    EQUALS          shift and go to state 509
+    RPAR            shift and go to state 509
 
 
 state 506
 
-    (135) tagpair -> LPAR NUMBER VIRG ipv6list . RPAR
+    (136) tagpair -> LPAR NUMBER VIRG IPV6ATTR . EQUALS ipv6list RPAR
 
-    RPAR            shift and go to state 510
+    EQUALS          shift and go to state 510
 
 
 state 507
+
+    (134) tagpair -> LPAR NUMBER VIRG IPATTR EQUALS . iplist RPAR
+    (119) iplist -> . IPMASK VIRG iplist
+    (120) iplist -> . IPMASK
+
+    IPMASK          shift and go to state 422
+
+    iplist                         shift and go to state 511
+
+state 508
+
+    (135) tagpair -> LPAR NUMBER VIRG ipv6list RPAR .
+
+    VIRG            reduce using rule 135 (tagpair -> LPAR NUMBER VIRG ipv6list RPAR .)
+    COLON           reduce using rule 135 (tagpair -> LPAR NUMBER VIRG ipv6list RPAR .)
+    $end            reduce using rule 135 (tagpair -> LPAR NUMBER VIRG ipv6list RPAR .)
+
+
+state 509
 
     (133) tagpair -> LPAR NUMBER VIRG iplist RPAR .
 
@@ -4989,34 +5008,15 @@ state 507
     $end            reduce using rule 133 (tagpair -> LPAR NUMBER VIRG iplist RPAR .)
 
 
-state 508
-
-    (134) tagpair -> LPAR NUMBER VIRG IPATTR EQUALS . iplist RPAR
-    (119) iplist -> . IPMASK VIRG iplist
-    (120) iplist -> . IPMASK
-
-    IPMASK          shift and go to state 393
-
-    iplist                         shift and go to state 511
-
-state 509
+state 510
 
     (136) tagpair -> LPAR NUMBER VIRG IPV6ATTR EQUALS . ipv6list RPAR
     (115) ipv6list -> . IPV6MASK VIRG ipv6list
     (116) ipv6list -> . IPV6MASK
 
-    IPV6MASK        shift and go to state 403
+    IPV6MASK        shift and go to state 432
 
     ipv6list                       shift and go to state 512
-
-state 510
-
-    (135) tagpair -> LPAR NUMBER VIRG ipv6list RPAR .
-
-    VIRG            reduce using rule 135 (tagpair -> LPAR NUMBER VIRG ipv6list RPAR .)
-    COLON           reduce using rule 135 (tagpair -> LPAR NUMBER VIRG ipv6list RPAR .)
-    $end            reduce using rule 135 (tagpair -> LPAR NUMBER VIRG ipv6list RPAR .)
-
 
 state 511
 
