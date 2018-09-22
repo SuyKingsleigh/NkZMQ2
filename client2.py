@@ -29,7 +29,8 @@ class Client:
         self.socketCMD = self.context.socket(zmq.DEALER)
         self.socketCMD.connect("tcp://%s:%d" % (ip, port))
         self._started = False
-        self.windows = dict()
+        self.terminaisDict = dict()
+
     # nome da rede
     # se tudo ocorrer bem, coloca status started=True
     def start(self, netname):
@@ -81,8 +82,7 @@ class Client:
 
     # envia uma mensagem pro servidor
     # todo receber a mensagem do servidor
-    def _exchangeData(self, chan, cond, fdout):
-        termName = 'pc1'
+    def _exchangeData(self, chan, cond, fdout, termName):
         payload = {'term': termName, 'data': chan.read(128).decode('ascii')}
         request = Message(cmd='data', data=payload)
         self.socketCMD.send(request.serialize())
@@ -90,51 +90,53 @@ class Client:
         for key in resp.keys():
             output = resp[key]
             os.write(fdout, output.encode('ascii'))
+            print(output)
         return True
 
-
     def _buildTerm(self):
-        # cria o terminal
-        terminal = Vte.Terminal()
-        ptm, pts = pty.openpty()
-        terminal.set_pty(Vte.Pty.new_foreign_sync(ptm))
-        chanDoCliente = GLib.IOChannel(pts)  # canal para obter mensagens escritas no vte e envia-las pro socket
-        chanDoServidor = GLib.IOChannel(self.socketCMD.fileno())  # recebidas do servidor
+        for term in self.terminais:
+            terminal = Vte.Terminal()
+            ptm, pts = pty.openpty()
+            terminal.set_pty(Vte.Pty.new_foreign_sync(ptm))  # sincroniza com o master
+            terminal.set_name(term)  # da um nome para o terminal
 
-        chanDoCliente.set_flags(GLib.IO_FLAG_NONBLOCK)
-        chanDoServidor.set_flags(GLib.IO_FLAG_NONBLOCK)
+            chanDoCliente = GLib.IOChannel(pts)  # canal para obter mensagens escritas no vte e envia-las pro socket
+            chanDoServidor = GLib.IOChannel(self.socketCMD.fileno())  # recebidas do servidor
 
-        condition = GLib.IOCondition(GLib.IOCondition.IN)
+            # define flags para leitura nao bloqueante
+            chanDoCliente.set_flags(GLib.IO_FLAG_NONBLOCK)
+            chanDoServidor.set_flags(GLib.IO_FLAG_NONBLOCK)
 
-        # a ideia eh pegar os dados escritos e escreve-los em algum lugar
-        # para posteriormente envia-los pelo socket
-        chanDoServidor.add_watch(condition, self._exchangeData, 1) # escreve e manda pro servidor
-        chanDoCliente.add_watch(condition, self._exchangeData, pts) # deve escrever no vte
+            # define condicao
+            condition = GLib.IOCondition(GLib.IOCondition.IN)
 
-        return terminal
+            chanDoServidor.add_watch(condition, self._exchangeData,1, term)  # escreve e manda pro servidor //Funciona
+            chanDoCliente.add_watch(condition, self._exchangeData, pts, term)  # deve escrever no vte //fuck
+            self.terminaisDict[term] = terminal
 
-    # todo criar um metodo ou dar um jeito de fazer isso pra todos os pcs na instancia
+    # todo quando fechar a janela, enviar um sinal de stop pro servidor.
     def _buildWindow(self, terminal, pc):
+        '''Metodo para criar uma janela, agrega a ela um terminal e o nome do mesmo(pc)'''
         win = Gtk.Window()
-        win.set_name(pc)
+        win.set_title(pc)
         win.connect('delete-event', Gtk.main_quit)
         win.add(terminal)
         win.show_all()
         # Gtk.main()
         return win
 
-    def run(self):
+    def _buildTermWindow(self):
         gtkMainWin = Gtk.WindowGroup()
-        for termName in self.terminais:
-            term = self._buildTerm()
-            win = self._buildWindow(term, termName)
-            self.windows[termName] = win
+        self._buildTerm()
+        for termName in self.terminaisDict.keys():
+            win = self._buildWindow(self.terminaisDict[termName], termName)
             gtkMainWin.add_window(win)
 
         Gtk.main()
 
-    def _buildTermVM(self):
-        pass
+    def run(self):
+        self._buildTermWindow()
+
 
 #####################################################################################
 
