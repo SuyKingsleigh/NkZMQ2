@@ -8,6 +8,7 @@ Created on Tue Sep 11 16:51:11 2018
 import os
 import pty
 import sys
+import time
 from threading import Thread
 
 import gi
@@ -88,14 +89,15 @@ class Client:
         payload = {'term': termName, 'data': chan.read(128).decode('ascii')}
         request = Message(cmd='data', data=payload)
         self.socketCMD.send(request.serialize())
-        if not self.daemonStarted: self._daemon()
-
+        # if not self.daemonStarted: self._daemon()
+        self._daemon()
         return True
 
     def _daemon(self):
         self.instanciaDaemon = Thread(target=self._readMessage)
         self.instanciaDaemon.daemon = True
         self.instanciaDaemon.start()
+
 
     def _buildTerm(self):
         for term in self.terminais:
@@ -138,14 +140,16 @@ class Client:
         Gtk.main()
 
     def _readMessage(self):
-        while True:
+        while self.socketCMD.poll() == zmq.POLLIN:
             resp = self.socketCMD.recv()
-            resp = Message(0, resp)
-            if (resp.cmd == 'data'):
-                term = resp.data['term']
-                data = resp.data['data']
-                print("recebeu", term, data)
-                os.write(self.terminaisDict[term][2], data.encode('ascii'))
+            if resp:
+                resp = Message(0, resp)
+                if (resp.cmd == 'data'):
+                    term = resp.data['term']
+                    data = resp.data['data']
+                    print("recebeu", term, data)
+                    os.write(self.terminaisDict[term][2], data.encode('ascii'))
+            else: time.sleep(0.1)
 
     def run(self):
         self._buildTermWindow()
