@@ -264,7 +264,12 @@ Encaminha os dados para as instãncias correspondentes.
             # cmd='addNetwork', data={name, author, description, preferences, publisehd, value}
             # for key in msg.data.keys():
             #     print(key)
-            if self.repositorio.addNetwork(msg.data):
+            if self.repositorio.addNetwork(name=msg.data['name'],
+                                           author=msg.data['author'],
+                                           description=msg.data['author'],
+                                           preferences=msg.data['preferences'],
+                                           published=msg.data['published'],
+                                           value=msg.data['value']):
                 info = {'status': 200}
             else:
                 info = {'status': 400, 'info': 'falha ao adicionar a rede'}
