@@ -33,9 +33,8 @@ class Client:
         self.terminaisDict = dict()
         self.daemonStarted = False
 
-    # nome da rede
-    # se tudo ocorrer bem, coloca status started=True
     def start(self, netname):
+        '''Inicia uma rede, definida por netname'''
         request = Message(cmd='start', data=netname)
         self.socketCMD.send(request.serialize())
         resp = self.socketCMD.recv()
@@ -44,7 +43,6 @@ class Client:
             raise Exception('Erro: %s' % resp.get('info'))
         self._started = True
         self.terminais = resp.data['terms']
-        # self._daemon()
 
     # verifica se o objeto foi iniciado
     @property
@@ -83,21 +81,20 @@ class Client:
             raise Exception('Erro: %s' % msg.decode('ascii'))
         return resp.data
 
-    # envia uma mensagem pro servidor
+    # comunicacao entre servidor e cliente
     def _exchangeData(self, chan, cond, fdout, termName):
-        if(not self.daemonStarted): self._daemon()
+        if not self.daemonStarted: self._daemon()  # se a daemon nao foi iniciada, inicia.
+        # depois simplesmente le o que fora escrito no terminal, a daemon se responsabiliza pelo que veio do servidor
         payload = {'term': termName, 'data': chan.read(128).decode('ascii')}
         request = Message(cmd='data', data=payload)
         self.socketCMD.send(request.serialize())
         return True
-
 
     def _daemon(self):
         self.instanciaDaemon = Thread(target=self._readMessage)
         self.instanciaDaemon.daemon = True
         self.instanciaDaemon.start()
         self.daemonStarted = True
-
 
     def _buildTerm(self):
         for term in self.terminais:
@@ -141,7 +138,6 @@ class Client:
 
     def _readMessage(self):
         while self.socketCMD.poll() == zmq.POLLIN:
-        # while True:
             resp = self.socketCMD.recv()
             if resp:
                 resp = Message(0, resp)
@@ -150,7 +146,6 @@ class Client:
                     data = resp.data['data']
                     print("recebeu", term, data)
                     os.write(self.terminaisDict[term][2], data.encode('ascii'))
-            # else: time.sleep(0.1)
 
     def run(self):
         self._buildTermWindow()
