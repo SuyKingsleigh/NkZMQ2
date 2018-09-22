@@ -31,7 +31,7 @@ class Client:
         self.socketCMD.connect("tcp://%s:%d" % (ip, port))
         self._started = False
         self.terminaisDict = dict()
-        # self.daemonStarted = False
+        self.daemonStarted = False
 
     # nome da rede
     # se tudo ocorrer bem, coloca status started=True
@@ -44,7 +44,7 @@ class Client:
             raise Exception('Erro: %s' % resp.get('info'))
         self._started = True
         self.terminais = resp.data['terms']
-        self._daemon()
+        # self._daemon()
 
     # verifica se o objeto foi iniciado
     @property
@@ -85,6 +85,7 @@ class Client:
 
     # envia uma mensagem pro servidor
     def _exchangeData(self, chan, cond, fdout, termName):
+        if(not self.daemonStarted): self._daemon()
         payload = {'term': termName, 'data': chan.read(128).decode('ascii')}
         request = Message(cmd='data', data=payload)
         self.socketCMD.send(request.serialize())
@@ -95,7 +96,7 @@ class Client:
         self.instanciaDaemon = Thread(target=self._readMessage)
         self.instanciaDaemon.daemon = True
         self.instanciaDaemon.start()
-        # self.daemonStarted = True
+        self.daemonStarted = True
 
 
     def _buildTerm(self):
