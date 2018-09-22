@@ -161,8 +161,8 @@ class Client:
 
 if __name__ == '__main__':
     c = Client('127.0.0.1', 5555)
-    # print('Redes do catálogo:', c.networks)
-    net = c.get_network('rede2')
+    print('Redes do catálogo:', c.networks)
+    # net = c.get_network('rede3')
     # print('dados da rede rede2:', net)
     # print(net['conf'])
     c.start('rede2')
