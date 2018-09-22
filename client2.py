@@ -19,6 +19,7 @@ gi.require_version('Gtk', '3.0')
 gi.require_version('Vte', '2.91')
 from gi.repository import Vte, GLib, Gtk
 
+
 class Client:
 
     # inicia o socket de controel
@@ -30,6 +31,7 @@ class Client:
         self.socketCMD.connect("tcp://%s:%d" % (ip, port))
         self._started = False
         self.terminaisDict = dict()
+        self.daemonStarted = False
 
     # nome da rede
     # se tudo ocorrer bem, coloca status started=True
@@ -86,10 +88,14 @@ class Client:
         payload = {'term': termName, 'data': chan.read(128).decode('ascii')}
         request = Message(cmd='data', data=payload)
         self.socketCMD.send(request.serialize())
+        if not self.daemonStarted: self._daemon()
+
+        return True
+
+    def _daemon(self):
         self.instanciaDaemon = Thread(target=self._readMessage)
         self.instanciaDaemon.daemon = True
         self.instanciaDaemon.start()
-        return True
 
     def _buildTerm(self):
         for term in self.terminais:
@@ -135,7 +141,7 @@ class Client:
         while True:
             resp = self.socketCMD.recv()
             resp = Message(0, resp)
-            if(resp.cmd == 'data'):
+            if (resp.cmd == 'data'):
                 term = resp.data['term']
                 data = resp.data['data']
                 print("recebeu", term, data)
