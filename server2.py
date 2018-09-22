@@ -260,6 +260,17 @@ Encaminha os dados para as instãncias correspondentes.
             resp = Message(cmd='status', data=info)
             self.socket.send_multipart([msg.address, resp.serialize()])
 
+        elif msg.cmd == 'addNetwork':
+            # cmd='addNetwork', data={name, author, description, preferences, publisehd, value}
+            # for key in msg.data.keys():
+            #     print(key)
+            if self.repositorio.addNetwork(msg.data):
+                info = {'status': 200}
+            else:
+                info = {'status': 400, 'info': 'falha ao adicionar a rede'}
+
+            resp = Message(cmd='status', data=info)
+            self.socket.send_multipart([msg.address, resp.serialize()])
 
         elif msg.cmd == 'data':  # dados para um terminal ... não precisa de resposta
             if msg.address in self.instancias:
@@ -319,6 +330,7 @@ Encaminha o tratamento do evento'''
                         resp = Message(cmd='data', data=info)
                         self.socket.send_multipart([address, resp.serialize()])
                         # self.socket.send_multipart([address, data.encode('ascii')])
+
     def run(self):
         'Trata eventos indefinidamente'
 

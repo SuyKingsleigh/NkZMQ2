@@ -8,6 +8,7 @@ Created on Tue Sep 11 16:51:11 2018
 import os
 import pty
 import sys
+import time
 from threading import Thread
 
 import gi
@@ -155,16 +156,38 @@ class Client:
         self.socketCMD.send(request.serialize())
 
 
+    def addNetwork(self, **args):
+        with open('%s.conf' % args['filename'], 'r') as confFile:
+            value = confFile.read()
+            payload = {
+                'name' : args['name'],
+                'author' : args['author'],
+                'description' : args['description'],
+                'preferences' : args['preferences'],
+                'published' : time.asctime(),
+                'value': value
+            }
+            request = Message(cmd='addNetwork', data=payload)
+            self.socketCMD.send(request.serialize())
+            resp = self.socketCMD.recv()
+            resp = Message(0, resp)
+            if resp.get('status') != 200:
+                raise Exception('Erro: %s' % resp.get('info'))
+            else:
+                return True
+
 
 #####################################################################################
 
 
 if __name__ == '__main__':
     c = Client('127.0.0.1', 5555)
-    print('Redes do catálogo:', c.networks)
+    # print('Redes do catálogo:', c.networks)
     # net = c.get_network('rede3')
     # print('dados da rede rede2:', net)
     # print(net['conf'])
-    c.start('rede2')
-    c.run()
+    # c.start('rede2')
+    if c.addNetwork(name='rede4', author='Suy', description='alguma coisa', preferences='alguma',
+                 filename='teste'): print('sucesso ')
+    # c.run()
     sys.exit(0)
