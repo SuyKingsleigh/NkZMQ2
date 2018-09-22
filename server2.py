@@ -247,7 +247,11 @@ Encaminha os dados para as instãncias correspondentes.
         elif msg.cmd == 'stop':
             if msg.address in self.instancias:
                 inst = self.instancias[msg.address]
-                inst.unregister(self.poller)
+
+                # inst.unregister(self.poller)
+                for fd in inst.pool.fds:
+                    self.poller.register(fd, zmq.POLLIN)
+
                 inst.stop()
                 del self.instancias[msg.address]
                 info = {'status': 200}

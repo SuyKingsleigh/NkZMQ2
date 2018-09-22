@@ -116,6 +116,7 @@ class Client:
             # chanDoServidor.add_watch(condition, self._exchangeData, 1, term)  # escreve e manda pro servidor //Funciona
             chanDoCliente.add_watch(condition, self._exchangeData, pts, term)  # deve escrever no vte //fuck
             self.terminaisDict[term] = (terminal, ptm, pts)
+            os.write(pts, "Pressione qualquer tecla".encode('ascii'))
 
     # todo quando fechar a janela, enviar um sinal de stop pro servidor.
     def _buildWindow(self, terminal, pc):
@@ -149,6 +150,10 @@ class Client:
 
     def run(self):
         self._buildTermWindow()
+        # ao fechar as janelas, envia um sinal de stop para o servidor.
+        request = Message(cmd='stop', data='')
+        self.socketCMD.send(request.serialize())
+
 
 
 #####################################################################################
