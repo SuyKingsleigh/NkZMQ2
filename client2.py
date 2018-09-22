@@ -8,7 +8,6 @@ Created on Tue Sep 11 16:51:11 2018
 import os
 import pty
 import sys
-import time
 from threading import Thread
 
 import gi
@@ -32,7 +31,7 @@ class Client:
         self.socketCMD.connect("tcp://%s:%d" % (ip, port))
         self._started = False
         self.terminaisDict = dict()
-        self.daemonStarted = False
+        # self.daemonStarted = False
 
     # nome da rede
     # se tudo ocorrer bem, coloca status started=True
@@ -45,6 +44,7 @@ class Client:
             raise Exception('Erro: %s' % resp.get('info'))
         self._started = True
         self.terminais = resp.data['terms']
+        self._daemon()
 
     # verifica se o objeto foi iniciado
     @property
@@ -84,19 +84,18 @@ class Client:
         return resp.data
 
     # envia uma mensagem pro servidor
-    # todo receber a mensagem do servidor
     def _exchangeData(self, chan, cond, fdout, termName):
         payload = {'term': termName, 'data': chan.read(128).decode('ascii')}
         request = Message(cmd='data', data=payload)
         self.socketCMD.send(request.serialize())
-        # if not self.daemonStarted: self._daemon()
-        self._daemon()
         return True
+
 
     def _daemon(self):
         self.instanciaDaemon = Thread(target=self._readMessage)
         self.instanciaDaemon.daemon = True
         self.instanciaDaemon.start()
+        # self.daemonStarted = True
 
 
     def _buildTerm(self):
@@ -141,6 +140,7 @@ class Client:
 
     def _readMessage(self):
         while self.socketCMD.poll() == zmq.POLLIN:
+        # while True:
             resp = self.socketCMD.recv()
             if resp:
                 resp = Message(0, resp)
@@ -149,7 +149,7 @@ class Client:
                     data = resp.data['data']
                     print("recebeu", term, data)
                     os.write(self.terminaisDict[term][2], data.encode('ascii'))
-            else: time.sleep(0.1)
+            # else: time.sleep(0.1)
 
     def run(self):
         self._buildTermWindow()
