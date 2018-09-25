@@ -266,7 +266,7 @@ Encaminha os dados para as instãncias correspondentes.
             #     print(key, msg.data[key])
             if self.repositorio.addNetwork(name=msg.data['name'],
                                            author=msg.data['author'],
-                                           description=msg.data['author'],
+                                           description=msg.data['description'],
                                            preferences=msg.data['preferences'],
                                            published=msg.data['published'],
                                            value=msg.data['value']):

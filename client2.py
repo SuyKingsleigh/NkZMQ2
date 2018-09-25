@@ -195,7 +195,7 @@ if __name__ == '__main__':
     # print('dados da rede rede2:', net)
     # print(net['conf'])
 
-    if c.addNetwork(name='rede6',
+    if c.addNetwork(name='rede8',
                     author='Suy',
                     description='alguma coisa',
                     preferences='alguma',
@@ -204,7 +204,7 @@ if __name__ == '__main__':
     else:
         print('falhou ao adicionar a rede')
 
-    if c.removeNetwork('rede5'): print('removeu')
+    # if c.removeNetwork('rede5'): print('removeu')
 
     # c.start('rede3') # dando problema ao iniciar essa rede.
 
