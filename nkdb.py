@@ -13,7 +13,7 @@ class Network(Record):
   Attrs['preferences']=''
   Attrs['published']=0
   Attrs['value']=''
-  Key = 'name'
+  Key = Attrs['name']
   Index = ('name','author')
 
 class NetkitDB(MyDB):

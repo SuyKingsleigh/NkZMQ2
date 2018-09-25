@@ -263,7 +263,7 @@ Encaminha os dados para as instãncias correspondentes.
         elif msg.cmd == 'addNetwork':
             # cmd='addNetwork', data={name, author, description, preferences, publisehd, value}
             # for key in msg.data.keys():
-            #     print(key)
+            #     print(key, msg.data[key])
             if self.repositorio.addNetwork(name=msg.data['name'],
                                            author=msg.data['author'],
                                            description=msg.data['author'],
@@ -273,6 +273,15 @@ Encaminha os dados para as instãncias correspondentes.
                 info = {'status': 200}
             else:
                 info = {'status': 400, 'info': 'falha ao adicionar a rede'}
+
+            resp = Message(cmd='status', data=info)
+            self.socket.send_multipart([msg.address, resp.serialize()])
+
+        elif msg.cmd == 'remove':
+            if self.repositorio.removeNetwork(name=msg.data):
+                info = {'status' : 200}
+            else:
+                info = {'satus' : 400, 'info': 'falha ao remover a rede'}
 
             resp = Message(cmd='status', data=info)
             self.socket.send_multipart([msg.address, resp.serialize()])

@@ -155,16 +155,15 @@ class Client:
         request = Message(cmd='stop', data='')
         self.socketCMD.send(request.serialize())
 
-
     def addNetwork(self, **args):
         with open('%s.conf' % args['filename'], 'r') as confFile:
             value = confFile.read()
             payload = {
-                'name' : args['name'],
-                'author' : args['author'],
-                'description' : args['description'],
-                'preferences' : args['preferences'],
-                'published' : time.asctime(),
+                'name': args['name'],
+                'author': args['author'],
+                'description': args['description'],
+                'preferences': args['preferences'],
+                'published': time.asctime(),
                 'value': value
             }
             request = Message(cmd='addNetwork', data=payload)
@@ -172,9 +171,18 @@ class Client:
             resp = self.socketCMD.recv()
             resp = Message(0, resp)
             if resp.get('status') != 200:
-                raise Exception('Erro: %s' % resp.get('info'))
+                return False
             else:
                 return True
+
+    def removeNetwork(self, name):
+        self.socketCMD.send(Message(cmd='remove', data=name).serialize())
+        resp = self.socketCMD.recv()
+        resp = Message(0, resp)
+        if resp.get('status') != 200:
+            False
+        else:
+            return True
 
 
 #####################################################################################
@@ -186,8 +194,21 @@ if __name__ == '__main__':
     # net = c.get_network('rede3')
     # print('dados da rede rede2:', net)
     # print(net['conf'])
+
+    if c.addNetwork(name='rede6',
+                    author='Suy',
+                    description='alguma coisa',
+                    preferences='alguma',
+                    filename='teste'):
+        print('sucesso ')
+    else:
+        print('falhou ao adicionar a rede')
+
+    if c.removeNetwork('rede5'): print('removeu')
+
+    # c.start('rede3') # dando problema ao iniciar essa rede.
+
     # c.start('rede2')
-    if c.addNetwork(name='rede4', author='Suy', description='alguma coisa', preferences='alguma',
-                 filename='teste'): print('sucesso ')
     # c.run()
+
     sys.exit(0)
