@@ -1,12 +1,8 @@
 #!/usr/bin/python
 
-import os
-import random
-import re
-import time
-
+import sys,os,re,getopt,string,pwd,traceback,time
+import random,types
 import uml_layer
-
 
 #####################################################################################
 def getpath():
@@ -377,15 +373,23 @@ class NetkitInterface:
         s += 'tc qdisc add dev %s root handle 1: tbf rate %skbit burst 4096 limit 262144\n' % (self.ifName(),  self.attrs['rate'])
     return s
 
-  def __cmp__(self, o):
+  def __eq__(self, o):
+    t1,n1 = self.ifType(),self.num
+    t2,n2 = o.ifType(),o.num
+    if t1 == t2:
+      return n1 > n2
+    return False
+
+  def __ne__(self, o):
+      return not (self == o)
+
+  def __lt__(self, o):
     t1,n1 = self.ifType(),self.num
     t2,n2 = o.ifType(),o.num
     #print (t1, t2)
     if t1 == t2:
-      if n1 < n2: return -1
-      return n1 > n2
-    if t1 < t2: return -1
-    return t1 > t2
+      return n1 < n2
+    return t1 < t2
     
   def start(self):
     pass
