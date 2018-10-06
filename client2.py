@@ -191,11 +191,11 @@ class Client:
 if __name__ == '__main__':
     c = Client('127.0.0.1', 5555)
     # print('Redes do catálogo:', c.networks)
-    # net = c.get_network('rede3')
-    # print('dados da rede rede2:', net)
-    # print(net['conf'])
+    net = c.get_network('rede2')
+    print('dados da rede rede2:', net)
+    print(net['conf'])
 
-    if c.addNetwork(name='rede8',
+    if c.addNetwork(name='aaaa',
                     author='Suy',
                     description='alguma coisa',
                     preferences='alguma',
@@ -204,7 +204,7 @@ if __name__ == '__main__':
     else:
         print('falhou ao adicionar a rede')
 
-    # if c.removeNetwork('rede5'): print('removeu')
+    if c.removeNetwork('aaaa'): print('removeu')
 
     # c.start('rede3') # dando problema ao iniciar essa rede.
 

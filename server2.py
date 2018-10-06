@@ -321,6 +321,7 @@ Encaminha os dados para as instãncias correspondentes.
             resp = Message(cmd='status', data=info)
             self.socket.send_multipart([msg.address, resp.serialize()])
 
+
     def dispatch(self):
         '''Aguarda um evento (mensagem vinda do cliente ou dados em alguma console de vm.
 Encaminha o tratamento do evento'''

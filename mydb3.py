@@ -1,5 +1,4 @@
 import sqlite3
-import string
 from collections import OrderedDict
 
 class Record:
@@ -146,6 +145,8 @@ class MyDB:
   SQL_select = 'select * from %s where %s'
   SQL_update = 'update %s set %s where %s'
   SQL_delete = 'delete from %s where id=%d'
+  # SQL_delete1 = "delete from %s where 'name'=%s"
+  SQL_delete1 = "delete from %s where name='%s'"
   SQL_insert = 'insert or replace into %s values(%s)'
   SQL_insert_default = 'insert or replace into %s default values'
   Tabelas = []
@@ -251,12 +252,13 @@ class MyDB:
       return r[0]
 
   def delete(self,  obj):
-      expr = self.SQL_delete % (obj.Tabela,  obj.id)
+      print('obj', obj)
+      expr = self.SQL_delete1 % ('Network',  obj)
       c = self.db.cursor()
       c.execute(expr)
       self.db.commit()
       c.close()
-      obj.cleanup(self)
+      # obj.cleanup(self)
       
   def close(self):
     self.db.close()

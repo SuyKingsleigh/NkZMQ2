@@ -33,8 +33,10 @@ class NetworkRepository:
     def removeNetwork(self, name):
         'remove uma rede do repositório. Se não existir, retorna falso'
         r = list(self.db.search(nkdb.Network, name=name))
+        print('id',r[0].id)
+        print('nome:', name)
         if r:
-            self.db.delete(r[0].id)
+            self.db.delete(name)
             return True
         else:
             return False
