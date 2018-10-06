@@ -119,7 +119,6 @@ class Client:
             self.terminaisDict[term] = (terminal, ptm, pts)
             os.write(pts, "Pressione qualquer tecla".encode('ascii'))
 
-    # todo quando fechar a janela, enviar um sinal de stop pro servidor.
     def _buildWindow(self, terminal, pc):
         '''Metodo para criar uma janela, agrega a ela um terminal e o nome do mesmo(pc)'''
         win = Gtk.Window()
@@ -150,12 +149,19 @@ class Client:
                     os.write(self.terminaisDict[term][2], data.encode('ascii'))
 
     def run(self):
+        '''Constroi as janelas dos pseudo-terminais e executa'''
         self._buildTermWindow()
         # ao fechar as janelas, envia um sinal de stop para o servidor.
         request = Message(cmd='stop', data='')
         self.socketCMD.send(request.serialize())
 
     def addNetwork(self, **args):
+        '''Adiciona uma rede no repositorio
+        "name"=Nome da rede
+        "author"=Autor da rede
+        "description"=Descricao da rede
+        "preferences"=Preferencias da rede
+         "value"=nome do arquivo contendo a configuracao'''
         with open('%s.conf' % args['filename'], 'r') as confFile:
             value = confFile.read()
             payload = {
@@ -176,6 +182,8 @@ class Client:
                 return True
 
     def removeNetwork(self, name):
+        '''Remove uma rede de acordo com o nome da mesma
+        True se removeu False se falhou'''
         self.socketCMD.send(Message(cmd='remove', data=name).serialize())
         resp = self.socketCMD.recv()
         resp = Message(0, resp)
