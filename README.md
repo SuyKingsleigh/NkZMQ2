@@ -9,9 +9,9 @@ Para execução deve-se em uma máquina executar o Servidor e na outra o cliente
 
 ## Servidor: 
 No lado do servidor usa-se, as classes: 
-TermPool: Agrupador de terminais. 
-Instancia: Representa uma instancia em execução 
-Dispatcher: gerencia as instancias 
+* TermPool: Agrupador de terminais. 
+* Instancia: Representa uma instancia em execução 
+* Dispatcher: gerencia as instancias 
 
 O diagrama a seguir é um breve representação do lado do servidor. 
 ![diagrama](vNet.png)
