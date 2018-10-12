@@ -23,5 +23,5 @@ Formatos das mensagens recebidas do servidor: (status, data)
 * para obter a documentação da classe: pydoc3 nkmessage
 
 ## Cliente:
-gerencia as redes de um catalogo (podendo adicionar, remover e atualizar), além de criar e inicializar 
+Gerencia as redes de um catalogo (podendo adicionar, remover e atualizar), além de criar e inicializar 
 os pseudos terminais. 
