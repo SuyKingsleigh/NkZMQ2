@@ -5,7 +5,7 @@ de redes.
 
 ### Estrutura do projeto
 Dividido em duas partes, cliente (Client2.py) e Servidor (Server2.py), além do repositório de redes. 
-Para execução deve-se em uma máquina executar o Servidor e na outra o cliente. 
+Para execução deve-se em uma máquina executar o Servidor e na outra o cliente, obviamente do lado do cliente deve-se alterar o ip para o ip do servidor. 
 
 ## Servidor: 
 No lado do servidor usa-se, as classes: 
