@@ -1,11 +1,10 @@
 # NkZMQ2 - Laboratorio Virtual de Redes - vNet 
 
-Este projeto é uma bolsa de pesquisa com o objetivo de executar o software Netkit2 remotamente, para simplificar e ajudar no ensino
-de redes. 
+Este projeto é uma bolsa de pesquisa com o objetivo de executar o software Netkit2 remotamente, para simplificar e ajudar o ensino de redes. 
 
 ### Estrutura do projeto
 Dividido em duas partes, cliente (Client2.py) e Servidor (Server2.py), além do repositório de redes. 
-Para execução deve-se em uma máquina executar o Servidor e na outra o cliente, obviamente do lado do cliente deve-se alterar o ip para o ip do servidor. 
+Para execução deve-se em uma máquina executar o Servidor e em outra o cliente, obviamente do lado do cliente deve-se alterar o ip para o ip do servidor. 
 
 ## Servidor: 
 No lado do servidor usa-se, as classes: 
