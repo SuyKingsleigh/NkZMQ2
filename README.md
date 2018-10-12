@@ -12,7 +12,12 @@ No lado do servidor usa-se, as classes:
 TermPool: Agrupador de terminais. 
 Instancia: Representa uma instancia em execução 
 Dispatcher: gerencia as instancias 
+
+O diagrama a seguir é um breve representação do lado do servidor. 
+![diagrama](vNet.png)
+
 * Para obter a documentação da classe: pydoc3 server2
+
 
 
 ## Message: 
