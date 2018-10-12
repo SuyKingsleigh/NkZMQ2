@@ -30,3 +30,6 @@ Formatos das mensagens recebidas do servidor: (status, data)
 ## Cliente:
 Gerencia as redes de um catalogo (podendo adicionar, remover e atualizar), além de criar e inicializar 
 os pseudos terminais. 
+
+* O diagrama a seguir demonstra de forma extremamente simplificada a interação entre ambas partes. 
+![diagrama-cliente-servidor](client-server.png)
