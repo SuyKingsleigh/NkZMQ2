@@ -193,6 +193,7 @@ class Client:
             return True
 
 
+
 #####################################################################################
 
 
@@ -214,9 +215,8 @@ if __name__ == '__main__':
 
     if c.removeNetwork('aaaa'): print('removeu')
 
-    # c.start('rede3') # dando problema ao iniciar essa rede.
-
-    # c.start('rede2')
-    # c.run()
+    # c.start('rede3')
+    c.start('rede2')
+    c.run()
 
     sys.exit(0)
