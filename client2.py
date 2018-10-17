@@ -231,5 +231,6 @@ if __name__ == '__main__':
     # c.start('rede3')
     # c.start('rede2')
     # c.run()
-    # c.updateNetwork(name='rede8', author='Pudinzin', description='eu gosto de beterraba azeda')
+    if c.updateNetwork(name='rede8', author='biwa', description='biguba'):
+        print('ATUALIZOU POARRRRR ')
     sys.exit(0)

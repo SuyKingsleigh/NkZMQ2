@@ -56,7 +56,7 @@ class NetworkRepository:
         'Atualiza os dados de uma rede. "args" contém os valores de atributos da rede a serem modificados'
         # if not isinstance(networkName, nkdb.Network):
         #     data = nkdb.Network(**args)
-        self.db.update(networkName, args)
+        return self.db.update(networkName, args)
 
     def getNetworkInfo(self, name, flag):
         if flag == 'all':

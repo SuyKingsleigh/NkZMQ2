@@ -238,13 +238,19 @@ class MyDB:
     for key in obj.keys():
       value = str(key) + '=' + "'" + str(obj[key]) + "'"
       l.append(value)
+    try:
+      for value in l:
+        expr = "update % s set % s where name='%s'" % ('Network', value, name)
+        c = self.db.cursor()
+        c.execute(expr)
+        self.db.commit()
+        c.close()
+      return True
+    except Exception as e:
+      pass
 
-    for value in l:
-      expr = "update % s set % s where name='%s'" % ('Network', value, name)
-      c = self.db.cursor()
-      c.execute(expr)
-      self.db.commit()
-      c.close()
+    return False
+
 
   def insert(self, obj, search=[]):
     obj.attrs[obj.Key] = None

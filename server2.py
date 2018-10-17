@@ -322,11 +322,15 @@ Encaminha os dados para as instãncias correspondentes.
             resp = Message(cmd='status', data=info)
             self.socket.send_multipart([msg.address, resp.serialize()])
 
-        elif msg.cmd == 'update': # atualiza uma rede
+        elif msg.cmd == 'update':  # atualiza uma rede
             for key in msg.data.keys():
                 print(key, msg.data[key])
-            self.repositorio.updateNetwork(msg.data['name'], msg.data)
-            # self.socket.send()
+            if self.repositorio.updateNetwork(msg.data['name'], msg.data):
+                info = {'status': 200, 'info': 'updated'}
+                resp = Message(cmd='status', data=info)
+            else:
+                info = {'status': 400, 'info': 'not updated'}
+            self.socket.send_multipart([msg.address, resp.serialize()])
 
     def dispatch(self):
         '''Aguarda um evento (mensagem vinda do cliente ou dados em alguma console de vm.
