@@ -181,6 +181,20 @@ class Client:
             else:
                 return True
 
+    def updateNetwork(self, **args):
+        '''Atualiza uma rede, o parametro nome="" eh obrigatorio, os outros sao opcionais
+        author = new author
+        description=new description
+        preferences = new preference
+        value = new value'''
+        self.socketCMD.send(Message(cmd='update', data=args).serialize())
+        resp = self.socketCMD.recv()
+        resp = Message(0, resp)
+        if resp.get('status') != 200:
+            return False
+        else:
+            return True
+
     def removeNetwork(self, name):
         '''Remove uma rede de acordo com o nome da mesma
         True se removeu False se falhou'''
@@ -193,30 +207,29 @@ class Client:
             return True
 
 
-
 #####################################################################################
 
 
 if __name__ == '__main__':
     c = Client('127.0.0.1', 5555)
     # print('Redes do catálogo:', c.networks)
-    net = c.get_network('rede2')
-    print('dados da rede rede2:', net)
-    print(net['conf'])
+    # net = c.get_network('rede2')
+    # print('dados da rede rede2:', net)
+    # print(net['conf'])
 
-    if c.addNetwork(name='aaaa',
-                    author='Suy',
-                    description='alguma coisa',
-                    preferences='alguma',
-                    filename='teste'):
-        print('sucesso ')
-    else:
-        print('falhou ao adicionar a rede')
-
-    if c.removeNetwork('aaaa'): print('removeu')
+    # if c.addNetwork(name='aaaa',
+    #                 author='Suy',
+    #                 description='alguma coisa',
+    #                 preferences='alguma',
+    #                 filename='teste'):
+    #     print('sucesso ')
+    # else:
+    #     print('falhou ao adicionar a rede')
+    #
+    # if c.removeNetwork('aaaa'): print('removeu')
 
     # c.start('rede3')
-    c.start('rede2')
-    c.run()
-
+    # c.start('rede2')
+    # c.run()
+    # c.updateNetwork(name='rede8', author='Pudinzin', description='eu gosto de beterraba azeda')
     sys.exit(0)

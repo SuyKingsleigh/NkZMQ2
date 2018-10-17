@@ -277,11 +277,12 @@ Encaminha os dados para as instãncias correspondentes.
             resp = Message(cmd='status', data=info)
             self.socket.send_multipart([msg.address, resp.serialize()])
 
+
         elif msg.cmd == 'remove':
             if self.repositorio.removeNetwork(name=msg.data):
-                info = {'status' : 200}
+                info = {'status': 200}
             else:
-                info = {'satus' : 400, 'info': 'falha ao remover a rede'}
+                info = {'satus': 400, 'info': 'falha ao remover a rede'}
 
             resp = Message(cmd='status', data=info)
             self.socket.send_multipart([msg.address, resp.serialize()])
@@ -321,6 +322,11 @@ Encaminha os dados para as instãncias correspondentes.
             resp = Message(cmd='status', data=info)
             self.socket.send_multipart([msg.address, resp.serialize()])
 
+        elif msg.cmd == 'update': # atualiza uma rede
+            for key in msg.data.keys():
+                print(key, msg.data[key])
+            self.repositorio.updateNetwork(msg.data['name'], msg.data)
+            # self.socket.send()
 
     def dispatch(self):
         '''Aguarda um evento (mensagem vinda do cliente ou dados em alguma console de vm.
@@ -339,16 +345,19 @@ Encaminha o tratamento do evento'''
                     inst = self.instancias[address]
                     term = inst.handle_fd(fd)
                     if term:
-                        data = os.read(fd, 256).decode('ascii')
-                        print("executado", data)
-                        info = dict(term=term, data=data)
-                        resp = Message(cmd='data', data=info)
-                        self.socket.send_multipart([address, resp.serialize()])
-                        # self.socket.send_multipart([address, data.encode('ascii')])
+                        try:
+                            data = os.read(fd, 256).decode('ascii')
+                            print("executado", data)
+                            info = dict(term=term, data=data)
+                            resp = Message(cmd='data', data=info)
+                            self.socket.send_multipart([address, resp.serialize()])
+                            # self.socket.send_multipart([address, data.encode('ascii')])
+                        except Exception as e:
+                            print('erro no Dispatcher, leitura de dados do terminal', e)
+                            print(traceback.format_exc())
 
     def run(self):
         'Trata eventos indefinidamente'
-
         while True:
             self.dispatch()
 

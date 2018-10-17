@@ -143,7 +143,7 @@ class MyDB:
 
   SQL_simple_select = 'select * from %s'
   SQL_select = 'select * from %s where %s'
-  SQL_update = 'update %s set %s where %s'
+  SQL_update = 'update %s set %s where %s'#
   SQL_delete = 'delete from %s where id=%d'
   # SQL_delete1 = "delete from %s where 'name'=%s"
   SQL_delete1 = "delete from %s where name='%s'"
@@ -228,14 +228,23 @@ class MyDB:
     r = map(lambda x: data_class(values=x), r)
     return r
 
-  def update(self, obj, extra=''):
-    expr = self.SQL_update % (obj.Tabela, obj.update(), obj.selector())
-    if extra:
-      expr = '%s and %s' % extra
-    c = self.db.cursor()
-    c.execute(expr)
-    self.db.commit()
-    c.close()
+  def update(self, name, obj):
+    l = []
+    value = ''
+
+    if 'name' in obj:
+      del obj['name']
+
+    for key in obj.keys():
+      value = str(key) + '=' + "'" + str(obj[key]) + "'"
+      l.append(value)
+
+    for value in l:
+      expr = "update % s set % s where name='%s'" % ('Network', value, name)
+      c = self.db.cursor()
+      c.execute(expr)
+      self.db.commit()
+      c.close()
 
   def insert(self, obj, search=[]):
     obj.attrs[obj.Key] = None
@@ -263,4 +272,5 @@ class MyDB:
   def close(self):
     self.db.close()
     self.closed = True
- 
+
+
