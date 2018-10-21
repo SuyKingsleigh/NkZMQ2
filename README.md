@@ -19,10 +19,15 @@ As principais diferenças entre o Netkit e o Netkit2 são:
 ![ilustracao](https://wiki.sj.ifsc.edu.br/wiki/images/thumb/3/31/Netkit-vlsm1.png/640px-Netkit-vlsm1.png)
 
 ## Estrutura do projeto
-O projeto adota uma estrutura Cliente-Servidor, usando a API zeroMQ[3] para estabelecer os dois sockets, numa arquitetura dealer-router[4]. 
-A comunicação entre ambas as partes é feita por um protocolo próprio. 
+O projeto adota uma estrutura Cliente-Servidor, utilizando os sockets providos pela API zeroMQ[3] com os mesmos numa arquitetura dealer-router[4].
+Devido a propriedade de multiplexação destes sockets, é necessário apenas um socket para cada cliente, porém, para simplificar a comunicação entre ambos os lados e torna-la mais eficiente, o HTTP não foi totalmente eficaz, e foi necessário desenvolver um protocolo próprio para essa aplicação. 
+ 
+O protocolo desenvolvido é demonstrado na figura a seguir:
 
 ![protocolo](protocolo.png)
+
+O servidor também responde com status=400 caso haja algum erro, e, data= Descrição do erro ocorrido. 
+
 
 ## Servidor: 
 No lado do servidor usa-se, as classes: 
