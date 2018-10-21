@@ -20,14 +20,16 @@ As principais diferenças entre o Netkit e o Netkit2 são:
 
 ## Estrutura do projeto
 O projeto adota uma estrutura Cliente-Servidor, utilizando os sockets providos pela API zeroMQ[3] com os mesmos numa arquitetura dealer-router[4].
-Devido a propriedade de multiplexação destes sockets, é necessário apenas um socket para cada cliente, porém, para simplificar a comunicação entre ambos os lados e torna-la mais eficiente, o HTTP não foi totalmente eficaz, e foi necessário desenvolver um protocolo próprio para essa aplicação. 
- 
+Devido a propriedade de multiplexação destes sockets, é necessário apenas um socket para cada cliente, porém, para simplificar a comunicação entre ambos os lados e torna-la mais eficiente, o HTTP não foi totalmente eficaz, e foi necessário desenvolver um protocolo próprio para essa aplicação.
+
 O protocolo desenvolvido é demonstrado na figura a seguir:
 
 ![protocolo](protocolo.png)
 
 O servidor também responde com status=400 caso haja algum erro, e, data= Descrição do erro ocorrido. 
 
+
+> para obter a documentação da classe: **pydoc3 nkmessage**
 
 ## Servidor: 
 No lado do servidor usa-se, as classes: 
@@ -38,16 +40,8 @@ No lado do servidor usa-se, as classes:
 O diagrama a seguir é um breve representação do lado do servidor. 
 ![diagrama](vNet.png)
 
-* Para obter a documentação da classe: pydoc3 server2
+> Para obter a documentação da classe: **pydoc3 server2**
 
-
-
-## Message: 
-Protocolo criado para a comunicação entre servidor e cliente, todas as mensagens trocadas entre eles o utilizam. 
-Formatos das mensagens recebidas do cliente: (cmd, data)
-Formatos das mensagens recebidas do servidor: (status, data) 
-
-* para obter a documentação da classe: pydoc3 nkmessage
 
 ## Cliente:
 Gerencia as redes de um catalogo (podendo adicionar, remover e atualizar), além de criar e inicializar 
