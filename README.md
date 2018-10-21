@@ -1,9 +1,9 @@
 # NkZMQ2 - Laboratorio Virtual de Redes - vNet 
 
-## Introdução:
+## Introdução
   O emulador de redes Netkit2 apresenta-se como um ambiente para experimentos com redes de computadores, para torna-lo mais acessível, este projeto propõe estendê-lo para que seja executado em um servidor de aplicação, ou mesmo em nuvem, sendo acessado através de uma interface web. Nesse modelo, chamado de vNet, estudantes podem criar, executar e investigar suas redes, que podem ficar ativas e operantes pelo tempo que for necessário. O novo serviço possui também um catálogo de experimentos e a possibilidade de interligar redes de diversos experimentos. O vNet assim facilitaria a experimentação com redes de computadores e a criação de aulas práticas em cursos de redes em modalidade EaD.
 
-## Netkit2: 
+## Netkit2 
   Netkit2 é um ambiente para experimentos com redes de computadores desenvolvido pela Área de Telecomunicações do IFSC (Câmpus São José), e que se inspirou no Netkit[1], uma ferramenta semelhante (mas mais simplificada) desenvolvida pela Universidade de Roma, na Itália.
   Ele se compõe de máquinas virtuais Linux (implementadas com kernel Linux UML – User Mode Linux)[2], que funcionam como roteadores ou computadores, e hubs Ethernet virtuais (UML switch) para interligar as máquinas virtuais. Para todos os efeitos, cada máquina virtual funciona como se fosse um computador real, possuindo uma ou mais interfaces de rede. Com esses recursos é possível criar redes de configurações arbitrárias para estudar protocolos de comunicação e serviços de rede.
   
@@ -31,11 +31,14 @@ O servidor também responde com status=400 caso haja algum erro, e, data= Descri
 
 > para obter a documentação da classe: **pydoc3 nkmessage**
 
-## Servidor: 
-No lado do servidor usa-se, as classes: 
-* TermPool: Agrupador de terminais. 
-* Instancia: Representa uma instancia em execução 
-* Dispatcher: gerencia as instancias 
+## Servidor 
+No lado do servidor usa-se as classes: 
+
+* TermPool: Um agrupador dos terminais de cada instância, inicia as VMs (Virtual Machine) de cada instância, configurando-as para leitura não bloqueante. 
+
+* Instancia: Representa uma rede em execução, cada objeto instância contém um TermPool, inicia de fato a rede e trata eventos vindos dos terminais do cliente.
+
+* Dispatcher: Gerencia as requisições vindas dos clientes, caso a requisição seja do tipo "data", é executado direto no objeto instância, caso contrário, ele acessa o repositório de redes, possui multiplos objetos instâncias, as identifica de acordo com o endereço do cliente. 
 
 O diagrama a seguir é um breve representação do lado do servidor. 
 ![diagrama](vNet.png)
