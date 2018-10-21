@@ -19,8 +19,10 @@ As principais diferenças entre o Netkit e o Netkit2 são:
 ![ilustracao](https://wiki.sj.ifsc.edu.br/wiki/images/thumb/3/31/Netkit-vlsm1.png/640px-Netkit-vlsm1.png)
 
 ## Estrutura do projeto
-Dividido em duas partes, cliente (Client2.py) e Servidor (Server2.py), além do repositório de redes. 
-Para execução deve-se em uma máquina executar o Servidor e em outra o cliente, obviamente do lado do cliente deve-se alterar o ip para o ip do servidor. 
+O projeto adota uma estrutura Cliente-Servidor, usando a API zeroMQ[3] para estabelecer os dois sockets, numa arquitetura dealer-router[4]. 
+A comunicação entre ambas as partes é feita por um protocolo próprio. 
+
+![protocolo](protocolo.png)
 
 ## Servidor: 
 No lado do servidor usa-se, as classes: 
@@ -53,3 +55,7 @@ os pseudos terminais.
 [1] http://wiki.netkit.org/index.php/Main_Page
 
 [2] http://user-mode-linux.sourceforge.net/
+
+[3] http://zeromq.org/
+
+[4] http://zeromq.org/tutorials:dealer-and-router
