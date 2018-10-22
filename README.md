@@ -31,6 +31,18 @@ O servidor também responde com status=400 caso haja algum erro e data= Descriç
 
 > para obter a documentação da classe: **pydoc3 nkmessage**
 
+## Repositório de redes 
+Com a finalidade de tornar mais ágil e simples a execução de experimentos, foi pensado e implementado um repositório de redes pré configuradas, para isso foi usado o MyDB3 e NKRepo. 
+* MyDB3: API que faz a comunicação entre o banco de dados (SQLite[5]) e o NKRepo. 
+* NKRepo: Representa o repositório desta aplicação propriamente dito, cada rede neste repositório possui as seguintes informações: 
+  name: Nome da rede 
+  author: autor da rede.
+  description: breve descrição do experimento/rede.
+  preferences: preferencias da rede.
+  published: data de publicação. 
+  value: configuração da rede. 
+  
+
 ## Servidor 
 No lado do servidor usa-se as classes: 
 
@@ -38,7 +50,8 @@ No lado do servidor usa-se as classes:
 
 * Instancia: Representa uma rede em execução, cada objeto instância contém um TermPool, inicia de fato a rede e trata eventos vindos dos terminais do cliente.
 
-* Dispatcher: Gerencia as requisições vindas dos clientes, caso a requisição seja do tipo "data", é executado direto no objeto instância, caso contrário, ele acessa o repositório de redes, possui multiplos objetos instâncias, as identifica de acordo com o endereço do cliente. 
+* Dispatcher: Gerencia as requisições vindas do cliente, também faz a comunicação com o banco de dados. 
+Se a requisição recebida for um comando escrito num pseudo-terminal, o comando é enviado para sua instância, processado, então a resposta vinda da instância é enviada ao respectivo cliente, caso a requisição seja referente ao banco de dados, ele simplesmente obtém o que foi requisitado e envia ao cliente. 
 
 O diagrama a seguir é um breve representação do lado do servidor. 
 ![diagrama](vNet.png)
@@ -61,3 +74,5 @@ os pseudos terminais.
 [3] http://zeromq.org/
 
 [4] http://zeromq.org/tutorials:dealer-and-router
+
+[5] https://www.sqlite.org/docs.html
