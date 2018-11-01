@@ -123,18 +123,42 @@ class Client:
         '''Metodo para criar uma janela, agrega a ela um terminal e o nome do mesmo(pc)'''
         win = Gtk.Window()
         win.set_title(pc)
-        win.connect('delete-event', Gtk.main_quit)
+        # win.connect('delete-event', Gtk.main_quit)
         win.add(terminal)
         win.show_all()
         return win
 
+    def on_button_clicked(self,button,win):
+        """
+        Se o botao for clicado, torna a janela visivel
+        :param button: Gtk.ToggleButton
+        :type win: Gtk.Window
+        """
+        if button.get_active():
+            win.set_visible(True)
+        else:
+            win.set_visible(False)
+
+
+
     def _buildTermWindow(self):
-        gtkMainWin = Gtk.WindowGroup()
+        gtkMainWin = Gtk.Window()
+        grid = Gtk.Grid()
+        gtkMainWin.add(grid)
         self._buildTerm()
+        top = 0
         for termName in self.terminaisDict.keys():
             win = self._buildWindow(self.terminaisDict[termName][0], termName)
-            gtkMainWin.add_window(win)
+            gtkMainWin.add(win)
+            button = Gtk.ToggleButton(termName)
 
+            button.connect("toggled", self.on_button_clicked, win)
+            grid.attach(button, 0, top, 3, 5)
+            top += 6
+            win.set_visible(False)
+
+        gtkMainWin.connect("destroy", Gtk.main_quit)
+        gtkMainWin.show_all()
         Gtk.main()
 
     def _readMessage(self):
@@ -209,7 +233,32 @@ class Client:
 
 #####################################################################################
 
+class Interface(Gtk.Window):
+    def __init__(self, name, vteDict):
+        self.buttons = {}
+        self.vteDict = vteDict
+        Gtk.Window.__init__(self, title=name)
 
+
+        for vte in self.vteDict.keys():
+            button = Gtk.Button(label=vte)
+            button.connect("clicked", self.on_button_clicked, vteDict[vte][0])
+            # button.connect("clicked", self.on_button_clicked(vteDict[vte][0]))
+            self.buttons[vte] = button
+            self.add(button)
+
+
+    def on_button_clicked(self, terminais):
+        pass
+
+
+
+
+
+
+
+
+#####################################################################################
 if __name__ == '__main__':
     c = Client('127.0.0.1', 5555)
     # print('Redes do catálogo:', c.networks)
@@ -229,8 +278,9 @@ if __name__ == '__main__':
     # if c.removeNetwork('aaaa'): print('removeu')
 
     # c.start('rede3')
-    # c.start('rede2')
-    # c.run()
-    if c.updateNetwork(name='rede8', author='biwa', description='biguba'):
-        print('ATUALIZOU POARRRRR ')
+    c.start('rede2')
+    c.run()
+    # if c.updateNetwork(name='rede8', author='biwa', description='bi
+    # guba'):
+    #     print('ATUALIZOU POARRRRR ')
     sys.exit(0)
