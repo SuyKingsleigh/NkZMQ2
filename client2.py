@@ -20,7 +20,6 @@ gi.require_version('Gtk', '3.0')
 gi.require_version('Vte', '2.91')
 from gi.repository import Vte, GLib, Gtk
 
-
 class Client:
 
     # inicia o socket de controel
@@ -141,15 +140,34 @@ class Client:
 
 
 
+    # def _buildTermWindow(self):
+    #     gtkMainWin = Gtk.Window()
+    #     grid = Gtk.Grid()
+    #     gtkMainWin.add(grid)
+    #     self._buildTerm()
+    #     top = 0
+    #     for termName in self.terminaisDict.keys():
+    #         win = self._buildWindow(self.terminaisDict[termName][0], termName)
+    #         gtkMainWin.add(win)
+    #         button = Gtk.ToggleButton(termName)
+    #
+    #         button.connect("toggled", self.on_button_clicked, win)
+    #         grid.attach(button, 0, top, 3, 5)
+    #         top += 6
+    #         win.set_visible(False)
+    #
+    #     gtkMainWin.connect("destroy", Gtk.main_quit)
+    #     gtkMainWin.show_all()
+    #     Gtk.main()
+
     def _buildTermWindow(self):
-        gtkMainWin = Gtk.Window()
-        grid = Gtk.Grid()
-        gtkMainWin.add(grid)
+        self.gtkMainWin = InterfaceHandler()
+        grid = self.gtkMainWin.get_grid()
         self._buildTerm()
         top = 0
         for termName in self.terminaisDict.keys():
             win = self._buildWindow(self.terminaisDict[termName][0], termName)
-            gtkMainWin.add(win)
+            # self.gtkMainWin.add(win)
             button = Gtk.ToggleButton(termName)
 
             button.connect("toggled", self.on_button_clicked, win)
@@ -157,9 +175,9 @@ class Client:
             top += 6
             win.set_visible(False)
 
-        gtkMainWin.connect("destroy", Gtk.main_quit)
-        gtkMainWin.show_all()
-        Gtk.main()
+        self.gtkMainWin.mainWindow.show_all()
+        self.gtkMainWin.runMain()
+
 
     def _readMessage(self):
         while self.socketCMD.poll() == zmq.POLLIN:
@@ -233,30 +251,34 @@ class Client:
 
 #####################################################################################
 
-class Interface(Gtk.Window):
-    def __init__(self, name, vteDict):
-        self.buttons = {}
-        self.vteDict = vteDict
-        Gtk.Window.__init__(self, title=name)
+class InterfaceHandler(Gtk.Window):
+    def __init__(self):
+        # building a builder
+        self.builder = Gtk.Builder()
+        self.builder.add_from_file("interface-glade.glade")
 
+        # get main window
+        self.mainWindow = self.builder.get_object("main-window")
 
-        for vte in self.vteDict.keys():
-            button = Gtk.Button(label=vte)
-            button.connect("clicked", self.on_button_clicked, vteDict[vte][0])
-            # button.connect("clicked", self.on_button_clicked(vteDict[vte][0]))
-            self.buttons[vte] = button
-            self.add(button)
+        # get interface box
+        self.interfaceBox = self.builder.get_object("interface-box")
 
+        # get interface grid
+        self.interfaceGrid = self.builder.get_object('interface-grid')
 
-    def on_button_clicked(self, terminais):
-        pass
+        # self.mainWindow.show_all()
 
+        self.builder.connect_signals(self)
+        # Gtk.main()
 
+    def on_destroy(self, *args):
+        Gtk.main_quit()
 
+    def get_grid(self):
+        return self.interfaceGrid
 
-
-
-
+    def runMain(self):
+        Gtk.main()
 
 #####################################################################################
 if __name__ == '__main__':
