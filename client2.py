@@ -20,6 +20,7 @@ gi.require_version('Gtk', '3.0')
 gi.require_version('Vte', '2.91')
 from gi.repository import Vte, GLib, Gtk
 
+
 class Client:
 
     # inicia o socket de controel
@@ -127,7 +128,7 @@ class Client:
         win.show_all()
         return win
 
-    def on_button_clicked(self,button,win):
+    def on_button_clicked(self, button, win):
         """
         Se o botao for clicado, torna a janela visivel
         :param button: Gtk.ToggleButton
@@ -137,8 +138,6 @@ class Client:
             win.set_visible(True)
         else:
             win.set_visible(False)
-
-
 
     # def _buildTermWindow(self):
     #     gtkMainWin = Gtk.Window()
@@ -171,13 +170,13 @@ class Client:
             button = Gtk.ToggleButton(termName)
 
             button.connect("toggled", self.on_button_clicked, win)
-            grid.attach(button, 0, top, 3, 5)
+            # grid.attach(button, 0, top, 3, 5)
+            grid.add(button)
             top += 6
             win.set_visible(False)
 
         self.gtkMainWin.mainWindow.show_all()
         self.gtkMainWin.runMain()
-
 
     def _readMessage(self):
         while self.socketCMD.poll() == zmq.POLLIN:
@@ -251,7 +250,7 @@ class Client:
 
 #####################################################################################
 
-class InterfaceHandler(Gtk.Window):
+class InterfaceHandler(Gtk.Window, Client):
     def __init__(self):
         # building a builder
         self.builder = Gtk.Builder()
@@ -265,8 +264,10 @@ class InterfaceHandler(Gtk.Window):
 
         # get interface grid
         self.interfaceGrid = self.builder.get_object('interface-grid')
+        self.menuBar = self.builder.get_object('menu-bar')
 
-        # self.mainWindow.show_all()
+        # file-chooser
+        self.fileChoser = self.builder.get_object('file-chooser')
 
         self.builder.connect_signals(self)
         # Gtk.main()
@@ -274,11 +275,99 @@ class InterfaceHandler(Gtk.Window):
     def on_destroy(self, *args):
         Gtk.main_quit()
 
+    def add_network_button(self):
+        # abrir uma janela, extrair author, preferences e description
+        # fechar a janela
+        # abrir o file-chooser
+        # abrir o arquivo
+        # carrega-lo em algum lugar
+        # envia-lo
+        # imprimir uma mensagem q deu bom
+        pass
+
     def get_grid(self):
         return self.interfaceGrid
 
+    def get_user_data(self):
+        userInput = UserInput()
+        return userInput.get_data()
+
     def runMain(self):
         Gtk.main()
+
+    ####################################################################################
+
+
+class UserInput(Gtk.Window):
+    def __init__(self):
+        self.user_input_builder = Gtk.Builder()
+        self.user_input_builder.add_from_file('user_input.glade')
+
+        self.user_input_window = self.user_input_builder.get_object('user_input_window')
+
+        self.name_input = self.user_input_builder.get_object('name_input')
+        self.author_input = self.user_input_builder.get_object('author_input')
+        self.description_input = self.user_input_builder.get_object('description_input')
+
+        self.user_input_window.show_all()
+        self.user_input_builder.connect_signals(self)
+        # Gtk.main()
+
+    def on_destroy(self, *args):
+        Gtk.main_quit()
+
+    def on_name_input_changed(self):
+        self.name = self.name_input.get_text()
+
+    def on_author_input_changed(self):
+        self.author = self.author_input.get_text()
+
+    def on_description_input_changed(self):
+        self.description = self.description_input.get_text()
+
+    def on_preferences_input_changed(self):
+        self.preferences_input = self.user_input_builder.get_object('preferences_input')
+        self.preferences = self.description_input.get_text()
+
+    def on_conf_file_clicked(self, widget):
+        dialog = Gtk.FileChooserDialog("Open .conf file", None,
+                                       Gtk.FileChooserAction.OPEN,
+                                       (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
+                                        Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
+
+        self.add_filters(dialog)
+
+        response = dialog.run()
+        if response == Gtk.ResponseType.OK:
+            with open(dialog.get_filename(), 'r') as file:
+                self.value = file.read()
+
+        dialog.destroy()
+        print("\n\n\n\n\n\n", self.value, "\n\n\n\n")
+
+    def add_filters(self, dialog):
+        filter_text = Gtk.FileFilter()
+        filter_text.set_name("Text files")
+        filter_text.add_mime_type("text/plain")
+        dialog.add_filter(filter_text)
+
+        filter_py = Gtk.FileFilter()
+        filter_py.set_name("Python files")
+        filter_py.add_mime_type("text/x-python")
+        dialog.add_filter(filter_py)
+
+        filter_any = Gtk.FileFilter()
+        filter_any.set_name("Any files")
+        filter_any.add_pattern("*")
+        dialog.add_filter(filter_any)
+
+    def get_data(self):
+        return {'name': self.name,
+                'author': self.author,
+                'description': self.description,
+                'preferences': self.preferences,
+                'value': self.value}
+
 
 #####################################################################################
 if __name__ == '__main__':
