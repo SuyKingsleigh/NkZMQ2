@@ -281,6 +281,8 @@ class InterfaceHandler(Gtk.Window):
             filename=data['filename']
         ):
             print('ITS FUCKING WORKING')
+        user_input.close()
+
 
     def get_grid(self):
         return self.interfaceGrid
