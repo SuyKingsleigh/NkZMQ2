@@ -160,7 +160,7 @@ class Client:
     #     Gtk.main()
 
     def _buildTermWindow(self):
-        self.gtkMainWin = InterfaceHandler()
+        self.gtkMainWin = InterfaceHandler(self)
         grid = self.gtkMainWin.get_grid()
         self._buildTerm()
         top = 0
@@ -196,39 +196,26 @@ class Client:
         request = Message(cmd='stop', data='')
         self.socketCMD.send(request.serialize())
 
-    def addNetwork(self, **args):
+    def addNetwork(self,**args):
         '''Adiciona uma rede no repositorio
         "name"=Nome da rede
         "author"=Autor da rede
         "description"=Descricao da rede
         "preferences"=Preferencias da rede
          "value"=nome do arquivo contendo a configuracao'''
-        with open('%s.conf' % args['filename'], 'r') as confFile:
+        with open(args['filename'], 'r') as confFile:
             value = confFile.read()
-            payload = {
-                'name': args['name'],
-                'author': args['author'],
-                'description': args['description'],
-                'preferences': args['preferences'],
-                'published': time.asctime(),
-                'value': value
-            }
-            request = Message(cmd='addNetwork', data=payload)
-            self.socketCMD.send(request.serialize())
-            resp = self.socketCMD.recv()
-            resp = Message(0, resp)
-            if resp.get('status') != 200:
-                return False
-            else:
-                return True
 
-    def updateNetwork(self, **args):
-        '''Atualiza uma rede, o parametro nome="" eh obrigatorio, os outros sao opcionais
-        author = new author
-        description=new description
-        preferences = new preference
-        value = new value'''
-        self.socketCMD.send(Message(cmd='update', data=args).serialize())
+        payload = {
+            'name': args['name'],
+            'author': args['author'],
+            'description': args['description'],
+            'preferences': args['preferences'],
+            'published': time.asctime(),
+            'value': value
+        }
+        request = Message(cmd='addNetwork', data=payload)
+        self.socketCMD.send(request.serialize())
         resp = self.socketCMD.recv()
         resp = Message(0, resp)
         if resp.get('status') != 200:
@@ -236,22 +223,39 @@ class Client:
         else:
             return True
 
-    def removeNetwork(self, name):
-        '''Remove uma rede de acordo com o nome da mesma
-        True se removeu False se falhou'''
-        self.socketCMD.send(Message(cmd='remove', data=name).serialize())
-        resp = self.socketCMD.recv()
-        resp = Message(0, resp)
-        if resp.get('status') != 200:
-            False
-        else:
-            return True
+
+def updateNetwork(self, **args):
+    '''Atualiza uma rede, o parametro nome="" eh obrigatorio, os outros sao opcionais
+    author = new author
+    description=new description
+    preferences = new preference
+    value = new value'''
+    self.socketCMD.send(Message(cmd='update', data=args).serialize())
+    resp = self.socketCMD.recv()
+    resp = Message(0, resp)
+    if resp.get('status') != 200:
+        return False
+    else:
+        return True
+
+
+def removeNetwork(self, name):
+    '''Remove uma rede de acordo com o nome da mesma
+    True se removeu False se falhou'''
+    self.socketCMD.send(Message(cmd='remove', data=name).serialize())
+    resp = self.socketCMD.recv()
+    resp = Message(0, resp)
+    if resp.get('status') != 200:
+        False
+    else:
+        return True
 
 
 #####################################################################################
 
-class InterfaceHandler(Gtk.Window, Client):
-    def __init__(self):
+class InterfaceHandler(Gtk.Window):
+    def __init__(self, client):
+        self.client = client
         # building a builder
         self.builder = Gtk.Builder()
         self.builder.add_from_file("interface-glade.glade")
@@ -275,28 +279,28 @@ class InterfaceHandler(Gtk.Window, Client):
     def on_destroy(self, *args):
         Gtk.main_quit()
 
-    def add_network_button(self):
-        # abrir uma janela, extrair author, preferences e description
-        # fechar a janela
-        # abrir o file-chooser
-        # abrir o arquivo
-        # carrega-lo em algum lugar
-        # envia-lo
-        # imprimir uma mensagem q deu bom
-        pass
+    def add_network_button(self, *args):
+        user_input = UserInput()
+        user_input.run()
+        data = user_input.get_data()
+        if self.client.addNetwork(
+            name=data['name'],
+            author=data['author'],
+            description=data['description'],
+            preferences=data['description'],
+            filename=data['filename']
+        ):
+            print('ITS FUCKING WORKING')
 
     def get_grid(self):
         return self.interfaceGrid
 
-    def get_user_data(self):
-        userInput = UserInput()
-        return userInput.get_data()
-
     def runMain(self):
         Gtk.main()
 
-    ####################################################################################
 
+
+####################################################################################
 
 class UserInput(Gtk.Window):
     def __init__(self):
@@ -316,16 +320,16 @@ class UserInput(Gtk.Window):
     def on_destroy(self, *args):
         Gtk.main_quit()
 
-    def on_name_input_changed(self):
+    def on_name_input_changed(self, *args):
         self.name = self.name_input.get_text()
 
-    def on_author_input_changed(self):
+    def on_author_input_changed(self, *args):
         self.author = self.author_input.get_text()
 
-    def on_description_input_changed(self):
+    def on_description_input_changed(self, *args):
         self.description = self.description_input.get_text()
 
-    def on_preferences_input_changed(self):
+    def on_preferences_input_changed(self, *args):
         self.preferences_input = self.user_input_builder.get_object('preferences_input')
         self.preferences = self.description_input.get_text()
 
@@ -339,11 +343,9 @@ class UserInput(Gtk.Window):
 
         response = dialog.run()
         if response == Gtk.ResponseType.OK:
-            with open(dialog.get_filename(), 'r') as file:
-                self.value = file.read()
+            self.filename = dialog.get_filename()
 
         dialog.destroy()
-        print("\n\n\n\n\n\n", self.value, "\n\n\n\n")
 
     def add_filters(self, dialog):
         filter_text = Gtk.FileFilter()
@@ -366,7 +368,10 @@ class UserInput(Gtk.Window):
                 'author': self.author,
                 'description': self.description,
                 'preferences': self.preferences,
-                'value': self.value}
+                'filename': self.filename}
+
+    def run(self):
+        Gtk.main()
 
 
 #####################################################################################
