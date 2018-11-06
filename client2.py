@@ -127,8 +127,7 @@ class Client:
         win.show_all()
         return win
 
-
-    def on_button_clicked(self,button, win):
+    def on_button_clicked(self, button, win):
         """
         Se o botao for clicado, torna a janela visivel
         :param button: Gtk.ToggleButton
@@ -186,7 +185,7 @@ class Client:
         request = Message(cmd='stop', data='')
         self.socketCMD.send(request.serialize())
 
-    def addNetwork(self,**args):
+    def addNetwork(self, **args):
         '''Adiciona uma rede no repositorio
         "name"=Nome da rede
         "author"=Autor da rede
@@ -244,6 +243,9 @@ def removeNetwork(self, name):
 #####################################################################################
 
 class InterfaceHandler(Gtk.Window):
+    netname = ...  # type: Gtk.Entry
+    input_dialog = ...  # type: Gtk.Dialog
+
     def __init__(self, client):
         self.client = client
         # building a builder
@@ -260,36 +262,71 @@ class InterfaceHandler(Gtk.Window):
         self.interfaceGrid = self.builder.get_object('interface-grid')
         self.menuBar = self.builder.get_object('menu-bar')
 
-        # file-chooser
-        self.fileChoser = self.builder.get_object('file-chooser')
+        # input dialog
+        self.input_dialog = self.builder.get_object("input")
+        # entry
+        self.netname = self.builder.get_object("input_name")
+        self.netauthor = self.builder.get_object("input_author")
+        self.netdescription = self.builder.get_object("input_description")
+        self.netpreferences = self.builder.get_object("input_preferences")
+
 
         self.builder.connect_signals(self)
         # Gtk.main()
 
+        self.name = ''
+        self.author = ''
+        self.description = ''
+        self.preferences = ''
+        self.filename = ''
+
     def on_destroy(self, *args):
         Gtk.main_quit()
 
+    def on_name_input_changed(self, *args):
+        self.name = self.netname.get_text()
+
+    def on_author_input_changed(self, *args):
+        self.author = self.netauthor.get_text()
+
+    def on_description_input_changed(self, *args):
+        self.description = self.netdescription.get_text()
+
+    def on_preferences_input_changed(self, *args):
+        self.preferences = self.netpreferences.get_text()
+
+    def on_conf_file_clicked(self, *args):
+        dialog = Gtk.FileChooserDialog("Open .conf file", None,
+                                       Gtk.FileChooserAction.OPEN,
+                                       (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
+                                        Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
+
+        # self.add_filters(dialog)
+
+        response = dialog.run()
+        if response == Gtk.ResponseType.OK:
+            self.filename = dialog.get_filename()
+
+        dialog.destroy()
+
     def add_network_button(self, *args):
-        user_input = UserInput()
-        user_input.run()
-        data = user_input.get_data()
+        self.input_dialog.run()
         if self.client.addNetwork(
-            name=data['name'],
-            author=data['author'],
-            description=data['description'],
-            preferences=data['description'],
-            filename=data['filename']
+                name=self.name,
+                author=self.author,
+                description=self.description,
+                preferences=self.preferences,
+                filename=self.filename
         ):
             print('ITS FUCKING WORKING')
-        user_input.close()
 
+        self.input_dialog.close()
 
     def get_grid(self):
         return self.interfaceGrid
 
     def runMain(self):
         Gtk.main()
-
 
 
 ####################################################################################
@@ -308,10 +345,12 @@ class UserInput(Gtk.Dialog):
 
         self.user_input_window.show_all()
         self.user_input_builder.connect_signals(self)
+
         # Gtk.main()
 
     def on_destroy(self, *args):
         super().destroy()
+
     def on_name_input_changed(self, *args):
         self.name = self.name_input.get_text()
 
@@ -386,7 +425,7 @@ if __name__ == '__main__':
     # if c.removeNetwork('aaaa'): print('removeu')
     #
     # c.start('rede3') # rede com trocentos computadores
-    c.start('rede2') # rede com dois computadores
+    c.start('rede2')  # rede com dois computadores
     c.run()
     # if c.updateNetwork(name='rede8', author='biwa', description='bi
     # guba'):
