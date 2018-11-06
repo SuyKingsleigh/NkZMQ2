@@ -292,8 +292,9 @@ class InterfaceHandler(Gtk.Window):
 
 ####################################################################################
 
-class UserInput(Gtk.Window):
-    def __init__(self):
+class UserInput(Gtk.Dialog):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.user_input_builder = Gtk.Builder()
         self.user_input_builder.add_from_file('user_input.glade')
 
@@ -308,8 +309,7 @@ class UserInput(Gtk.Window):
         # Gtk.main()
 
     def on_destroy(self, *args):
-        Gtk.destroy()
-
+        super().destroy()
     def on_name_input_changed(self, *args):
         self.name = self.name_input.get_text()
 
