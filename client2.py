@@ -33,6 +33,7 @@ class Client:
         self._started = False
         self.terminaisDict = dict()
         self.daemonStarted = False
+        self.buttonDict = dict()  # key->win, bucket->button
 
     def start(self, netname):
         '''Inicia uma rede, definida por netname'''
@@ -117,7 +118,7 @@ class Client:
             # chanDoServidor.add_watch(condition, self._exchangeData, 1, term)  # escreve e manda pro servidor //Funciona
             chanDoCliente.add_watch(condition, self._exchangeData, pts, term)  # deve escrever no vte //fuck
             self.terminaisDict[term] = (terminal, ptm, pts)
-            os.write(pts, "Pressione qualquer tecla".encode('ascii'))
+            os.write(pts, "Pressione a tecla ENTER".encode('ascii'))
 
     def _buildWindow(self, terminal, pc):
         '''Metodo para criar uma janela, agrega a ela um terminal e o nome do mesmo(pc)'''
@@ -138,14 +139,18 @@ class Client:
         else:
             win.set_visible(False)
 
-    def on_close_clicked(self, win, button):
+    def on_close_clicked(self, win, *args):
         """
 
         :param win: Gtk.Window
         :type button: Gtk.ToggleButton
         """
         win.set_visible(False)
-        button.toggled(False)
+        button = self.buttonDict[win]
+        status = button.get_active()
+        status = not status
+        button.set_active(status)
+        return True
 
     def _buildTermWindow(self):
         self.gtkMainWin = InterfaceHandler(self)
@@ -156,9 +161,9 @@ class Client:
             win = self._buildWindow(self.terminaisDict[termName][0], termName)
             # self.gtkMainWin.add(win)
             button = Gtk.ToggleButton(termName)
-
+            self.buttonDict[win] = button
             button.connect("toggled", self.on_button_clicked, win)
-            win.connect("delete-event", self.on_close_clicked, button)
+            win.connect("delete-event", self.on_close_clicked)
             # grid.attach(button, 0, top, 3, 5)
             grid.add(button)
             top += 6
@@ -207,6 +212,7 @@ class Client:
         self.socketCMD.send(request.serialize())
         resp = self.socketCMD.recv()
         resp = Message(0, resp)
+        print('recebeu do servidor: ', resp.get('status'))
         if resp.get('status') != 200:
             return False
         else:
@@ -289,7 +295,10 @@ class InterfaceHandler(Gtk.Window):
         :type widget: Gtk.Dialog
         """
         # widget.destroy()
+        # self.input_dialog.close()
         self.input_dialog.destroy()
+        self.input_dialog.notify()
+        return True
 
     def on_name_input_changed(self, *args):
         self.name = self.netname.get_text()
@@ -334,9 +343,11 @@ class InterfaceHandler(Gtk.Window):
                     preferences=self.preferences,
                     filename=self.filename
             ):
-                print('ITS FUCKING WORKING')
-
-        self.input_dialog.close()
+                print('Funcionou')
+                # adicionar uma janelinha pra aparecer q adicionou
+            else:
+                print('deu ruim lek')
+                # pop up pra avisar q deu ruim
 
     def on_cancel_button_clicked(self):
         self.input_dialog.close()
@@ -348,82 +359,6 @@ class InterfaceHandler(Gtk.Window):
         Gtk.main()
 
 
-####################################################################################
-
-class UserInput(Gtk.Dialog):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.user_input_builder = Gtk.Builder()
-        self.user_input_builder.add_from_file('user_input.glade')
-
-        self.user_input_window = self.user_input_builder.get_object('user_input_window')
-
-        self.name_input = self.user_input_builder.get_object('name_input')
-        self.author_input = self.user_input_builder.get_object('author_input')
-        self.description_input = self.user_input_builder.get_object('description_input')
-
-        self.user_input_window.show_all()
-        self.user_input_builder.connect_signals(self)
-
-        # Gtk.main()
-
-    def on_destroy(self, *args):
-        super().destroy()
-
-    def on_name_input_changed(self, *args):
-        self.name = self.name_input.get_text()
-
-    def on_author_input_changed(self, *args):
-        self.author = self.author_input.get_text()
-
-    def on_description_input_changed(self, *args):
-        self.description = self.description_input.get_text()
-
-    def on_preferences_input_changed(self, *args):
-        self.preferences_input = self.user_input_builder.get_object('preferences_input')
-        self.preferences = self.description_input.get_text()
-
-    def on_conf_file_clicked(self, widget):
-        dialog = Gtk.FileChooserDialog("Open .conf file", None,
-                                       Gtk.FileChooserAction.OPEN,
-                                       (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
-                                        Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
-
-        self.add_filters(dialog)
-
-        response = dialog.run()
-        if response == Gtk.ResponseType.OK:
-            self.filename = dialog.get_filename()
-
-        dialog.destroy()
-
-    def add_filters(self, dialog):
-        filter_text = Gtk.FileFilter()
-        filter_text.set_name("Text files")
-        filter_text.add_mime_type("text/plain")
-        dialog.add_filter(filter_text)
-
-        filter_py = Gtk.FileFilter()
-        filter_py.set_name("Python files")
-        filter_py.add_mime_type("text/x-python")
-        dialog.add_filter(filter_py)
-
-        filter_any = Gtk.FileFilter()
-        filter_any.set_name("Any files")
-        filter_any.add_pattern("*")
-        dialog.add_filter(filter_any)
-
-    def get_data(self):
-        return {'name': self.name,
-                'author': self.author,
-                'description': self.description,
-                'preferences': self.preferences,
-                'filename': self.filename}
-
-    def run(self):
-        Gtk.main()
-
-
 #####################################################################################
 if __name__ == '__main__':
     c = Client('127.0.0.1', 5555)
@@ -432,7 +367,7 @@ if __name__ == '__main__':
     # print('dados da rede rede2:', net)
     # print(net['conf'])
 
-    # if c.addNetwork(name='aaaaaaa',
+    # if c.addNetwork(name='bigubazao',
     #                 author='Suy',
     #                 description='alguma coisa',
     #                 preferences='alguma',
@@ -444,8 +379,10 @@ if __name__ == '__main__':
     # if c.removeNetwork('aaaa'): print('removeu')
     #
     # c.start('rede3') # rede com trocentos computadores
+
     c.start('rede2')  # rede com dois computadores
     c.run()
+
     # if c.updateNetwork(name='rede8', author='biwa', description='bi
     # guba'):
     #     print('ATUALIZOU POARRRRR ')
