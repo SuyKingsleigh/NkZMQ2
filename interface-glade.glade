@@ -232,6 +232,7 @@
   <object class="GtkDialog" id="input">
     <property name="can_focus">False</property>
     <property name="type_hint">dialog</property>
+    <signal name="close" handler="on_dialog_destroy" swapped="no"/>
     <child internal-child="vbox">
       <object class="GtkBox">
         <property name="can_focus">False</property>
@@ -243,7 +244,7 @@
             <property name="layout_style">end</property>
             <child>
               <object class="GtkButton" id="conf_file">
-                <property name="label" translatable="yes">Open conf file and Save</property>
+                <property name="label" translatable="yes">Open conf file</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -256,11 +257,12 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="cancel_button">
-                <property name="label" translatable="yes">Cancel</property>
+              <object class="GtkButton" id="ok_button">
+                <property name="label" translatable="yes">OK</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <signal name="clicked" handler="on_dialog_destroy" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">True</property>

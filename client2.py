@@ -264,12 +264,12 @@ class InterfaceHandler(Gtk.Window):
 
         # input dialog
         self.input_dialog = self.builder.get_object("input")
+
         # entry
         self.netname = self.builder.get_object("input_name")
         self.netauthor = self.builder.get_object("input_author")
         self.netdescription = self.builder.get_object("input_description")
         self.netpreferences = self.builder.get_object("input_preferences")
-
 
         self.builder.connect_signals(self)
         # Gtk.main()
@@ -282,6 +282,14 @@ class InterfaceHandler(Gtk.Window):
 
     def on_destroy(self, *args):
         Gtk.main_quit()
+
+    def on_dialog_destroy(self, widget):
+        """
+
+        :type widget: Gtk.Dialog
+        """
+        # widget.destroy()
+        self.input_dialog.destroy()
 
     def on_name_input_changed(self, *args):
         self.name = self.netname.get_text()
@@ -311,15 +319,26 @@ class InterfaceHandler(Gtk.Window):
 
     def add_network_button(self, *args):
         self.input_dialog.run()
-        if self.client.addNetwork(
-                name=self.name,
-                author=self.author,
-                description=self.description,
-                preferences=self.preferences,
-                filename=self.filename
-        ):
-            print('ITS FUCKING WORKING')
 
+        # se algum dos valores for nulo, nao faz nada
+        if (not (self.name == '' or
+                 self.author == '' or
+                 self.description == '' or
+                 self.preferences == ''
+                 or self.filename == '')):
+            # caso todos tenham sido preenchidos, ele adiciona a rede
+            if self.client.addNetwork(
+                    name=self.name,
+                    author=self.author,
+                    description=self.description,
+                    preferences=self.preferences,
+                    filename=self.filename
+            ):
+                print('ITS FUCKING WORKING')
+
+        self.input_dialog.close()
+
+    def on_cancel_button_clicked(self):
         self.input_dialog.close()
 
     def get_grid(self):
