@@ -2,11 +2,11 @@ import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
-class InterfaceHandler(Gtk.Window, Client):
+class InterfaceHandler(Gtk.Window):
     def __init__(self):
         # building a builder
         self.builder = Gtk.Builder()
-        self.builder.add_from_file("interface-glade.glade")
+        self.builder.add_from_file("interface-glade2.glade")
 
         # get main window
         self.mainWindow = self.builder.get_object("main-window")
@@ -17,6 +17,7 @@ class InterfaceHandler(Gtk.Window, Client):
         # get interface grid
         self.interfaceGrid = self.builder.get_object('interface-grid')
         self.menuBar = self.builder.get_object('menu-bar')
+
 
 
         # file-chooser

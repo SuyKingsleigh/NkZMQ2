@@ -102,6 +102,11 @@ class Client:
         for term in self.terminais:
             terminal = Vte.Terminal()
             ptm, pts = pty.openpty()
+            
+            # põe o lado mestre do terminal em modo "raw", para que não 
+            # interprete caracteres especiais digitados
+            tty.setraw(ptm)
+            
             terminal.set_pty(Vte.Pty.new_foreign_sync(ptm))  # sincroniza com o master
             terminal.set_name(term)  # da um nome para o terminal
 
@@ -212,6 +217,7 @@ class Client:
         self.socketCMD.send(request.serialize())
         resp = self.socketCMD.recv()
         resp = Message(0, resp)
+        print('>>>',resp.data)
         print('recebeu do servidor: ', resp.get('status'))
         if resp.get('status') != 200:
             return False
