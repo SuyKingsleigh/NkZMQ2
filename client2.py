@@ -254,11 +254,17 @@ def removeNetwork(self, name):
 #####################################################################################
 
 class InterfaceHandler(Gtk.Window):
+    start_dialog_box = ...  # type: Gtk.Box
+    start_dialog = ...  # type: Gtk.Dialog
     netname = ...  # type: Gtk.Entry
     input_dialog = ...  # type: Gtk.Dialog
 
     def __init__(self, client):
+        # client data
         self.client = client
+        self.networks = client.networks
+
+
         # building a builder
         self.builder = Gtk.Builder()
         self.builder.add_from_file("interface-glade.glade")
@@ -282,14 +288,45 @@ class InterfaceHandler(Gtk.Window):
         self.netdescription = self.builder.get_object("input_description")
         self.netpreferences = self.builder.get_object("input_preferences")
 
-        self.builder.connect_signals(self)
-        # Gtk.main()
+        # start dialog
+        self.start_dialog = self.builder.get_object("start_dialog")
+        self.start_dialog_box = self.builder.get_object("start_dialog_box")
 
+        self.builder.connect_signals(self)
+
+        # atributes
         self.name = ''
         self.author = ''
         self.description = ''
         self.preferences = ''
         self.filename = ''
+
+    def on_network_button_clicked(self, widget):
+        """
+
+        :type widget: Gtk.Button
+        """
+        self.network_name = widget.get_name()
+        print('o nome da rede eh ', self.network_name)
+        self.start_dialog.set_visible(False)
+        self.start_dialog.close()
+        self.client.start(self.network_name)
+        self.client.run()
+        return True
+
+
+    def on_start_button_clicked(self, *args):
+        for network in self.networks:
+            button = Gtk.Button(network)
+            button.set_name(network)
+            button.connect("clicked", self.on_network_button_clicked)
+            button.set_visible(True)
+            self.start_dialog_box.add(button)
+            print(network)
+
+        # self.dia
+        self.start_dialog.run()
+        self.start_dialog.show_all()
 
     def on_destroy(self, *args):
         Gtk.main_quit()
@@ -366,6 +403,12 @@ class InterfaceHandler(Gtk.Window):
 #####################################################################################
 if __name__ == '__main__':
     c = Client('127.0.0.1', 5555)
+    app = InterfaceHandler(c)
+    app.mainWindow.show_all()
+    Gtk.main()
+
+
+
     # print('Redes do catálogo:', c.networks)
     # net = c.get_network('rede2')
     # print('dados da rede rede2:', net)
@@ -384,8 +427,8 @@ if __name__ == '__main__':
     #
     # c.start('rede3') # rede com trocentos computadores
 
-    c.start('rede2')  # rede com dois computadores
-    c.run()
+    # c.start('rede2')  # rede com dois computadores
+    # c.run()
 
     # if c.updateNetwork(name='rede8', author='biwa', description='bi
     # guba'):
