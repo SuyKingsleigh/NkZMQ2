@@ -2,13 +2,13 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue Sep 11 16:51:11 2018
-
 @author: msobral
 """
 import os
 import pty
 import sys
 import time
+import tty
 from threading import Thread
 
 import gi
@@ -75,7 +75,7 @@ class Client:
     # retorna um dicionario [terminal]->dado(str)
     def get_data(self):
         '''Obtem uma mensagem de dados de terminal. Deve ser chamado somente se houver uma mensagem
-        pendente no socket. Depende portanto de previamente se usar um poller ou IOChannel para 
+        pendente no socket. Depende portanto de previamente se usar um poller ou IOChannel para
         verificar o socket.'''
         msg = self.socketCMD.recv()
         resp = Message(0, msg)
@@ -102,11 +102,11 @@ class Client:
         for term in self.terminais:
             terminal = Vte.Terminal()
             ptm, pts = pty.openpty()
-            
-            # põe o lado mestre do terminal em modo "raw", para que não 
+
+            # põe o lado mestre do terminal em modo "raw", para que não
             # interprete caracteres especiais digitados
             tty.setraw(ptm)
-            
+
             terminal.set_pty(Vte.Pty.new_foreign_sync(ptm))  # sincroniza com o master
             terminal.set_name(term)  # da um nome para o terminal
 
@@ -146,7 +146,6 @@ class Client:
 
     def on_close_clicked(self, win, *args):
         """
-
         :param win: Gtk.Window
         :type button: Gtk.ToggleButton
         """
@@ -217,7 +216,7 @@ class Client:
         self.socketCMD.send(request.serialize())
         resp = self.socketCMD.recv()
         resp = Message(0, resp)
-        print('>>>',resp.data)
+        print('>>>', resp.data)
         print('recebeu do servidor: ', resp.get('status'))
         if resp.get('status') != 200:
             return False
@@ -297,7 +296,6 @@ class InterfaceHandler(Gtk.Window):
 
     def on_dialog_destroy(self, widget):
         """
-
         :type widget: Gtk.Dialog
         """
         # widget.destroy()
