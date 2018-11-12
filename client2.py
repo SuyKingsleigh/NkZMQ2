@@ -257,6 +257,7 @@ def removeNetwork(self, name):
 #####################################################################################
 
 class InterfaceHandler(Gtk.Window):
+    image = ...  # type: Gtk.Image
     start_dialog_box = ...  # type: Gtk.Box
     start_dialog = ...  # type: Gtk.Dialog
     netname = ...  # type: Gtk.Entry
@@ -284,6 +285,12 @@ class InterfaceHandler(Gtk.Window):
 
         # input dialog
         self.input_dialog = self.builder.get_object("input")
+
+        # image box
+        self.image_box = self.builder.get_object("imagem_box")
+        self.image = self.builder.get_object("imagem")
+        # todo Carregar uma imagem qualquer, e ao iniciar a rede carregar o diagrama da rede
+
 
         # entry
         self.netname = self.builder.get_object("input_name")
@@ -316,6 +323,7 @@ class InterfaceHandler(Gtk.Window):
         self.client.start(self.network_name)
         self.client.connect_main_win(self)
         self.client.run()
+        # self.clien
         self.start_dialog.set_visible(False)
         self.start_dialog.close()
         return True
