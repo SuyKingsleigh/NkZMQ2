@@ -156,8 +156,11 @@ class Client:
         button.set_active(status)
         return True
 
+    def connect_main_win(self, win):
+        self.gtkMainWin = win
+
     def _buildTermWindow(self):
-        self.gtkMainWin = InterfaceHandler(self)
+        # self.gtkMainWin = InterfaceHandler(self)
         grid = self.gtkMainWin.get_grid()
         self._buildTerm()
         top = 0
@@ -311,7 +314,10 @@ class InterfaceHandler(Gtk.Window):
         self.start_dialog.set_visible(False)
         self.start_dialog.close()
         self.client.start(self.network_name)
+        self.client.connect_main_win(self)
         self.client.run()
+        self.start_dialog.set_visible(False)
+        self.start_dialog.close()
         return True
 
 
@@ -324,9 +330,9 @@ class InterfaceHandler(Gtk.Window):
             self.start_dialog_box.add(button)
             print(network)
 
-        # self.dia
         self.start_dialog.run()
         self.start_dialog.show_all()
+
 
     def on_destroy(self, *args):
         Gtk.main_quit()
