@@ -321,6 +321,7 @@ class InterfaceHandler(Gtk.Window):
         self.start_dialog.set_visible(False)
         self.start_dialog.close()
         self.client.start(self.network_name)
+        self.connect("")
         self.client.connect_main_win(self)
         self.client.run()
         # self.clien
