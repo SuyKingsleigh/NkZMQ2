@@ -158,6 +158,8 @@ class Client:
 
     def connect_main_win(self, win):
         self.gtkMainWin = win
+        # self.gtkMainWin.connect("close-event", Gtk.main_quit)
+
 
     def _buildTermWindow(self):
         # self.gtkMainWin = InterfaceHandler(self)
@@ -267,7 +269,6 @@ class InterfaceHandler(Gtk.Window):
         # client data
         self.client = client
         self.networks = client.networks
-
 
         # building a builder
         self.builder = Gtk.Builder()
@@ -420,6 +421,7 @@ if __name__ == '__main__':
     c = Client('127.0.0.1', 5555)
     app = InterfaceHandler(c)
     app.mainWindow.show_all()
+    app.mainWindow.connect("destroy", Gtk.main_quit)
     Gtk.main()
 
 
