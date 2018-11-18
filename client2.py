@@ -292,7 +292,8 @@ class InterfaceHandler(Gtk.Window):
 
         # image box
         self.image_box = self.builder.get_object("imagem_box")
-        self.image = self.builder.get_object("imagem")
+        self.image = Gtk.Image().new_from_file('ifsc.png')
+        self.image_box.add(self.image)
         # todo Carregar uma imagem qualquer, e ao iniciar a rede carregar o diagrama da rede
 
         # entry
@@ -314,6 +315,12 @@ class InterfaceHandler(Gtk.Window):
         self.preferences = ''
         self.filename = ''
 
+    def _load_image(self):
+        self.image_box.remove(self.image)
+        self.image = Gtk.Image().new_from_file('teste.jpg')
+        self.image_box.add(self.image)
+
+
     def on_network_button_clicked(self, widget):
         """
 
@@ -325,6 +332,7 @@ class InterfaceHandler(Gtk.Window):
         self.start_dialog.close()
         self.client.start(self.network_name)
         self.client.connect_main_win(self)
+        self._load_image()
         self.client.run()
         self.start_dialog.set_visible(False)
         self.start_dialog.close()
@@ -422,6 +430,7 @@ class InterfaceHandler(Gtk.Window):
 
 
 #####################################################################################
+
 class OkDialog(Gtk.Dialog):
 
     def __init__(self, label):
@@ -442,7 +451,6 @@ class OkDialog(Gtk.Dialog):
     def on_ok(self, widget):
         self.destroy()
         return True
-
 
 #####################################################################################
 if __name__ == '__main__':
