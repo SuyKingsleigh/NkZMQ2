@@ -158,8 +158,6 @@ class Client:
 
     def connect_main_win(self, win):
         self.gtkMainWin = win
-        # self.gtkMainWin.connect("close-event", Gtk.main_quit)
-
 
     def _buildTermWindow(self):
         # self.gtkMainWin = InterfaceHandler(self)
@@ -195,7 +193,10 @@ class Client:
     def run(self):
         '''Constroi as janelas dos pseudo-terminais e executa'''
         self._buildTermWindow()
-        # ao fechar as janelas, envia um sinal de stop para o servidor.
+        # ao fechar as janelas, envia um sinal de stop para o servidor
+        self.stop()
+
+    def stop(self):
         request = Message(cmd='stop', data='')
         self.socketCMD.send(request.serialize())
 
@@ -264,11 +265,12 @@ class InterfaceHandler(Gtk.Window):
     start_dialog = ...  # type: Gtk.Dialog
     netname = ...  # type: Gtk.Entry
     input_dialog = ...  # type: Gtk.Dialog
+    IP = '127.0.0.1'
+    PORT = 5555
 
-    def __init__(self, client):
+    def __init__(self):
         # client data
-        self.client = client
-        self.networks = client.networks
+        self.client = Client(InterfaceHandler.IP, InterfaceHandler.PORT)
 
         # building a builder
         self.builder = Gtk.Builder()
@@ -276,6 +278,7 @@ class InterfaceHandler(Gtk.Window):
 
         # get main window
         self.mainWindow = self.builder.get_object("main-window")
+        self.mainWindow.connect("destroy", self.on_destroy)
 
         # get interface box
         self.interfaceBox = self.builder.get_object("interface-box")
@@ -291,7 +294,6 @@ class InterfaceHandler(Gtk.Window):
         self.image_box = self.builder.get_object("imagem_box")
         self.image = self.builder.get_object("imagem")
         # todo Carregar uma imagem qualquer, e ao iniciar a rede carregar o diagrama da rede
-
 
         # entry
         self.netname = self.builder.get_object("input_name")
@@ -322,39 +324,37 @@ class InterfaceHandler(Gtk.Window):
         self.start_dialog.set_visible(False)
         self.start_dialog.close()
         self.client.start(self.network_name)
-        # self.connect("")
         self.client.connect_main_win(self)
         self.client.run()
-        # self.clien
         self.start_dialog.set_visible(False)
         self.start_dialog.close()
         return True
 
-
     def on_start_button_clicked(self, *args):
-        for network in self.networks:
-            button = Gtk.Button(network)
-            button.set_name(network)
-            button.connect("clicked", self.on_network_button_clicked)
-            button.set_visible(True)
-            self.start_dialog_box.add(button)
-            print(network)
+        if not self.client.started:
+            self.networks = self.client.networks
+            for network in self.networks:
+                button = Gtk.Button(network)
+                button.set_name(network)
+                button.connect("clicked", self.on_network_button_clicked)
+                button.set_visible(True)
+                self.start_dialog_box.add(button)
+                print(network)
 
-        self.start_dialog.run()
-        self.start_dialog.show_all()
-
+            self.start_dialog.run()
+            self.start_dialog.show_all()
 
     def on_destroy(self, *args):
         Gtk.main_quit()
 
-    def on_dialog_destroy(self, widget):
+    def on_dialog_destroy(self, *args):
         """
         :type widget: Gtk.Dialog
         """
         # widget.destroy()
         # self.input_dialog.close()
         self.input_dialog.destroy()
-        self.input_dialog.notify()
+        # self.input_dialog = self.builder.get_object("input")
         return True
 
     def on_name_input_changed(self, *args):
@@ -375,7 +375,6 @@ class InterfaceHandler(Gtk.Window):
                                        (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
                                         Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
 
-        # self.add_filters(dialog)
 
         response = dialog.run()
         if response == Gtk.ResponseType.OK:
@@ -385,6 +384,7 @@ class InterfaceHandler(Gtk.Window):
 
     def add_network_button(self, *args):
         self.input_dialog.run()
+        cliente = Client(InterfaceHandler.IP, InterfaceHandler.PORT)
 
         # se algum dos valores for nulo, nao faz nada
         if (not (self.name == '' or
@@ -393,7 +393,7 @@ class InterfaceHandler(Gtk.Window):
                  self.preferences == ''
                  or self.filename == '')):
             # caso todos tenham sido preenchidos, ele adiciona a rede
-            if self.client.addNetwork(
+            if cliente.addNetwork(
                     name=self.name,
                     author=self.author,
                     description=self.description,
@@ -402,9 +402,12 @@ class InterfaceHandler(Gtk.Window):
             ):
                 print('Funcionou')
                 # adicionar uma janelinha pra aparecer q adicionou
-            else:
-                print('deu ruim lek')
-                # pop up pra avisar q deu ruim
+                self._ok_dialog("rede adicionada com sucesso")
+
+        else:
+            print('deu ruim lek')
+            self._ok_dialog("fracassou ao adicionar a rede")
+            # pop up pra avisar q deu ruim
 
     def on_cancel_button_clicked(self):
         self.input_dialog.close()
@@ -412,42 +415,34 @@ class InterfaceHandler(Gtk.Window):
     def get_grid(self):
         return self.interfaceGrid
 
+    def _ok_dialog(self, label):
+        dialog = OkDialog(label)
+
     def runMain(self):
         Gtk.main()
 
 
 #####################################################################################
+class OkDialog(Gtk.Dialog):
+
+    def __init__(self, label):
+        Gtk.Dialog.__init__(self, "My Dialog", None, 0,
+                            (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
+                             Gtk.STOCK_OK, Gtk.ResponseType.OK))
+        self.set_default_size(150, 100)
+
+        label = Gtk.Label(label)
+
+        box = self.get_content_area()
+        box.add(label)
+        self.show_all()
+
+
+#####################################################################################
 if __name__ == '__main__':
-    c = Client('127.0.0.1', 5555)
-    app = InterfaceHandler(c)
+    app = InterfaceHandler()
     app.mainWindow.show_all()
-    app.mainWindow.connect("destroy", Gtk.main_quit)
+    # app.connect("delete-event", Gtk.main_quit)
     Gtk.main()
 
-
-
-    # print('Redes do catálogo:', c.networks)
-    # net = c.get_network('rede2')
-    # print('dados da rede rede2:', net)
-    # print(net['conf'])
-
-    # if c.addNetwork(name='bigubazao',
-    #                 author='Suy',
-    #                 description='alguma coisa',
-    #                 preferences='alguma',
-    #                 filename='teste.conf'):
-    #     print('sucesso ')
-    # else:
-    #     print('falhou ao adicionar a rede')
-    #
-    # if c.removeNetwork('aaaa'): print('removeu')
-    #
-    # c.start('rede3') # rede com trocentos computadores
-
-    # c.start('rede2')  # rede com dois computadores
-    # c.run()
-
-    # if c.updateNetwork(name='rede8', author='biwa', description='bi
-    # guba'):
-    #     print('ATUALIZOU POARRRRR ')
     sys.exit(0)
