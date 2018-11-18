@@ -375,7 +375,6 @@ class InterfaceHandler(Gtk.Window):
                                        (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
                                         Gtk.STOCK_OPEN, Gtk.ResponseType.OK))
 
-
         response = dialog.run()
         if response == Gtk.ResponseType.OK:
             self.filename = dialog.get_filename()
@@ -426,16 +425,23 @@ class InterfaceHandler(Gtk.Window):
 class OkDialog(Gtk.Dialog):
 
     def __init__(self, label):
-        Gtk.Dialog.__init__(self, "My Dialog", None, 0,
-                            (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
-                             Gtk.STOCK_OK, Gtk.ResponseType.OK))
+        Gtk.Dialog.__init__(self, "My Dialog", None, 0)
         self.set_default_size(150, 100)
 
         label = Gtk.Label(label)
 
+        ok_button = Gtk.Button("OK")
+        # ok_button.set_tooltip_text("OK")
+        ok_button.connect("clicked", self.on_ok)
+
         box = self.get_content_area()
         box.add(label)
+        box.add(ok_button)
         self.show_all()
+
+    def on_ok(self, widget):
+        self.destroy()
+        return True
 
 
 #####################################################################################
