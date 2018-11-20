@@ -229,32 +229,44 @@ class Client:
         else:
             return True
 
+    def updateNetwork(self, **args):
+        '''Atualiza uma rede, o parametro nome="" eh obrigatorio, os outros sao opcionais
+        author = new author
+        description=new description
+        preferences = new preference
+        value = new value'''
+        self.socketCMD.send(Message(cmd='update', data=args).serialize())
+        resp = self.socketCMD.recv()
+        resp = Message(0, resp)
+        if resp.get('status') != 200:
+            return False
+        else:
+            return True
 
-def updateNetwork(self, **args):
-    '''Atualiza uma rede, o parametro nome="" eh obrigatorio, os outros sao opcionais
-    author = new author
-    description=new description
-    preferences = new preference
-    value = new value'''
-    self.socketCMD.send(Message(cmd='update', data=args).serialize())
-    resp = self.socketCMD.recv()
-    resp = Message(0, resp)
-    if resp.get('status') != 200:
-        return False
-    else:
-        return True
+    def updateNetwork(self, args):
+        '''Atualiza uma rede, o parametro nome="" eh obrigatorio, os outros sao opcionais
+        author = new author
+        description=new description
+        preferences = new preference
+        value = new value'''
+        self.socketCMD.send(Message(cmd='update', data=args).serialize())
+        resp = self.socketCMD.recv()
+        resp = Message(0, resp)
+        if resp.get('status') != 200:
+            return False
+        else:
+            return True
 
-
-def removeNetwork(self, name):
-    '''Remove uma rede de acordo com o nome da mesma
-    True se removeu False se falhou'''
-    self.socketCMD.send(Message(cmd='remove', data=name).serialize())
-    resp = self.socketCMD.recv()
-    resp = Message(0, resp)
-    if resp.get('status') != 200:
-        False
-    else:
-        return True
+    def removeNetwork(self, name):
+        '''Remove uma rede de acordo com o nome da mesma
+        True se removeu False se falhou'''
+        self.socketCMD.send(Message(cmd='remove', data=name).serialize())
+        resp = self.socketCMD.recv()
+        resp = Message(0, resp)
+        if resp.get('status') != 200:
+            False
+        else:
+            return True
 
 
 #####################################################################################
@@ -288,7 +300,7 @@ class InterfaceHandler(Gtk.Window):
         self.menuBar = self.builder.get_object('menu-bar')
 
         # input dialog
-        self.input_dialog = self.builder.get_object("input")
+        # self.input_dialog = self.builder.get_object("input")
 
         # image box
         self.image_box = self.builder.get_object("imagem_box")
@@ -319,7 +331,6 @@ class InterfaceHandler(Gtk.Window):
         self.image_box.remove(self.image)
         self.image = Gtk.Image().new_from_file('teste.jpg')
         self.image_box.add(self.image)
-
 
     def on_network_button_clicked(self, widget):
         """
@@ -390,9 +401,10 @@ class InterfaceHandler(Gtk.Window):
         dialog.destroy()
 
     def add_network_button(self, *args):
+        self._clearData()
+        self.input_dialog = self.builder.get_object("input")
         self.input_dialog.run()
         cliente = Client(InterfaceHandler.IP, InterfaceHandler.PORT)
-
         # se algum dos valores for nulo, nao faz nada
         if (not (self.name == '' or
                  self.author == '' or
@@ -415,6 +427,34 @@ class InterfaceHandler(Gtk.Window):
             print('deu ruim lek')
             self._ok_dialog("fracassou ao adicionar a rede")
             # pop up pra avisar q deu ruim
+
+        self.input_dialog.destroy()
+
+    def on_update_button(self, *args):
+        self._clearData()
+        self.input_dialog = self.builder.get_object("input")
+        self.input_dialog.run()
+        novos_dados = {}
+
+        # todo quando tiver tempo implementar isso de forma menos bosta
+        if self.name != '': novos_dados['name'] = self.name
+        if self.author != '': novos_dados['author'] = self.author
+        if self.preferences != '': novos_dados['preferences'] = self.preferences
+        if self.description != '': novos_dados['description'] = self.description
+        if self.filename != '': novos_dados['filename'] = self.filename
+
+        cliente = Client(InterfaceHandler.IP, InterfaceHandler.PORT)
+        if cliente.updateNetwork(novos_dados): print('ok')
+        else: print('deu ruim')
+
+    def _clearData(self):
+        pass
+
+    def on_remove_button(self, *args):
+        pass
+
+    def on_info_button(self, *args):
+        pass
 
     def on_cancel_button_clicked(self):
         self.input_dialog.close()
@@ -452,11 +492,14 @@ class OkDialog(Gtk.Dialog):
         self.destroy()
         return True
 
+
 #####################################################################################
 if __name__ == '__main__':
     app = InterfaceHandler()
     app.mainWindow.show_all()
-    # app.connect("delete-event", Gtk.main_quit)
     Gtk.main()
-
     sys.exit(0)
+
+    # c = Client(InterfaceHandler.IP, 5555)
+    # n = {'name' : 'rede3', 'author':'pudim'}
+    # c.updateNetwork(n)

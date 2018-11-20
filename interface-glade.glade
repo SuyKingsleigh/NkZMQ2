@@ -134,6 +134,7 @@
                         <property name="can_focus">False</property>
                         <property name="image">image2</property>
                         <property name="use_stock">False</property>
+                        <signal name="button-press-event" handler="on_update_button" swapped="no"/>
                       </object>
                     </child>
                     <child>
@@ -143,6 +144,7 @@
                         <property name="can_focus">False</property>
                         <property name="image">image3</property>
                         <property name="use_stock">False</property>
+                        <signal name="button-press-event" handler="on_remove_button" swapped="no"/>
                       </object>
                     </child>
                     <child>
@@ -151,6 +153,7 @@
                         <property name="can_focus">False</property>
                         <property name="image">image4</property>
                         <property name="use_stock">False</property>
+                        <signal name="button-press-event" handler="on_info_button" swapped="no"/>
                       </object>
                     </child>
                   </object>
@@ -391,6 +394,41 @@
           <object class="GtkButtonBox">
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
+            <child>
+              <placeholder/>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+      </object>
+    </child>
+    <child type="titlebar">
+      <placeholder/>
+    </child>
+  </object>
+  <object class="GtkDialog" id="update_network_dialog">
+    <property name="can_focus">False</property>
+    <property name="type_hint">dialog</property>
+    <signal name="close" handler="on_dialog_destroy" swapped="no"/>
+    <child internal-child="vbox">
+      <object class="GtkBox">
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox">
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+            <child>
+              <placeholder/>
+            </child>
             <child>
               <placeholder/>
             </child>
