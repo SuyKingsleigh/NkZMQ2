@@ -352,6 +352,8 @@ class InterfaceHandler(Gtk.Window):
         return True
 
     def on_start_button_clicked(self, *args):
+        self.start_dialog_text.set_text("Escolha uma rede para iniciar o experimento")
+
         if not self.client.started:
             self.networks = self.client.networks
             for network in self.networks:
@@ -459,7 +461,8 @@ class InterfaceHandler(Gtk.Window):
         self.filename = ''
 
     def on_remove_button(self, *args):
-        for network in self.client.networks:
+        client = Client(InterfaceHandler.IP, InterfaceHandler.PORT)
+        for network in client.networks:
             button = Gtk.Button(network)
             button.set_name(network)
             button.connect("clicked", self._delete_network)
@@ -479,10 +482,33 @@ class InterfaceHandler(Gtk.Window):
         self.start_dialog.close()
 
     def on_info_button(self, *args):
+        self.start_dialog_text.set_text("As redes disponiveis sao: \n")
+        client = Client(InterfaceHandler.IP, InterfaceHandler.PORT)
         message = 'As redes presentes no repositorio sao: \n'
-        for rede in self.client.networks:
+        for rede in client.networks:
             message += rede + "\n"
 
+        self._ok_dialog(message)
+
+    def on_more_info_button(self, *args):
+        client = Client(InterfaceHandler.IP, InterfaceHandler.PORT)
+        for network in client.networks:
+            button = Gtk.Button(network)
+            button.set_name(network)
+            button.connect("clicked", self._get_network_info)
+            button.set_visible(True)
+            self.start_dialog_box.add(button)
+            print(network)
+
+        self.start_dialog.run()
+        self.start_dialog.show_all()
+
+    def _get_network_info(self, widget):
+        client = Client(InterfaceHandler.IP, InterfaceHandler.PORT)
+        dados = client.get_network(widget.get_name())
+        message = ''
+        for key in dados.keys():
+            message += key + ": " + dados[key] + '\n'
         self._ok_dialog(message)
 
     def on_cancel_button_clicked(self):
