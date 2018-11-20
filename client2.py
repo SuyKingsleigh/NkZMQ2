@@ -448,7 +448,11 @@ class InterfaceHandler(Gtk.Window):
         else: print('deu ruim')
 
     def _clearData(self):
-        pass
+        self.name = ''
+        self.author = ''
+        self.description = ''
+        self.preferences = ''
+        self.filename = ''
 
     def on_remove_button(self, *args):
         pass
