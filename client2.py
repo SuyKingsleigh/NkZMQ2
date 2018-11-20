@@ -154,6 +154,7 @@ class Client:
         status = button.get_active()
         status = not status
         button.set_active(status)
+
         return True
 
     def connect_main_win(self, win):
@@ -510,6 +511,7 @@ class InterfaceHandler(Gtk.Window):
         for key in dados.keys():
             message += key + ": " + dados[key] + '\n'
         self._ok_dialog(message)
+        self.start_dialog.close()
 
     def on_cancel_button_clicked(self):
         self.input_dialog.close()
@@ -547,8 +549,8 @@ class OkDialog(Gtk.Dialog):
         self.destroy()
         return True
 
-
 #####################################################################################
+
 if __name__ == '__main__':
     app = InterfaceHandler()
     app.mainWindow.show_all()

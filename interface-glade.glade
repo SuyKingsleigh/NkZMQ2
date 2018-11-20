@@ -73,6 +73,7 @@
                         <property name="can_focus">False</property>
                         <property name="image">image6</property>
                         <property name="use_stock">False</property>
+                        <signal name="activate" handler="on_more_info_button" swapped="no"/>
                         <signal name="button-press-event" handler="on_more_info_button" swapped="no"/>
                       </object>
                     </child>
@@ -130,6 +131,7 @@
                         <property name="can_focus">False</property>
                         <property name="image">image1</property>
                         <property name="use_stock">False</property>
+                        <signal name="activate" handler="add_network_button" swapped="no"/>
                         <signal name="button-press-event" handler="add_network_button" swapped="no"/>
                       </object>
                     </child>
@@ -140,6 +142,7 @@
                         <property name="can_focus">False</property>
                         <property name="image">image2</property>
                         <property name="use_stock">False</property>
+                        <signal name="activate" handler="on_update_button" swapped="no"/>
                         <signal name="button-press-event" handler="on_update_button" swapped="no"/>
                       </object>
                     </child>
@@ -150,6 +153,7 @@
                         <property name="can_focus">False</property>
                         <property name="image">image3</property>
                         <property name="use_stock">False</property>
+                        <signal name="activate" handler="on_remove_button" swapped="no"/>
                         <signal name="button-press-event" handler="on_remove_button" swapped="no"/>
                       </object>
                     </child>
@@ -160,6 +164,7 @@
                         <property name="can_focus">False</property>
                         <property name="image">image4</property>
                         <property name="use_stock">False</property>
+                        <signal name="activate" handler="on_info_button" swapped="no"/>
                         <signal name="button-press-event" handler="on_info_button" swapped="no"/>
                       </object>
                     </child>
