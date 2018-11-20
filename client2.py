@@ -272,6 +272,7 @@ class Client:
 #####################################################################################
 
 class InterfaceHandler(Gtk.Window):
+    start_dialog_text = ...  # type: Gtk.Label
     image = ...  # type: Gtk.Image
     start_dialog_box = ...  # type: Gtk.Box
     start_dialog = ...  # type: Gtk.Dialog
@@ -317,6 +318,7 @@ class InterfaceHandler(Gtk.Window):
         # start dialog
         self.start_dialog = self.builder.get_object("start_dialog")
         self.start_dialog_box = self.builder.get_object("start_dialog_box")
+        self.start_dialog_text = self.builder.get_object("start_dialog_text")
 
         self.builder.connect_signals(self)
 
@@ -444,8 +446,10 @@ class InterfaceHandler(Gtk.Window):
         if self.filename != '': novos_dados['filename'] = self.filename
 
         cliente = Client(InterfaceHandler.IP, InterfaceHandler.PORT)
-        if cliente.updateNetwork(novos_dados): print('ok')
-        else: print('deu ruim')
+        if cliente.updateNetwork(novos_dados):
+            self._ok_dialog("Rede atualizada com sucesso")
+        else:
+            self._ok_dialog("Falhou ao atualizar a rede")
 
     def _clearData(self):
         self.name = ''
@@ -455,10 +459,31 @@ class InterfaceHandler(Gtk.Window):
         self.filename = ''
 
     def on_remove_button(self, *args):
-        pass
+        for network in self.client.networks:
+            button = Gtk.Button(network)
+            button.set_name(network)
+            button.connect("clicked", self._delete_network)
+            button.set_visible(True)
+            self.start_dialog_box.add(button)
+            print(network)
+
+        self.start_dialog.run()
+        self.start_dialog.show_all()
+        self._ok_dialog("Rede removida com sucesso")
+
+    def _delete_network(self, widget):
+        print('removeu: ', widget.get_name())
+        c = Client(InterfaceHandler.IP, InterfaceHandler.PORT)
+        c.removeNetwork(widget.get_name())
+        self.start_dialog.set_visible(False)
+        self.start_dialog.close()
 
     def on_info_button(self, *args):
-        pass
+        message = 'As redes presentes no repositorio sao: \n'
+        for rede in self.client.networks:
+            message += rede + "\n"
+
+        self._ok_dialog(message)
 
     def on_cancel_button_clicked(self):
         self.input_dialog.close()
@@ -503,7 +528,3 @@ if __name__ == '__main__':
     app.mainWindow.show_all()
     Gtk.main()
     sys.exit(0)
-
-    # c = Client(InterfaceHandler.IP, 5555)
-    # n = {'name' : 'rede3', 'author':'pudim'}
-    # c.updateNetwork(n)

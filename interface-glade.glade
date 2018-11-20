@@ -149,6 +149,7 @@
                     </child>
                     <child>
                       <object class="GtkImageMenuItem" id="get_net_info">
+                        <property name="label" translatable="yes">Redes disponiveis no repositorio</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="image">image4</property>
@@ -402,6 +403,18 @@
             <property name="expand">False</property>
             <property name="fill">False</property>
             <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">As redes disponíveis no repositório são:</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
           </packing>
         </child>
         <child>
