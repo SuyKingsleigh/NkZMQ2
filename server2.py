@@ -325,11 +325,20 @@ Encaminha os dados para as instãncias correspondentes.
         elif msg.cmd == 'update':  # atualiza uma rede
             for key in msg.data.keys():
                 print(key, msg.data[key])
-            if self.repositorio.updateNetwork(msg.data['name'], msg.data):
-                info = {'status': 200, 'info': 'updated'}
-                resp = Message(cmd='status', data=info)
-            else:
-                info = {'status': 400, 'info': 'not updated'}
+            try:
+                conf = msg.data['value']
+                fd,name = tempfile.mkstemp('.conf')
+                f = os.fdopen(fd,'r+')
+                f.write(conf)
+                p = nkparser.NetkitParser(name)
+                p.parse()
+                if self.repositorio.updateNetwork(msg.data['name'], msg.data):
+                    info = {'status': 200, 'info': 'updated'}
+                else:
+                    info = {'status': 400, 'info': 'not updated'}
+            except:
+                info = {'status': 500, 'info': 'invalid configuration'}
+            resp = Message(cmd='status', data=info)
             self.socket.send_multipart([msg.address, resp.serialize()])
 
     def dispatch(self):
